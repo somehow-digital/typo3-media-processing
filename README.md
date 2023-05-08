@@ -26,7 +26,6 @@ composer require somehow-digital/typo3-media-processing
 ### Requirements
 
 * TYPO3 `12`
-* TYPO3 in [`Composer`](https://getcomposer.org/) mode
 * PHP with [`openssl`](https://www.php.net/manual/en/book.openssl.php) extension
 
 ## Setup ⚙️
