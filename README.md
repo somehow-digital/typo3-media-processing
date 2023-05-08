@@ -1,7 +1,5 @@
 # Media Processing for TYPO3
 
----
-
 `Media Processing` for TYPO3 integrates various image processing
 libraries and SaaS cloud services into TYPO3 by leveraging their APIs to
 process images. This  basically replaces the need for local image processing
