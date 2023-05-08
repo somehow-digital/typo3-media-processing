@@ -1,7 +1,7 @@
 {
 	"name": "somehow-digital/typo3-media-processing",
 	"type": "typo3-cms-extension",
-	"description": "TYPO3 Media Processing",
+	"description": "Media Processing for TYPO3",
 	"homepage": "https://somehow.digital/",
 	"license": [
 		"GPL-3.0"
@@ -57,7 +57,7 @@
 	},
 	"extra": {
 		"typo3/cms": {
-			"extension-key": "somehowdigital_media_processing"
+			"extension-key": "media_processing"
 		}
 	}
 }

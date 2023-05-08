@@ -23,9 +23,9 @@ class ModifyClearCacheActions
 		) {
 			$event->addCacheAction([
 				'id' => 'media',
-				'title' => 'LLL:EXT:somehowdigital_media_processing/Resources/Private/Language/backend.xlf:invalidation_title',
-				'description' => 'LLL:EXT:somehowdigital_media_processing/Resources/Private/Language/backend.xlf:invalidation_description',
-				'href' => $this->builder?->buildUriFromRoute('ajax_somehowdigital_media_processing_invalidation'),
+				'title' => 'LLL:EXT:media_processing/Resources/Private/Language/backend.xlf:invalidation_title',
+				'description' => 'LLL:EXT:media_processing/Resources/Private/Language/backend.xlf:invalidation_description',
+				'href' => $this->builder?->buildUriFromRoute('ajax_media_processing_invalidation'),
 				'iconIdentifier' => 'refresh',
 			]);
 		}

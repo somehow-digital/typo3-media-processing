@@ -22,7 +22,7 @@ class MediaProcessor implements ProcessorInterface
 		?ExtensionConfiguration $configuration,
 	) {
 		$this->service = $service;
-		$this->configuration = $configuration?->get('somehowdigital_media_processing');
+		$this->configuration = $configuration?->get('media_processing');
 	}
 
 	public function canProcessTask(TaskInterface $task): bool

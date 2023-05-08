@@ -19,7 +19,7 @@ class BeforeFileProcessing
 		?ExtensionConfiguration $configuration,
 	) {
 		$this->service = $service;
-		$this->configuration = $configuration?->get('somehowdigital_media_processing');
+		$this->configuration = $configuration?->get('media_processing');
 	}
 
 	public function __invoke(BeforeFileProcessingEvent $event): void

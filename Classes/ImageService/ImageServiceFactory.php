@@ -28,7 +28,7 @@ class ImageServiceFactory
 
 	public function __construct(ExtensionConfiguration $configuration)
 	{
-		$this->configuration = $configuration->get('somehowdigital_media_processing');
+		$this->configuration = $configuration->get('media_processing');
 	}
 
 	public function __invoke(): ?ImageServiceInterface

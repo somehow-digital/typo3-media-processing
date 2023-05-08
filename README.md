@@ -1,10 +1,10 @@
-# TYPO3 Media Processing
-TYPO3 Extension `somehowdigital_media_processing`
+# Media Processing for TYPO3
+`media_processing`
 
 ---
 
-The `TYPO3 Media Processing` extension integrates various image processing
-libraries  and SaaS cloud services into TYPO3 by leveraging their APIs to
+`Media Processing for TYPO3` integrates various image processing
+libraries and SaaS cloud services into TYPO3 by leveraging their APIs to
 process images. This  basically replaces the need for local image processing
 libraries like `ImageMagick` for image processing operations like resizing,
 cropping, rotating, etc.
@@ -23,7 +23,7 @@ Currently, all integrations support `resize` and `crop` operations.
 ## Installation 📦
 
 ```bash
-composer require somehowdigital/typo3-media-processing
+composer require somehow-digital/typo3-media-processing
 ```
 
 ### Requirements
