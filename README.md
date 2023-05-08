@@ -20,7 +20,7 @@ Currently, all integrations support `resize` and `crop` operations.
 * [**cloudflare.com** `service`](https://developers.cloudflare.com/images/)
 * [**imagekit.io** `service`](https://imagekit.io/)
 
-## 📦 Installation
+## Installation 📦
 
 ```bash
 composer require somehowdigital/typo3-media-processing
@@ -32,7 +32,7 @@ composer require somehowdigital/typo3-media-processing
 * TYPO3 in [`Composer`](https://getcomposer.org/) mode
 * PHP with [`openssl`](https://www.php.net/manual/en/book.openssl.php) extension
 
-## ⚙️ Setup
+## Setup ⚙️
 
 By choosing and configuring one of the available image processing
 integrations, TYPO3 will use the configured integration to process
@@ -65,6 +65,9 @@ Extension configuration is located in the TYPO3 backend under
 | encryption     | bool    | Enable encryption of the imgproxy service.  | `false` |
 | encryption_key | string  | The encryption key of the imgproxy service. | `null`  |
 
+See also the official [`imgproxy` documentation](https://docs.imgproxy.net/)
+for more information.
+
 **integration.imagor**
 
 | option              | type    | description                                    | default |
@@ -76,6 +79,9 @@ Extension configuration is located in the TYPO3 backend under
 | signature_key       | string  | The signature key of the imagor service.       | `null`  |
 | signature_algorithm | options | The signature algorithm of the imagor service. | sha1    |
 | signature_length    | int     | The signature size of the imagor service.      | `null`  |
+
+See also the official [`imagor` documentation](https://github.com/cshum/imagor)
+for more information.
 
 **integration.thumbor**
 
@@ -89,23 +95,38 @@ Extension configuration is located in the TYPO3 backend under
 | signature_algorithm | options | The signature algorithm of the thumbor service. | sha1    |
 | signature_length    | int     | The signature size of the thumbor service.      | `null`  |
 
+See also the official [`thumbor` documentation](https://thumbor.readthedocs.io/)
+for more information.
+
 **integration.optimole**
 
-| option  | type   | description                          | default |
-|---------|--------|--------------------------------------|---------|
-| api_key | string | The API key of the optimole service. | `null`  |
+| option     | type   | description                            | default |
+|------------|--------|----------------------------------------|---------|
+| api_key    | string | The API key of the optimole service.   | `null`  |
+| source_uri | string | The source URI of the thumbor service. | `null`  |
+
+See also the official [`optimole` documentation](https://docs.optimole.com/)
+for more information.
 
 **integration.cloudflare**
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
 | api_endpoint | string | The API endpoint of the cloudflare service. | `null`  |
+| source_uri   | string | The source URI of the thumbor service.      | `null`  |
+
+See also the official [`cloudflare` documentation](https://developers.cloudflare.com/images/image-resizing/)
+for more information.
 
 **integration.imagekit**
 
 | option       | type   | description                               | default |
 |--------------|--------|-------------------------------------------|---------|
 | api_endpoint | string | The API endpoint of the imagekit service. | `null`  |
+| source_uri   | string | The source URI of the thumbor service.    | `null`  |
+
+See also the official [`imagekit` documentation](https://docs.imagekit.io/)
+for more information.
 
 ## 🪄 Usage
 
@@ -121,7 +142,7 @@ processed files for the active media processing integration.
 
 `vendor/bin/typo3 cache:invalidatemedia`
 
-## 🛟 Support
+## Support 🛟
 
 * Discord
 * [Discussions](https://github.com/somehow-digital/typo3-media-processing/discussions)
@@ -129,7 +150,7 @@ processed files for the active media processing integration.
 
 ## 🚧 Roadmap
 
-Version **1.0.0** `developing`
+Version **1.0.0** 🏷️ `developing`
 
 * ✅ Support for TYPO3 `12`.
 * ✅ Support `resizing` and `cropping` operations.
@@ -143,7 +164,7 @@ Version **1.0.0** `developing`
 * ✅ Documentation.
 * Release.
 
-Version **2.0.0** `planning`
+Version **2.0.0** 🏷️ `planning`
 
 * Support for manual and smart focus/gravity configuration.
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
@@ -153,7 +174,7 @@ Version **2.0.0** `planning`
 * Integrations per site.
 * Send HEAD requests to speed up image generation.
 
-Version **3.0.0** `researching`
+Version **3.0.0** 🏷️ `researching`
 
 * Integration for more image processing libraries/services.
 * Integration for video processing libraries/services.
