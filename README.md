@@ -140,7 +140,7 @@ processed files for the active media processing integration.
 The TYPO3 CLI `cleanup:invalidatemedia` command can be used to invalidate
 processed files for the active media processing integration.
 
-`vendor/bin/typo3 cache:invalidatemedia`
+`vendor/bin/typo3 cleanup:invalidatemedia`
 
 ## Support 🛟
 
