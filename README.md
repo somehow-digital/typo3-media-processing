@@ -1,5 +1,4 @@
 # Media Processing for TYPO3
-`media_processing`
 
 ---
 
