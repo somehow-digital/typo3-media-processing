@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext">
+		<header/>
+		<body>
+			<trans-unit id="common.integration">
+				<source>Integration</source>
+			</trans-unit>
+			<trans-unit id="common.backend">
+				<source>Enable in Backend</source>
+			</trans-unit>
+			<trans-unit id="common.frontend">
+				<source>Enable in Frontend</source>
+			</trans-unit>
+
+			<trans-unit id="integration.imgproxy.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.source_uri">
+				<source>Source URI</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.encryption">
+				<source>Source URL Encryption (PRO license)</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.encryption_key">
+				<source>Source URL Encryption Key (PRO license)</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.signature_salt">
+				<source>URL Signature Salt</source>
+			</trans-unit>
+			<trans-unit id="integration.imgproxy.signature_size">
+				<source>URL Signature Size</source>
+			</trans-unit>
+
+			<trans-unit id="integration.imagor.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.imagor.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="integration.imagor.source_uri">
+				<source>Source URI</source>
+			</trans-unit>
+			<trans-unit id="integration.imagor.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.imagor.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
+			<trans-unit id="integration.imagor.signature_algorithm">
+				<source>URL Signature Algorithm</source>
+			</trans-unit>
+			<trans-unit id="integration.imagor.signature_length">
+				<source>URL Signature Length</source>
+			</trans-unit>
+
+			<trans-unit id="integration.thumbor.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.thumbor.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="integration.thumbor.source_uri">
+				<source>Source URI</source>
+			</trans-unit>
+			<trans-unit id="integration.thumbor.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.thumbor.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
+			<trans-unit id="integration.thumbor.signature_algorithm">
+				<source>URL Signature Algorithm</source>
+			</trans-unit>
+			<trans-unit id="integration.thumbor.signature_length">
+				<source>URL Signature Length</source>
+			</trans-unit>
+
+			<trans-unit id="integration.optimole.api_key">
+				<source>API Key</source>
+			</trans-unit>
+			<trans-unit id="integration.optimole.source_uri">
+				<source>Source URI</source>
+			</trans-unit>
+
+			<trans-unit id="integration.cloudflare.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudflare.source_uri">
+				<source>Source URI</source>
+			</trans-unit>
+
+			<trans-unit id="integration.imagekit.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.imagekit.source_uri">
+				<source>Source URI</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

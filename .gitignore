@@ -1,0 +1,5 @@
+/var/
+/vendor/
+/public/
+
+composer.lock

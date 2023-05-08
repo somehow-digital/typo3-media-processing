@@ -1,0 +1,9 @@
+{
+	"preset": "psr12",
+	"indent": "\t",
+	"lineEnding": "\n",
+	"exclude": [
+		".git",
+		"Resources"
+	]
+}

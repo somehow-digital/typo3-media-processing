@@ -1,0 +1,63 @@
+{
+	"name": "somehow-digital/typo3-media-processing",
+	"type": "typo3-cms-extension",
+	"description": "TYPO3 Media Processing",
+	"homepage": "https://somehow.digital/",
+	"license": [
+		"GPL-3.0"
+	],
+	"keywords": [
+		"typo3",
+		"extension",
+		"media",
+		"image",
+		"performance",
+		"responsive",
+		"crop",
+		"resize",
+		"avif",
+		"webp",
+		"heic",
+		"heif"
+	],
+	"authors": [
+		{
+			"name": "Thomas Deinhamer",
+			"email": "me+typo3@thasmo.com",
+			"homepage": "https://thasmo.com/"
+		}
+	],
+	"support": {
+		"email": "support@somehow.digital",
+		"docs": "https://github.com/somehow-digital/typo3-media-processing",
+		"source": "https://github.com/somehow-digital/typo3-media-processing",
+		"issues": "https://github.com/somehow-digital/typo3-media-processing/issues"
+	},
+	"config": {
+		"optimize-autoloader": true,
+		"sort-packages": true,
+		"allow-plugins": {
+			"typo3/cms-composer-installers": true,
+			"typo3/class-alias-loader": true
+		}
+	},
+	"require": {
+		"php": "^8.1",
+		"ext-openssl": "*",
+		"typo3/cms-core": "^12.4 || dev-main"
+	},
+	"require-dev": {
+		"jetstreamlabs/pinte": "^1.0",
+		"roave/security-advisories": "dev-latest"
+	},
+	"autoload": {
+		"psr-4": {
+			"SomehowDigital\\Typo3\\MediaProcessing\\": "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "somehowdigital_media_processing"
+		}
+	}
+}
