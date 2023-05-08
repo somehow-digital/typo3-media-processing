@@ -6,7 +6,7 @@ process images. This  basically replaces the need for local image processing
 libraries like `ImageMagick` for image processing operations like resizing,
 cropping, rotating, etc.
 
-Currently, all integrations support `resize` and `crop` operations.
+Currently, all integrations support `resize` and `crop` operations for images.
 
 **Integrations**
 
