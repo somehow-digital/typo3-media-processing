@@ -151,7 +151,7 @@ processed files for the active media processing integration.
 * [Discussions](https://github.com/somehow-digital/typo3-media-processing/discussions)
 * [Issues](https://github.com/somehow-digital/typo3-media-processing/issues)
 
-## 🚧 Roadmap
+## Roadmap 🚧
 
 Version **1.0.0** 🏷️ `developing`
 
