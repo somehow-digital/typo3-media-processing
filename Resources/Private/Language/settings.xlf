@@ -20,13 +20,13 @@
 				<source>Source Loader</source>
 			</trans-unit>
 			<trans-unit id="integration.imgproxy.source_uri">
-				<source>Source URI</source>
+				<source>Origin Host URL</source>
 			</trans-unit>
 			<trans-unit id="integration.imgproxy.encryption">
-				<source>Source URL Encryption (PRO license)</source>
+				<source>Origin URL Encryption (PRO license)</source>
 			</trans-unit>
 			<trans-unit id="integration.imgproxy.encryption_key">
-				<source>Source URL Encryption Key (PRO license)</source>
+				<source>Origin URL Encryption Key (PRO license)</source>
 			</trans-unit>
 			<trans-unit id="integration.imgproxy.signature">
 				<source>Enable URL signing</source>
@@ -48,7 +48,7 @@
 				<source>Source Loader</source>
 			</trans-unit>
 			<trans-unit id="integration.imagor.source_uri">
-				<source>Source URI</source>
+				<source>Origin Host URL</source>
 			</trans-unit>
 			<trans-unit id="integration.imagor.signature">
 				<source>Enable URL signing</source>
@@ -70,7 +70,7 @@
 				<source>Source Loader</source>
 			</trans-unit>
 			<trans-unit id="integration.thumbor.source_uri">
-				<source>Source URI</source>
+				<source>Origin Host URL</source>
 			</trans-unit>
 			<trans-unit id="integration.thumbor.signature">
 				<source>Enable URL signing</source>
@@ -89,21 +89,21 @@
 				<source>API Key</source>
 			</trans-unit>
 			<trans-unit id="integration.optimole.source_uri">
-				<source>Source URI</source>
+				<source>Origin Host URL</source>
 			</trans-unit>
 
 			<trans-unit id="integration.cloudflare.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
 			<trans-unit id="integration.cloudflare.source_uri">
-				<source>Source URI</source>
+				<source>Origin Host URL</source>
 			</trans-unit>
 
 			<trans-unit id="integration.imagekit.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
 			<trans-unit id="integration.imagekit.source_uri">
-				<source>Source URI</source>
+				<source>Origin Host URL</source>
 			</trans-unit>
 		</body>
 	</file>
