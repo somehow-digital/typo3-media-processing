@@ -46,7 +46,7 @@ images instead of using the local image processing library.
 Extension configuration is located in the TYPO3 backend under
 `Admin Tools → Settings → Extension Configuration`.
 
-**common**
+`common`
 
 | option      | type    | description                                      | default |
 |-------------|---------|--------------------------------------------------|---------|
@@ -54,7 +54,7 @@ Extension configuration is located in the TYPO3 backend under
 | backend     | bool    | Enable image processing in the backend.          | `true`  |
 | frontend    | bool    | Enable image processing in the frontend.         | `true`  |
 
-**integration.imgproxy**
+`integration.imgproxy` **imgproxy** 
 
 | option         | type    | description                                 | default |
 |----------------|---------|---------------------------------------------|---------|
@@ -71,7 +71,7 @@ Extension configuration is located in the TYPO3 backend under
 See also the official [`imgproxy` documentation](https://docs.imgproxy.net/)
 for more information.
 
-**integration.imagor**
+`integration.imagor` **imagor**
 
 | option              | type    | description                                    | default |
 |---------------------|---------|------------------------------------------------|---------|
@@ -86,7 +86,7 @@ for more information.
 See also the official [`imagor` documentation](https://github.com/cshum/imagor)
 for more information.
 
-**integration.thumbor**
+`integration.thumbor` **thumbor**
 
 | option              | type    | description                                     | default |
 |---------------------|---------|-------------------------------------------------|---------|
@@ -101,7 +101,7 @@ for more information.
 See also the official [`thumbor` documentation](https://thumbor.readthedocs.io/)
 for more information.
 
-**integration.optimole**
+`integration.optimole` **optimole.com**
 
 | option     | type   | description                            | default |
 |------------|--------|----------------------------------------|---------|
@@ -111,7 +111,7 @@ for more information.
 See also the official [`optimole` documentation](https://docs.optimole.com/)
 for more information.
 
-**integration.cloudflare**
+`integration.cloudflare` **cloudflare.com**
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -121,7 +121,7 @@ for more information.
 See also the official [`cloudflare` documentation](https://developers.cloudflare.com/images/image-resizing/)
 for more information.
 
-**integration.imagekit**
+`integration.imagekit` **imagekit.io** 
 
 | option       | type   | description                               | default |
 |--------------|--------|-------------------------------------------|---------|
@@ -163,8 +163,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**optimole.com** `service`](https://optimole.com/).
 * ✅ Integration for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
 * ✅ Integration for [**imagekit.io** `service`](https://imagekit.io/).
-* ✅ `Invalidation` CLI command and backend action.
-* ✅ Documentation.
+* ✅ Backend toolbar action and CLI command for processed media invalidation.
 * Release.
 
 Version **2.0.0** 🏷️ `planning`
@@ -173,6 +172,7 @@ Version **2.0.0** 🏷️ `planning`
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
 * Integration for [**bunny.net** `service`](https://bunny.net/).
 * Integration for [**imgix.com** `service`](https://imgix.com/).
+* Integration for [**fastly.com** `service`](https://fastly.com/).
 * Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * Integrations per site.
 * Send HEAD requests to speed up image generation.
