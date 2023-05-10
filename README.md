@@ -61,7 +61,7 @@ Extension configuration is located in the TYPO3 backend under
 |----------------|---------|---------------------------------------------|---------|
 | api_endpoint   | string  | The API endpoint of the imgproxy service.   | `null`  |
 | source_loader  | options | The source loader of the imgproxy service.  | uri     |
-| source_uri     | string  | The source URI of the imgproxy service.     | `null`  |
+| source_uri     | string  | The origin host URL where files are stored. | `null`  |
 | signature      | bool    | Enable signature of the imgproxy service.   | `false` |
 | signature_key  | string  | The signature key of the imgproxy service.  | `null`  |
 | signature_salt | string  | The signature salt of the imgproxy service. | `null`  |
@@ -78,7 +78,7 @@ for more information.
 |---------------------|---------|------------------------------------------------|---------|
 | api_endpoint        | string  | The API endpoint of the imagor service.        | `null`  |
 | source_loader       | options | The source loader of the imagor service.       | uri     |
-| source_uri          | string  | The source URI of the imagor service.          | `null`  |
+| source_uri          | string  | The origin host URL where files are stored.    | `null`  |
 | signature           | bool    | Enable signature of the imagor service.        | `false` |
 | signature_key       | string  | The signature key of the imagor service.       | `null`  |
 | signature_algorithm | options | The signature algorithm of the imagor service. | sha1    |
@@ -93,7 +93,7 @@ for more information.
 |---------------------|---------|-------------------------------------------------|---------|
 | api_endpoint        | string  | The API endpoint of the thumbor service.        | `null`  |
 | source_loader       | options | The source loader of the thumbor service.       | uri     |
-| source_uri          | string  | The source URI of the thumbor service.          | `null`  |
+| source_uri          | string  | The origin host URL where files are stored.     | `null`  |
 | signature           | bool    | Enable signature of the thumbor service.        | `false` |
 | signature_key       | string  | The signature key of the thumbor service.       | `null`  |
 | signature_algorithm | options | The signature algorithm of the thumbor service. | sha1    |
@@ -104,10 +104,10 @@ for more information.
 
 `integration.optimole` **optimole.com**
 
-| option     | type   | description                            | default |
-|------------|--------|----------------------------------------|---------|
-| api_key    | string | The API key of the optimole service.   | `null`  |
-| source_uri | string | The source URI of the thumbor service. | `null`  |
+| option     | type   | description                                 | default |
+|------------|--------|---------------------------------------------|---------|
+| api_key    | string | The API key of the optimole service.        | `null`  |
+| source_uri | string | The origin host URL where files are stored. | `null`  |
 
 See also the official [`optimole` documentation](https://docs.optimole.com/)
 for more information.
@@ -117,7 +117,7 @@ for more information.
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
 | api_endpoint | string | The Pull Zone URL of the bunny.net service. | `null`  |
-| source_uri   | string | The Origin Host URL where files are stored. | `null`  |
+| source_uri   | string | The origin host URL where files are stored. | `null`  |
 
 See also the official [`bunny.net` documentation](https://docs.bunny.net/docs/)
 for more information.
@@ -127,17 +127,17 @@ for more information.
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
 | api_endpoint | string | The API endpoint of the cloudflare service. | `null`  |
-| source_uri   | string | The source URI of the thumbor service.      | `null`  |
+| source_uri   | string | The origin host URL where files are stored. | `null`  |
 
 See also the official [`cloudflare` documentation](https://developers.cloudflare.com/images/image-resizing/)
 for more information.
 
 `integration.imagekit` **imagekit.io** 
 
-| option       | type   | description                               | default |
-|--------------|--------|-------------------------------------------|---------|
-| api_endpoint | string | The API endpoint of the imagekit service. | `null`  |
-| source_uri   | string | The source URI of the thumbor service.    | `null`  |
+| option       | type   | description                                 | default |
+|--------------|--------|---------------------------------------------|---------|
+| api_endpoint | string | The API endpoint of the imagekit service.   | `null`  |
+| source_uri   | string | The origin host URL where files are stored. | `null`  |
 
 See also the official [`imagekit` documentation](https://docs.imagekit.io/)
 for more information.
@@ -181,15 +181,20 @@ Version **1.0.0** 🏷️ `developing`
 Version **2.0.0** 🏷️ `planning`
 
 * Support for manual and smart focus/gravity configuration.
+* Integration for [**glide** `library`](https://glide.thephpleague.com/).
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
+* Integration for [**imageflow** `library`](https://www.imageflow.io/).
 * Integration for [**imgix.com** `service`](https://imgix.com/).
 * Integration for [**fastly.com** `service`](https://fastly.com/).
 * Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
+* Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
+* Integration for [**sirv.com** `service`](https://sirv.com/).
 * Integrations per site.
 * Send HEAD requests to speed up image generation.
 
 Version **3.0.0** 🏷️ `researching`
 
+* Integration for [**gumlet.com** `service`](https://www.gumlet.com/). 
 * Integration for more image processing libraries/services.
 * Integration for video processing libraries/services.
 
