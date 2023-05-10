@@ -14,6 +14,7 @@ Currently, all integrations support `resize` and `crop` operations for images.
 * [**imagor** `library`](https://github.com/cshum/imagor)
 * [**thumbor** `library`](https://github.com/thumbor/thumbor)
 * [**optimole.com** `service`](https://optimole.com/)
+* [**bunny.net** `service`](https://bunny.net/)
 * [**cloudflare.com** `service`](https://developers.cloudflare.com/images/)
 * [**imagekit.io** `service`](https://imagekit.io/)
 
@@ -111,6 +112,16 @@ for more information.
 See also the official [`optimole` documentation](https://docs.optimole.com/)
 for more information.
 
+`integration.bunny` **bunny.net**
+
+| option       | type   | description                                 | default |
+|--------------|--------|---------------------------------------------|---------|
+| api_endpoint | string | The Pull Zone URL of the bunny.net service. | `null`  |
+| source_uri   | string | The Origin Host URL where files are stored. | `null`  |
+
+See also the official [`bunny.net` documentation](https://docs.bunny.net/docs/)
+for more information.
+
 `integration.cloudflare` **cloudflare.com**
 
 | option       | type   | description                                 | default |
@@ -161,6 +172,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**imagor** `library`](https://github.com/cshum/imagor).
 * ✅ Integration for [**thumbor** `library`](https://github.com/thumbor/thumbor).
 * ✅ Integration for [**optimole.com** `service`](https://optimole.com/).
+* ✅ Integration for [**bunny.net** `service`](https://bunny.net/).
 * ✅ Integration for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
 * ✅ Integration for [**imagekit.io** `service`](https://imagekit.io/).
 * ✅ Backend toolbar action and CLI command for processed media invalidation.
@@ -170,7 +182,6 @@ Version **2.0.0** 🏷️ `planning`
 
 * Support for manual and smart focus/gravity configuration.
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
-* Integration for [**bunny.net** `service`](https://bunny.net/).
 * Integration for [**imgix.com** `service`](https://imgix.com/).
 * Integration for [**fastly.com** `service`](https://fastly.com/).
 * Integration for [**cloudinary.com** `service`](https://cloudinary.com/).

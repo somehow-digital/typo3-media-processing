@@ -92,6 +92,13 @@
 				<source>Origin Host URL</source>
 			</trans-unit>
 
+			<trans-unit id="integration.bunny.api_endpoint">
+				<source>Pull Zone URL</source>
+			</trans-unit>
+			<trans-unit id="integration.bunny.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
+
 			<trans-unit id="integration.cloudflare.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>

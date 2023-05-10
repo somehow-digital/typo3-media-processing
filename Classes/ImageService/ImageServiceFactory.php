@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriBuilder;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriBuilder;
@@ -41,6 +43,7 @@ class ImageServiceFactory
 			ImagorImageService::getIdentifier() => $this->getImagorImageService($options),
 			ThumborImageService::getIdentifier() => $this->getThumborImageService($options),
 			OptimoleImageService::getIdentifier() => $this->getOptimoleImageService($options),
+			BunnyImageService::getIdentifier() => $this->getBunnyImageService($options),
 			CloudflareImageService::getIdentifier() => $this->getCloudflareImageService($options),
 			ImageKitImageService::getIdentifier() => $this->getImageKitImageService($options),
 		};
@@ -141,6 +144,21 @@ class ImageServiceFactory
 
 		return new OptimoleImageService(
 			$options['api_key'],
+			$builder,
+		);
+	}
+
+	private function getBunnyImageService(array $options): BunnyImageService
+	{
+		$source = new BunnyUriSource();
+
+		$builder = new BunnyUriBuilder(
+			$options['api_endpoint'],
+			$source,
+		);
+
+		return new BunnyImageService(
+			$options['api_endpoint'],
 			$builder,
 		);
 	}
