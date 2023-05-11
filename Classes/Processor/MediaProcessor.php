@@ -7,7 +7,6 @@ namespace SomehowDigital\Typo3\MediaProcessing\Processor;
 use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
-use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\ProcessorInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -40,25 +39,18 @@ class MediaProcessor implements ProcessorInterface
 
 	public function processTask(TaskInterface $task): void
 	{
-		$target = $task->getTargetFile();
+		$result = $this->service?->processTask($task);
 
-		$url = $this->service?->buildUrl(
-			$task->getSourceFile(),
-			$target->getProcessingConfiguration(),
-		)();
+		if ($result->getUri()) {
+			$task->getTargetFile()->setName($task->getTargetFileName());
 
-		if ($url) {
-			$dimensions = ImageDimension::fromProcessingTask($task);
-
-			$target->setName($task->getTargetFileName());
-
-			$target->updateProperties([
-				'width' => $dimensions->getWidth(),
-				'height' => $dimensions->getHeight(),
+			$task->getTargetFile()->updateProperties([
+				'width' => $result->getDimension()->getWidth(),
+				'height' => $result->getDimension()->getHeight(),
 				'checksum' => $task->getConfigurationChecksum(),
 				'integration' => $this->service::getIdentifier(),
 				'integration_checksum' => sha1(serialize($this->configuration)),
-				'processing_url' => $url,
+				'processing_url' => (string) $result->getUri(),
 			]);
 
 			$task->setExecuted(true);

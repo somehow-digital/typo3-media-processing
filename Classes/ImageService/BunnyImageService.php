@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriBuilderInterface;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class BunnyImageService extends ImageServiceAbstract
@@ -16,7 +18,7 @@ class BunnyImageService extends ImageServiceAbstract
 
 	public function __construct(
 		protected readonly string $endpoint,
-		protected readonly UriBuilderInterface $builder,
+		protected readonly UriSourceInterface $source,
 	) {
 	}
 
@@ -42,5 +44,36 @@ class BunnyImageService extends ImageServiceAbstract
 				'image/webp',
 				'image/gif',
 			]);
+	}
+
+	public function processTask(TaskInterface $task): ImageServiceResult {
+		$file = $task->getSourceFile();
+		$configuration = $task->getTargetFile()->getProcessingConfiguration();
+		$dimension = ImageDimension::fromProcessingTask($task);
+
+		$uri = new BunnyUri($this->getEndpoint());
+		$uri->setSource($this->source->getSource($file));
+
+		if (isset($configuration['crop'])) {
+			$uri->setCrop(
+				(int) $configuration['crop']->getWidth(),
+				(int) $configuration['crop']->getHeight(),
+				(int) $configuration['crop']->getOffsetLeft(),
+				(int) $configuration['crop']->getOffsetTop(),
+			);
+		}
+
+		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
+			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+		}
+
+		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
+			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+		}
+
+		return new ImageServiceResult(
+			$uri,
+			$dimension,
+		);
 	}
 }

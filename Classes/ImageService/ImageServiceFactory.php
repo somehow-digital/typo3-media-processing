@@ -4,22 +4,15 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyFileSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborFileSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborUriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborUriSource;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -62,18 +55,13 @@ class ImageServiceFactory
 			})(),
 		};
 
-		$builder = new ImgProxyUriBuilder(
+		return new ImgProxyImageService(
 			$options['api_endpoint'],
 			$source,
 			$options['signature'] ? $options['signature_key'] : null,
 			$options['signature'] ? $options['signature_salt'] : null,
 			$options['signature'] ? (int) $options['signature_size'] : 0,
 			$options['encryption'] ? $options['encryption_key'] : null,
-		);
-
-		return new ImgProxyImageService(
-			$options['api_endpoint'],
-			$builder,
 		);
 	}
 
@@ -90,17 +78,12 @@ class ImageServiceFactory
 			})(),
 		};
 
-		$builder = new ImagorUriBuilder(
+		return new ImagorImageService(
 			$options['api_endpoint'],
 			$source,
 			$options['signature'] ? $options['signature_key'] : null,
 			$options['signature'] ? $options['signature_algorithm'] : null,
 			$options['signature'] ? (int) $options['signature_length'] : 0,
-		);
-
-		return new ImagorImageService(
-			$options['api_endpoint'],
-			$builder,
 		);
 	}
 
@@ -117,17 +100,12 @@ class ImageServiceFactory
 			})(),
 		};
 
-		$builder = new ThumborUriBuilder(
+		return new ThumborImageService(
 			$options['api_endpoint'],
 			$source,
 			$options['signature'] ? $options['signature_key'] : null,
 			$options['signature'] ? $options['signature_algorithm'] : null,
 			$options['signature'] ? (int) $options['signature_length'] : 0,
-		);
-
-		return new ThumborImageService(
-			$options['api_endpoint'],
-			$builder,
 		);
 	}
 
@@ -137,14 +115,9 @@ class ImageServiceFactory
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		$builder = new OptimoleUriBuilder(
-			$options['api_key'],
-			$source,
-		);
-
 		return new OptimoleImageService(
 			$options['api_key'],
-			$builder,
+			$source,
 		);
 	}
 
@@ -152,14 +125,9 @@ class ImageServiceFactory
 	{
 		$source = new BunnyUriSource();
 
-		$builder = new BunnyUriBuilder(
-			$options['api_endpoint'],
-			$source,
-		);
-
 		return new BunnyImageService(
 			$options['api_endpoint'],
-			$builder,
+			$source,
 		);
 	}
 
@@ -169,14 +137,9 @@ class ImageServiceFactory
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		$builder = new CloudflareUriBuilder(
-			$options['api_endpoint'],
-			$source,
-		);
-
 		return new CloudflareImageService(
 			$options['api_endpoint'],
-			$builder,
+			$source,
 		);
 	}
 
@@ -186,14 +149,9 @@ class ImageServiceFactory
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		$builder = new ImageKitUriBuilder(
-			$options['api_endpoint'],
-			$source,
-		);
-
 		return new ImageKitImageService(
 			$options['api_endpoint'],
-			$builder,
+			$source,
 		);
 	}
 }

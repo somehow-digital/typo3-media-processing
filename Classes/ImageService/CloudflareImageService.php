@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriBuilderInterface;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class CloudflareImageService extends ImageServiceAbstract
@@ -16,7 +18,7 @@ class CloudflareImageService extends ImageServiceAbstract
 
 	public function __construct(
 		protected readonly string $endpoint,
-		protected readonly UriBuilderInterface $builder,
+		protected readonly UriSourceInterface $source,
 	) {
 	}
 
@@ -43,4 +45,48 @@ class CloudflareImageService extends ImageServiceAbstract
 				'image/gif',
 			]);
 	}
+
+    public function processTask(TaskInterface $task): ImageServiceResult {
+        $file = $task->getSourceFile();
+        $configuration = $task->getTargetFile()->getProcessingConfiguration();
+        $dimension = ImageDimension::fromProcessingTask($task);
+
+        $uri = new CloudflareUri($this->getEndpoint());
+        $uri->setSource($this->source->getSource($file));
+
+        $fit = (static function ($configuration) {
+            switch (true) {
+                default:
+                    return 'contain';
+
+                case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
+                case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
+                    return 'cover';
+            }
+        })($configuration);
+
+        $uri->setFit($fit);
+
+        if (isset($configuration['crop'])) {
+            $uri->setTrim(
+                (int) $configuration['crop']->getOffsetTop(),
+                (int) ($file->getProperty('width') - $configuration['crop']->getWidth() - $configuration['crop']->getOffsetLeft()),
+                (int) ($file->getProperty('height') - $configuration['crop']->getHeight() - $configuration['crop']->getOffsetTop()),
+                (int) $configuration['crop']->getOffsetLeft(),
+            );
+        }
+
+        if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
+            $uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+        }
+
+        if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
+            $uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+        }
+
+        return new ImageServiceResult(
+            $uri,
+            $dimension,
+        );
+    }
 }

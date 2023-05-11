@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriBuilderInterface;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class ImageKitImageService extends ImageServiceAbstract
@@ -16,7 +18,7 @@ class ImageKitImageService extends ImageServiceAbstract
 
 	public function __construct(
 		protected readonly string $endpoint,
-		protected readonly UriBuilderInterface $builder,
+		protected readonly UriSourceInterface $source,
 	) {
 	}
 
@@ -46,5 +48,54 @@ class ImageKitImageService extends ImageServiceAbstract
 				'image/heic',
 				'image/heif',
 			]);
+	}
+
+	public function processTask(TaskInterface $task): ImageServiceResult
+	{
+		$file = $task->getSourceFile();
+		$configuration = $task->getTargetFile()->getProcessingConfiguration();
+		$dimension = ImageDimension::fromProcessingTask($task);
+
+		$uri = new ImageKitUri($this->getEndpoint());
+		$uri->setSource($this->source->getSource($file));
+
+		$crop = (static function ($configuration) {
+			switch (true) {
+				default:
+					return 'force';
+
+				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
+				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
+				case isset($configuration['maxWidth']):
+				case isset($configuration['maxHeight']):
+					return 'at_max';
+
+				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
+				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
+					return 'maintain_ratio';
+			}
+		})($configuration);
+
+		$uri->setCrop($crop);
+
+		if (isset($configuration['crop'])) {
+			$uri->setOffset(
+				(int) $configuration['crop']->getOffsetLeft(),
+				(int) $configuration['crop']->getOffsetTop(),
+			);
+		}
+
+		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
+			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+		}
+
+		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
+			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+		}
+
+		return new ImageServiceResult(
+			$uri,
+			$dimension,
+		);
 	}
 }
