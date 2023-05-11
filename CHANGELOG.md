@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.2.0]
+
 ### Added
 
 * Add integration for [**bunny.net** `service`](https://bunny.net/).
@@ -21,5 +23,6 @@
 * Add integration for [**imagekit.io** `service`](https://imagekit.io/).
 * Add backend toolbar action and CLI command for processed media invalidation.
 
-[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.1.0...HEAD
+[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/somehow-digital/typo3-media-processing/releases/tag/v0.1.0
