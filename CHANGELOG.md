@@ -5,6 +5,7 @@
 ### Added
 
 - Add integration for [**bunny.net** `service`](https://bunny.net/).
+- Add integration for [**sirv.com** `service`](https://sirv.com/).
 
 ## [0.1.0]
 

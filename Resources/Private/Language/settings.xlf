@@ -109,6 +109,10 @@
 			<trans-unit id="integration.imagekit.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
+
+			<trans-unit id="integration.sirv.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

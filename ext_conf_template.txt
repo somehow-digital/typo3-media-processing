@@ -113,4 +113,9 @@ integration {
 		# cat=imagekit.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.source_uri
 		source_uri =
 	}
+
+	sirv {
+		# cat=sirv.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.sirv.api_endpoint
+		api_endpoint =
+	}
 }

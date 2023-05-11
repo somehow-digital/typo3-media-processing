@@ -12,6 +12,7 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\SirvUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborUriSource;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
@@ -39,6 +40,7 @@ class ImageServiceFactory
 			BunnyImageService::getIdentifier() => $this->getBunnyImageService($options),
 			CloudflareImageService::getIdentifier() => $this->getCloudflareImageService($options),
 			ImageKitImageService::getIdentifier() => $this->getImageKitImageService($options),
+			SirvImageService::getIdentifier() => $this->getSirvImageService($options),
 		};
 	}
 
@@ -150,6 +152,16 @@ class ImageServiceFactory
 		);
 
 		return new ImageKitImageService(
+			$options['api_endpoint'],
+			$source,
+		);
+	}
+
+	private function getSirvImageService(array $options): SirvImageService
+	{
+		$source = new SirvUriSource();
+
+		return new SirvImageService(
 			$options['api_endpoint'],
 			$source,
 		);

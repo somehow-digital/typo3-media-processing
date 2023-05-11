@@ -17,6 +17,7 @@ Currently, all integrations support `resize` and `crop` operations for images.
 * [**bunny.net** `service`](https://bunny.net/)
 * [**cloudflare.com** `service`](https://developers.cloudflare.com/images/)
 * [**imagekit.io** `service`](https://imagekit.io/)
+* [**sirv.com** `service`](https://sirv.com/)
 
 ## Installation 📦
 
@@ -142,6 +143,16 @@ for more information.
 See also the official [`imagekit` documentation](https://docs.imagekit.io/)
 for more information.
 
+`integration.sirv` **sirv.com**
+
+| option       | type   | description                                 | default |
+|--------------|--------|---------------------------------------------|---------|
+| api_endpoint | string | The API endpoint of the sirv service.       | `null`  |
+| source_uri   | string | The origin host URL where files are stored. | `null`  |
+
+See also the official [`sirv.com` documentation](https://sirv.com/help/articles/dynamic-imaging/)
+for more information.
+
 ## 🪄 Usage
 
 ### Backend
@@ -175,6 +186,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**bunny.net** `service`](https://bunny.net/).
 * ✅ Integration for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
 * ✅ Integration for [**imagekit.io** `service`](https://imagekit.io/).
+* ✅ Integration for [**sirv.com** `service`](https://sirv.com/).
 * ✅ Backend toolbar action and CLI command for processed media invalidation.
 * Release.
 
