@@ -96,9 +96,6 @@ integration {
 	bunny {
 		# cat=bunny.net; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.api_endpoint
 		api_endpoint =
-
-		# cat=bunny.net; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.source_uri
-		source_uri =
 	}
 
 	cloudflare {
