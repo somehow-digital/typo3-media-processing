@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Add integration for [**imgix.com** `service`](https://imgix.com/).
+
 ## [0.2.0]
 
 ### Added

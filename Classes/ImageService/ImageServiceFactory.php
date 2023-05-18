@@ -9,6 +9,8 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixFolderSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixProxySource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriSource;
@@ -41,6 +43,7 @@ class ImageServiceFactory
 			CloudflareImageService::getIdentifier() => $this->getCloudflareImageService($options),
 			ImageKitImageService::getIdentifier() => $this->getImageKitImageService($options),
 			SirvImageService::getIdentifier() => $this->getSirvImageService($options),
+			ImgixImageService::getIdentifier() => $this->getImgixImageService($options),
 		};
 	}
 
@@ -164,6 +167,26 @@ class ImageServiceFactory
 		return new SirvImageService(
 			$options['api_endpoint'],
 			$source,
+		);
+	}
+
+	private function getImgixImageService(array $options): ImgixImageService
+	{
+		$source = match ($options['source_loader']) {
+			ImgixProxySource::IDENTIFIER => (static function () use ($options): ImgixProxySource {
+				return new ImgixProxySource(
+					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+				);
+			})(),
+			ImgixFolderSource::IDENTIFIER => (static function (): ImgixFolderSource {
+				return new ImgixFolderSource();
+			})(),
+		};
+
+		return new ImgixImageService(
+			$options['api_endpoint'],
+			$source,
+			$options['signature'] ? $options['signature_key'] : null,
 		);
 	}
 }

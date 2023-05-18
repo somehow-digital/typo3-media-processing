@@ -113,6 +113,22 @@
 			<trans-unit id="integration.sirv.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
+
+			<trans-unit id="integration.imgix.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.imgix.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="integration.imgix.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
+			<trans-unit id="integration.imgix.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.imgix.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -18,6 +18,7 @@ Currently, all integrations support `resize` and `crop` operations for images.
 * [**cloudflare.com** `service`](https://developers.cloudflare.com/images/)
 * [**imagekit.io** `service`](https://imagekit.io/)
 * [**sirv.com** `service`](https://sirv.com/)
+* [**imgix.com** `service`](https://imgix.com/)
 
 ## Installation 📦
 
@@ -153,6 +154,19 @@ for more information.
 See also the official [`sirv.com` documentation](https://sirv.com/help/articles/dynamic-imaging/)
 for more information.
 
+`integration.imgix` **imgix.com**
+
+| option        | type    | description                                 | default |
+|---------------|---------|---------------------------------------------|---------|
+| api_endpoint  | string  | The API endpoint of the imgix service.      | `null`  |
+| source_loader | options | The source loader of the imgix service.     | folder  |
+| source_uri    | string  | The origin host URL where files are stored. | `null`  |
+| signature     | bool    | Enable signature of the imgix service.      | `false` |
+| signature_key | string  | The signature key of the imgix service.     | `null`  |
+
+See also the official [`imgix.com` documentation](https://docs.imgix.com/)
+for more information.
+
 ## 🪄 Usage
 
 ### Backend
@@ -187,6 +201,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
 * ✅ Integration for [**imagekit.io** `service`](https://imagekit.io/).
 * ✅ Integration for [**sirv.com** `service`](https://sirv.com/).
+* ✅ Integration for [**imgix.com** `service`](https://imgix.com/).
 * ✅ Backend toolbar action and CLI command for processed media invalidation.
 * Release.
 
@@ -196,11 +211,9 @@ Version **2.0.0** 🏷️ `planning`
 * Integration for [**glide** `library`](https://glide.thephpleague.com/).
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
 * Integration for [**imageflow** `library`](https://www.imageflow.io/).
-* Integration for [**imgix.com** `service`](https://imgix.com/).
 * Integration for [**fastly.com** `service`](https://fastly.com/).
 * Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
-* Integration for [**sirv.com** `service`](https://sirv.com/).
 * Integrations per site.
 * Send HEAD requests to speed up image generation.
 
