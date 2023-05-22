@@ -12,7 +12,8 @@ class ImageServiceResult
 	public function __construct(
 		private readonly UriInterface $uri,
 		private readonly ImageDimension $dimension,
-	) {}
+	) {
+	}
 
 	public function getUri(): UriInterface
 	{

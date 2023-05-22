@@ -108,7 +108,7 @@ class ImgixUri implements UriInterface
 		return $this->maxHeight;
 	}
 
-	public function setRect( int $horizontal, int $vertical, int $width, int $height): self
+	public function setRect(int $horizontal, int $vertical, int $width, int $height): self
 	{
 		$this->rect = [
 			$horizontal,

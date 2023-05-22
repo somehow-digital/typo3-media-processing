@@ -46,9 +46,9 @@ class CloudinaryUri implements UriInterface
 
 	public function setSource(string $source): self
 	{
-		 $this->source = $source;
+		$this->source = $source;
 
-		 return $this;
+		return $this;
 	}
 
 	public function getSource(): ?string
@@ -92,7 +92,7 @@ class CloudinaryUri implements UriInterface
 		return $this->height;
 	}
 
-	public function setCrop( int $horizontal, int $vertical, int $width, int $height): self
+	public function setCrop(int $horizontal, int $vertical, int $width, int $height): self
 	{
 		$this->crop = [
 			$horizontal,

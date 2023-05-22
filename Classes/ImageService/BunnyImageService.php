@@ -46,7 +46,8 @@ class BunnyImageService extends ImageServiceAbstract
 			]);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResult {
+	public function processTask(TaskInterface $task): ImageServiceResult
+	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);

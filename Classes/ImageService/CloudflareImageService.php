@@ -46,47 +46,48 @@ class CloudflareImageService extends ImageServiceAbstract
 			]);
 	}
 
-    public function processTask(TaskInterface $task): ImageServiceResult {
-        $file = $task->getSourceFile();
-        $configuration = $task->getTargetFile()->getProcessingConfiguration();
-        $dimension = ImageDimension::fromProcessingTask($task);
+	public function processTask(TaskInterface $task): ImageServiceResult
+	{
+		$file = $task->getSourceFile();
+		$configuration = $task->getTargetFile()->getProcessingConfiguration();
+		$dimension = ImageDimension::fromProcessingTask($task);
 
-        $uri = new CloudflareUri($this->getEndpoint());
-        $uri->setSource($this->source->getSource($file));
+		$uri = new CloudflareUri($this->getEndpoint());
+		$uri->setSource($this->source->getSource($file));
 
-        $fit = (static function ($configuration) {
-            switch (true) {
-                default:
-                    return 'contain';
+		$fit = (static function ($configuration) {
+			switch (true) {
+				default:
+					return 'contain';
 
-                case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-                case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-                    return 'cover';
-            }
-        })($configuration);
+				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
+				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
+					return 'cover';
+			}
+		})($configuration);
 
-        $uri->setFit($fit);
+		$uri->setFit($fit);
 
-        if (isset($configuration['crop'])) {
-            $uri->setTrim(
-                (int) $configuration['crop']->getOffsetTop(),
-                (int) ($file->getProperty('width') - $configuration['crop']->getWidth() - $configuration['crop']->getOffsetLeft()),
-                (int) ($file->getProperty('height') - $configuration['crop']->getHeight() - $configuration['crop']->getOffsetTop()),
-                (int) $configuration['crop']->getOffsetLeft(),
-            );
-        }
+		if (isset($configuration['crop'])) {
+			$uri->setTrim(
+				(int) $configuration['crop']->getOffsetTop(),
+				(int) ($file->getProperty('width') - $configuration['crop']->getWidth() - $configuration['crop']->getOffsetLeft()),
+				(int) ($file->getProperty('height') - $configuration['crop']->getHeight() - $configuration['crop']->getOffsetTop()),
+				(int) $configuration['crop']->getOffsetLeft(),
+			);
+		}
 
-        if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
-            $uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
-        }
+		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
+			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+		}
 
-        if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
-            $uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
-        }
+		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
+			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+		}
 
-        return new ImageServiceResult(
-            $uri,
-            $dimension,
-        );
-    }
+		return new ImageServiceResult(
+			$uri,
+			$dimension,
+		);
+	}
 }
