@@ -19,6 +19,7 @@ Currently, all integrations support `resize` and `crop` operations for images.
 * [**imagekit.io** `service`](https://imagekit.io/)
 * [**sirv.com** `service`](https://sirv.com/)
 * [**imgix.com** `service`](https://imgix.com/)
+* [**cloudinary.com** `service`](https://cloudinary.com/)
 
 ## Installation 📦
 
@@ -167,6 +168,20 @@ for more information.
 See also the official [`imgix.com` documentation](https://docs.imgix.com/)
 for more information.
 
+`integration.cloudinary` **cloudinary.com**
+
+| option              | type    | description                                        | default |
+|---------------------|---------|----------------------------------------------------|---------|
+| api_endpoint        | string  | The API endpoint of the cloudinary service.        | `null`  |
+| delivery_mode       | options | The source loader of the cloudinary service.       | fetch   |
+| source_uri          | string  | The origin host URL where files are stored.        | `null`  |
+| signature           | bool    | Enable signature of the cloudinary service.        | `false` |
+| signature_key       | string  | The signature key of the cloudinary service.       | `null`  |
+| signature_algorithm | options | The signature algorithm of the cloudinary service. | sha1    |
+
+See also the official [`cloudinary.com` documentation](https://cloudinary.com/documentation/)
+for more information.
+
 ## 🪄 Usage
 
 ### Backend
@@ -202,6 +217,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**imagekit.io** `service`](https://imagekit.io/).
 * ✅ Integration for [**sirv.com** `service`](https://sirv.com/).
 * ✅ Integration for [**imgix.com** `service`](https://imgix.com/).
+* ✅ Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * ✅ Backend toolbar action and CLI command for processed media invalidation.
 * Release.
 
@@ -212,7 +228,6 @@ Version **2.0.0** 🏷️ `planning`
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
 * Integration for [**imageflow** `library`](https://www.imageflow.io/).
 * Integration for [**fastly.com** `service`](https://fastly.com/).
-* Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
 * Integrations per site.
 * Send HEAD requests to speed up image generation.

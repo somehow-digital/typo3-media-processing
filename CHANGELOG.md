@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 * Add integration for [**imgix.com** `service`](https://imgix.com/).
+* Add integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 
 ## [0.2.0]
 

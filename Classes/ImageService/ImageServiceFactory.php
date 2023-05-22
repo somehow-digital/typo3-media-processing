@@ -6,6 +6,8 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryFetchSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUploadSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
@@ -44,6 +46,7 @@ class ImageServiceFactory
 			ImageKitImageService::getIdentifier() => $this->getImageKitImageService($options),
 			SirvImageService::getIdentifier() => $this->getSirvImageService($options),
 			ImgixImageService::getIdentifier() => $this->getImgixImageService($options),
+			CloudinaryImageService::getIdentifier() => $this->getCloudinaryImageService($options),
 		};
 	}
 
@@ -187,6 +190,27 @@ class ImageServiceFactory
 			$options['api_endpoint'],
 			$source,
 			$options['signature'] ? $options['signature_key'] : null,
+		);
+	}
+
+	private function getCloudinaryImageService(array $options): CloudinaryImageService
+	{
+		$source = match ($options['delivery_mode']) {
+			CloudinaryFetchSource::IDENTIFIER => (static function () use ($options): CloudinaryFetchSource {
+				return new CloudinaryFetchSource(
+					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+				);
+			})(),
+			CloudinaryUploadSource::IDENTIFIER => (static function (): CloudinaryUploadSource {
+				return new CloudinaryUploadSource();
+			})(),
+		};
+
+		return new CloudinaryImageService(
+			$options['api_endpoint'],
+			$source,
+			$options['signature'] ? $options['signature_key'] : null,
+			$options['signature'] ? $options['signature_algorithm'] : null,
 		);
 	}
 }

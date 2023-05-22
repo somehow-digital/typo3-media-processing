@@ -129,6 +129,25 @@
 			<trans-unit id="integration.imgix.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
+
+			<trans-unit id="integration.cloudinary.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudinary.delivery_mode">
+				<source>Delivery Mode</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudinary.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudinary.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudinary.signature_algorithm">
+				<source>URL Signature Algorithm</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudinary.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

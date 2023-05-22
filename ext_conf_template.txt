@@ -1,5 +1,5 @@
 common {
-	# cat=Common; type=options[ImgProxy=imgproxy, imagor=imagor, Thumbor=thumbor, optimole.com=optimole, bunny.net=bunny, cloudflare.com=cloudflare, imagekit.io=imagekit, sirv.com=sirv, imgix.com=imgix]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:common.integration
+	# cat=Common; type=options[ImgProxy=imgproxy, imagor=imagor, Thumbor=thumbor, optimole.com=optimole, bunny.net=bunny, cloudflare.com=cloudflare, imagekit.io=imagekit, sirv.com=sirv, imgix.com=imgix, cloudinary.com=cloudinary]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:common.integration
 	integration =
 
 	# cat=Common; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:common.backend
@@ -133,6 +133,26 @@ integration {
 		signature = 0
 
 		# cat=imgix.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.signature_key
+		signature_key =
+	}
+
+	cloudinary {
+		# cat=cloudinary.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.api_endpoint
+		api_endpoint =
+
+		# cat=cloudinary.com; type=options[Fetch=fetch, Upload=upload]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.delivery_mode
+		delivery_mode = fetch
+
+		# cat=cloudinary.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.source_uri
+		source_uri =
+
+		# cat=cloudinary.com; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature
+		signature = 0
+
+		# cat=cloudinary.com; type=options[SHA1=sha1, SHA256=sha256]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature_algorithm
+		signature_algorithm = sha1
+
+		# cat=cloudinary.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature_key
 		signature_key =
 	}
 }
