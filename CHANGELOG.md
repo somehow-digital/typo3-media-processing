@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.3.0]
+
 * Add integration for [**imgix.com** `service`](https://imgix.com/).
 * Add integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * Add integration for [**cloudimage.io** `service`](https://cloudimage.io/).
@@ -27,6 +29,7 @@
 * Add integration for [**imagekit.io** `service`](https://imagekit.io/).
 * Add backend toolbar action and CLI command for processed media invalidation.
 
-[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.2.0...HEAD
+[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.3.0...HEAD
+[0.3.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/somehow-digital/typo3-media-processing/releases/tag/v0.1.0
