@@ -3,8 +3,7 @@
 `Media Processing` for TYPO3 integrates various image processing
 libraries and SaaS cloud services into TYPO3 by leveraging their APIs to
 process images. This  basically replaces the need for local image processing
-libraries like `ImageMagick` for image processing operations like resizing,
-cropping, rotating, etc.
+libraries like `ImageMagick` for image processing operations.
 
 Currently, all integrations support `resize` and `crop` operations for images.
 
@@ -51,7 +50,7 @@ images instead of using the local image processing library.
 Extension configuration is located in the TYPO3 backend under
 `Admin Tools → Settings → Extension Configuration`.
 
-`common`
+**common** `common`
 
 | option      | type    | description                                      | default |
 |-------------|---------|--------------------------------------------------|---------|
@@ -59,7 +58,7 @@ Extension configuration is located in the TYPO3 backend under
 | backend     | bool    | Enable image processing in the backend.          | `true`  |
 | frontend    | bool    | Enable image processing in the frontend.         | `true`  |
 
-`integration.imgproxy` **imgproxy** 
+**imgproxy** `integration.imgproxy`
 
 | option         | type    | description                                 | default |
 |----------------|---------|---------------------------------------------|---------|
@@ -76,7 +75,7 @@ Extension configuration is located in the TYPO3 backend under
 See also the official [`imgproxy` documentation](https://docs.imgproxy.net/)
 for more information.
 
-`integration.imagor` **imagor**
+**imagor** `integration.imagor`
 
 | option              | type    | description                                    | default |
 |---------------------|---------|------------------------------------------------|---------|
@@ -91,7 +90,7 @@ for more information.
 See also the official [`imagor` documentation](https://github.com/cshum/imagor)
 for more information.
 
-`integration.thumbor` **thumbor**
+**thumbor** `integration.thumbor`
 
 | option              | type    | description                                     | default |
 |---------------------|---------|-------------------------------------------------|---------|
@@ -106,7 +105,7 @@ for more information.
 See also the official [`thumbor` documentation](https://thumbor.readthedocs.io/)
 for more information.
 
-`integration.optimole` **optimole.com**
+**optimole.com** `integration.optimole`
 
 | option     | type   | description                                 | default |
 |------------|--------|---------------------------------------------|---------|
@@ -116,7 +115,7 @@ for more information.
 See also the official [`optimole` documentation](https://docs.optimole.com/)
 for more information.
 
-`integration.bunny` **bunny.net**
+**bunny.net** `integration.bunny`
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -126,7 +125,7 @@ for more information.
 See also the official [`bunny.net` documentation](https://docs.bunny.net/docs/)
 for more information.
 
-`integration.cloudflare` **cloudflare.com**
+**cloudflare.com** `integration.cloudflare`
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -136,7 +135,7 @@ for more information.
 See also the official [`cloudflare` documentation](https://developers.cloudflare.com/images/image-resizing/)
 for more information.
 
-`integration.imagekit` **imagekit.io** 
+**imagekit.io** `integration.imagekit`
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -146,7 +145,7 @@ for more information.
 See also the official [`imagekit` documentation](https://docs.imagekit.io/)
 for more information.
 
-`integration.sirv` **sirv.com**
+**sirv.com** `integration.sirv`
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -156,7 +155,7 @@ for more information.
 See also the official [`sirv.com` documentation](https://sirv.com/help/articles/dynamic-imaging/)
 for more information.
 
-`integration.imgix` **imgix.com**
+**imgix.com** `integration.imgix`
 
 | option        | type    | description                                 | default |
 |---------------|---------|---------------------------------------------|---------|
@@ -169,7 +168,7 @@ for more information.
 See also the official [`imgix.com` documentation](https://docs.imgix.com/)
 for more information.
 
-`integration.cloudinary` **cloudinary.com**
+**cloudinary.com** `integration.cloudinary`
 
 | option              | type    | description                                        | default |
 |---------------------|---------|----------------------------------------------------|---------|
@@ -183,7 +182,7 @@ for more information.
 See also the official [`cloudinary.com` documentation](https://cloudinary.com/documentation/)
 for more information.
 
-`integration.cloudimage` **cloudimage.io**
+**cloudimage.io** `integration.cloudimage`
 
 | option              | type    | description                                        | default |
 |---------------------|---------|----------------------------------------------------|---------|
@@ -195,7 +194,7 @@ for more information.
 See also the official [`cloudimage.io` documentation](https://docs.cloudimage.io/)
 for more information.
 
-## 🪄 Usage
+## Usage 🪄
 
 ### Backend
 
