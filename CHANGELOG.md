@@ -4,6 +4,7 @@
 
 * Add integration for [**imgix.com** `service`](https://imgix.com/).
 * Add integration for [**cloudinary.com** `service`](https://cloudinary.com/).
+* Add integration for [**cloudimage.io** `service`](https://cloudimage.io/).
 
 ## [0.2.0]
 

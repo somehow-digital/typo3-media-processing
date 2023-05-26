@@ -148,6 +148,19 @@
 			<trans-unit id="integration.cloudinary.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
+
+			<trans-unit id="integration.cloudimage.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudimage.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudimage.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.cloudimage.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

@@ -6,6 +6,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudImageUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryFetchSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUploadSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
@@ -47,6 +48,7 @@ class ImageServiceFactory
 			SirvImageService::getIdentifier() => $this->getSirvImageService($options),
 			ImgixImageService::getIdentifier() => $this->getImgixImageService($options),
 			CloudinaryImageService::getIdentifier() => $this->getCloudinaryImageService($options),
+			CloudImageImageService::getIdentifier() => $this->getCloudImageImageService($options),
 		};
 	}
 
@@ -211,6 +213,19 @@ class ImageServiceFactory
 			$source,
 			$options['signature'] ? $options['signature_key'] : null,
 			$options['signature'] ? $options['signature_algorithm'] : null,
+		);
+	}
+
+	private function getCloudImageImageService(array $options): CloudImageImageService
+	{
+		$source = new CloudImageUriSource(
+			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+		);
+
+		return new CloudImageImageService(
+			$options['api_endpoint'],
+			$source,
+			$options['signature'] ? $options['signature_key'] : null,
 		);
 	}
 }
