@@ -115,6 +115,12 @@ integration {
 
 		# cat=imagekit.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.source_uri
 		source_uri =
+
+		# cat=imagekit.io; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.signature
+		signature = 0
+
+		# cat=imagekit.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.signature_key
+		signature_key =
 	}
 
 	sirv {

@@ -112,6 +112,12 @@
 			<trans-unit id="integration.imagekit.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
+			<trans-unit id="integration.imagekit.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.imagekit.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
 
 			<trans-unit id="integration.sirv.api_endpoint">
 				<source>API Endpoint URL</source>

@@ -162,6 +162,7 @@ class ImageServiceFactory
 		return new ImageKitImageService(
 			$options['api_endpoint'],
 			$source,
+			$options['signature'] ? $options['signature_key'] : null,
 		);
 	}
 

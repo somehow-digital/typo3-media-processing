@@ -6,6 +6,10 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
 class ImageKitUri implements UriInterface
 {
+	public const SIGNATURE_ALGORITHM = 'sha1';
+
+	public const SIGNATURE_EXPIRATION = 31536000;
+
 	private ?string $source = null;
 
 	private ?string $mode = null;
@@ -18,6 +22,7 @@ class ImageKitUri implements UriInterface
 
 	public function __construct(
 		private readonly ?string $endpoint,
+		private readonly ?string $key,
 	) {
 	}
 
@@ -100,6 +105,13 @@ class ImageKitUri implements UriInterface
 	{
 		$path = $this->buildPath();
 
+		if ($this->key) {
+			$timestamp = time() + static::SIGNATURE_EXPIRATION;
+			$signature = $this->calculateSignature($path, $timestamp);
+
+			$path .= '?ik-t=' . $timestamp . '&ik-s=' . $signature;
+		}
+
 		return strtr('%endpoint%/%path%', [
 			'%endpoint%' => trim($this->endpoint, '/'),
 			'%path%' => $path,
@@ -136,5 +148,10 @@ class ImageKitUri implements UriInterface
 			'%options%' => $options,
 			'%source%' => $this->getSource(),
 		]);
+	}
+
+	private function calculateSignature(string $path, int $timestamp): string
+	{
+		return hash_hmac(static::SIGNATURE_ALGORITHM, $path . $timestamp, $this->key);
 	}
 }
