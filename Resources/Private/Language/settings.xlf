@@ -6,6 +6,9 @@
 			<trans-unit id="common.integration">
 				<source>Integration</source>
 			</trans-unit>
+			<trans-unit id="common.storage">
+				<source>Store processed files</source>
+			</trans-unit>
 			<trans-unit id="common.backend">
 				<source>Enable in Backend</source>
 			</trans-unit>

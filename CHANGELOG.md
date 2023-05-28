@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Add setting to store processed files for compatibility with various extensions.
+
 ## [0.3.0]
 
 * Add integration for [**imgix.com** `service`](https://imgix.com/).

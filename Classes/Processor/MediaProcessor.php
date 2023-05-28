@@ -9,6 +9,7 @@ use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\Processing\ProcessorInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MediaProcessor implements ProcessorInterface
 {
@@ -53,7 +54,24 @@ class MediaProcessor implements ProcessorInterface
 				'processing_url' => (string) $result->getUri(),
 			]);
 
+			if ($this->configuration['common']['storage']) {
+				$this->storeFile($task, $result);
+			}
+
 			$task->setExecuted(true);
 		}
+	}
+
+	private function storeFile(TaskInterface $task, $result): void
+	{
+		$uri = (string) $result->getUri();
+		$path = GeneralUtility::tempnam(sha1($uri));
+
+		$contents = file_get_contents($uri);
+		file_put_contents($path, $contents);
+
+		$task->getTargetFile()->updateWithLocalFile($path);
+
+		GeneralUtility::unlink_tempfile($path);
 	}
 }

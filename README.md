@@ -55,6 +55,7 @@ Extension configuration is located in the TYPO3 backend under
 | option      | type    | description                                      | default |
 |-------------|---------|--------------------------------------------------|---------|
 | integration | options | Service integration to use for image processing. | `null`  |
+| storage     | bool    | Enable local storage of processed files.         | `false` |
 | backend     | bool    | Enable image processing in the backend.          | `true`  |
 | frontend    | bool    | Enable image processing in the frontend.         | `true`  |
 
