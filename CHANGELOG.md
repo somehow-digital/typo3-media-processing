@@ -2,11 +2,23 @@
 
 ## [Unreleased]
 
+### Added
+
+* Add URL signing functionality for the imagekit.io integration.
+
+### Fixed
+
+* Fix URL building for the imagekit.io integration.
+
 ## [0.3.1]
+
+### Added
 
 * Add setting to store processed files for compatibility with various extensions.
 
 ## [0.3.0]
+
+### Added
 
 * Add integration for [**imgix.com** `service`](https://imgix.com/).
 * Add integration for [**cloudinary.com** `service`](https://cloudinary.com/).
