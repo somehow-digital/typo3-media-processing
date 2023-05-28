@@ -59,7 +59,7 @@ class ImageKitImageService extends ImageServiceAbstract
 		$uri = new ImageKitUri($this->getEndpoint());
 		$uri->setSource($this->source->getSource($file));
 
-		$crop = (static function ($configuration) {
+		$mode = (static function ($configuration) {
 			switch (true) {
 				default:
 					return 'force';
@@ -76,10 +76,12 @@ class ImageKitImageService extends ImageServiceAbstract
 			}
 		})($configuration);
 
-		$uri->setCrop($crop);
+		$uri->setMode($mode);
 
 		if (isset($configuration['crop'])) {
-			$uri->setOffset(
+			$uri->setCrop(
+				(int) $configuration['crop']->getWidth(),
+				(int) $configuration['crop']->getHeight(),
 				(int) $configuration['crop']->getOffsetLeft(),
 				(int) $configuration['crop']->getOffsetTop(),
 			);

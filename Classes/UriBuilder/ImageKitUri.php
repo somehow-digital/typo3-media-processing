@@ -8,13 +8,13 @@ class ImageKitUri implements UriInterface
 {
 	private ?string $source = null;
 
-	private ?string $crop = null;
+	private ?string $mode = null;
 
 	private ?int $width = null;
 
 	private ?int $height = null;
 
-	private ?array $offset = null;
+	private ?array $crop = null;
 
 	public function __construct(
 		private readonly ?string $endpoint,
@@ -43,16 +43,16 @@ class ImageKitUri implements UriInterface
 		return $this->source;
 	}
 
-	public function setCrop(string $crop): self
+	public function setMode(string $mode): self
 	{
-		$this->crop = $crop;
+		$this->mode = $mode;
 
 		return $this;
 	}
 
-	public function getCrop(): ?string
+	public function getMode(): ?string
 	{
-		return $this->crop;
+		return $this->mode;
 	}
 
 	public function setWidth(int $width): self
@@ -79,16 +79,21 @@ class ImageKitUri implements UriInterface
 		return $this->height;
 	}
 
-	public function setOffset(int $horizontal, int $vertical): self
+	public function setCrop(int $width = 0, int $height = 0, int $horizontal = 0, $vertical = 0): self
 	{
-		$this->offset = [$horizontal, $vertical];
+		$this->crop = [
+			max(0, $width),
+			max(0, $height),
+			max(0, $horizontal),
+			max(0, $vertical),
+		];
 
 		return $this;
 	}
 
-	public function getOffset(): ?array
+	public function getCrop(): ?array
 	{
-		return $this->offset;
+		return $this->crop;
 	}
 
 	private function build(): string
@@ -103,23 +108,31 @@ class ImageKitUri implements UriInterface
 
 	private function buildPath(): string
 	{
-		$parameters = array_filter([
-			'c' => $this->getCrop(),
-			'w' => $this->getWidth(),
-			'h' => $this->getHeight(),
-			'xc' => $this->getOffset()[0] ?? null,
-			'yc' => $this->getOffset()[1] ?? null,
-			'cm' => $this->getOffset() ? 'extract' : null,
-		]);
+		$parameters = [
+			[
+				'cm' => 'extract',
+				'w' => $this->getCrop()[0] ?? 0,
+				'h' => $this->getCrop()[1] ?? 0,
+				'x' => $this->getCrop()[2] ?? 0,
+				'y' => $this->getCrop()[3] ?? 0,
+			],
+			[
+				'c' => $this->getMode(),
+				'w' => $this->getWidth(),
+				'h' => $this->getHeight(),
+			],
+		];
 
-		$options = implode(',', array_map(static function ($name, $value) {
-			return strtr('%name%-%value%', [
-				'%name%' => $name,
-				'%value%' => $value,
-			]);
-		}, array_keys($parameters), $parameters));
+		$options = implode(':', array_map(static function ($parameter) {
+			return implode(',', array_map(static function ($name, $value) {
+				return strtr('%name%-%value%', [
+					'%name%' => $name,
+					'%value%' => $value,
+				]);
+			}, array_keys($parameter), $parameter));
+		}, array_filter($parameters)));
 
-		return strtr('%options%/%source%', [
+		return strtr('tr:%options%/%source%', [
 			'%options%' => $options,
 			'%source%' => $this->getSource(),
 		]);
