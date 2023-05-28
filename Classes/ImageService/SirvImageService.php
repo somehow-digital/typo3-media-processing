@@ -79,8 +79,8 @@ class SirvImageService extends ImageServiceAbstract
 
 		$uri->setScale($scale);
 
-		$width = (int) ($configuration['width'] ?? $configuration['maxWidth']);
-		$height = (int) ($configuration['height'] ?? $configuration['maxHeight']);
+		$width = (int) ($configuration['width'] ?? $configuration['maxWidth'] ?? null);
+		$height = (int) ($configuration['height'] ?? $configuration['maxHeight'] ?? null);
 
 		$uri->setWidth($width);
 		$uri->setHeight($height);

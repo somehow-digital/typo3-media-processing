@@ -89,8 +89,13 @@ class ImgixImageService extends ImageServiceAbstract
 
 		$uri->setFit($fit);
 
-		$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
-		$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
+			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+		}
+
+		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
+			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+		}
 
 		if (isset($configuration['crop'])) {
 			$uri->setRect(
