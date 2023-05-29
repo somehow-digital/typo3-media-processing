@@ -25,14 +25,17 @@ Currently, all integrations support `resize` and `crop` operations for images.
 
 **Composer Mode**
 
+Install the [`somehow-digital/typo3-media-processing`](https://packagist.org/packages/somehow-digital/typo3-media-processing) 
+package from the `Composer Package Repository`.
+
 ```bash
 composer require somehow-digital/typo3-media-processing
 ```
 
 **Legacy Mode**
 
-Download and install the `media_processing` extension from the
-[TYPO3 TER](https://extensions.typo3.org/extension/media_processing/).
+Install the [`media_processing`](https://extensions.typo3.org/extension/media_processing/)
+extension from the `TYPO3 Extension Repository`.
 
 ### Requirements
 
