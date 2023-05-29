@@ -138,12 +138,14 @@ for more information.
 
 **imagekit.io** `integration.imagekit`
 
-| option       | type   | description                                 | default |
-|--------------|--------|---------------------------------------------|---------|
-| api_endpoint | string | The API endpoint of the imagekit service.   | `null`  |
-| source_uri   | string | The origin host URL where files are stored. | `null`  |
+| option        | type   | description                                 | default |
+|---------------|--------|---------------------------------------------|---------|
+| api_endpoint  | string | The API endpoint of the imagekit service.   | `null`  |
+| source_uri    | string | The origin host URL where files are stored. | `null`  |
+| signature     | bool   | Enable signature of the imagekit service.   | `false` |
+| signature_key | string | The signature key of the imagekit service.  | `null`  |
 
-See also the official [`imagekit` documentation](https://docs.imagekit.io/)
+See also the official [`imagekit.io` documentation](https://docs.imagekit.io/)
 for more information.
 
 **sirv.com** `integration.sirv`
