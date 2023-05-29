@@ -123,8 +123,8 @@ class CloudflareUri implements UriInterface
 		}, array_keys($parameters), $parameters));
 
 		return strtr('%options%/%source%', [
+			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
-			'%source%' => $this->getSource(),
 		]);
 	}
 }

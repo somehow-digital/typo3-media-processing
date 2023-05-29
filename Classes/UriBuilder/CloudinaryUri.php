@@ -153,8 +153,8 @@ class CloudinaryUri implements UriInterface
 		}, $parameters));
 
 		return strtr('%options%/%source%', [
+			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
-			'%source%' => $this->getSource(),
 		]);
 	}
 

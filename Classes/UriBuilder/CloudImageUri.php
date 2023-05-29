@@ -135,7 +135,7 @@ class CloudImageUri implements UriInterface
 		}, array_keys($parameters), $parameters));
 
 		return strtr('%source%?%options%', [
-			'%source%' => $this->getSource(),
+			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
 		]);
 	}

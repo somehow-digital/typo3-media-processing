@@ -145,8 +145,8 @@ class ImageKitUri implements UriInterface
 		}, array_filter($parameters)));
 
 		return strtr('tr:%options%/%source%', [
+			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
-			'%source%' => $this->getSource(),
 		]);
 	}
 

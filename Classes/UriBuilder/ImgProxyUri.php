@@ -227,9 +227,9 @@ class ImgProxyUri implements UriInterface
 			: static::ENCRYPTION_PLAIN;
 
 		return strtr('%options%/%prefix%/%source%', [
-			'%options%' => $options,
+			'%source%' => trim($source, '/'),
 			'%prefix%' => $prefix,
-			'%source%' => $source,
+			'%options%' => $options,
 		]);
 	}
 

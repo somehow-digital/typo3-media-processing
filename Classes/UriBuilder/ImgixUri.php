@@ -160,7 +160,7 @@ class ImgixUri implements UriInterface
 		}, array_keys($parameters), $parameters));
 
 		return strtr('%source%?%options%', [
-			'%source%' => rawurlencode($this->getSource()),
+			'%source%' => rawurlencode(trim($this->getSource(), '/')),
 			'%options%' => $options,
 		]);
 	}

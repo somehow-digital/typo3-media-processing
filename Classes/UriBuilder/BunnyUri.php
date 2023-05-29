@@ -108,8 +108,8 @@ class BunnyUri implements UriInterface
 		}, array_keys($parameters), $parameters));
 
 		return strtr('%source%?%options%', [
+			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
-			'%source%' => $this->getSource(),
 		]);
 	}
 }
