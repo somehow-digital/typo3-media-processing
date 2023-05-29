@@ -121,18 +121,18 @@ class ImageKitUri implements UriInterface
 	private function buildPath(): string
 	{
 		$parameters = [
-			[
+			array_filter([
 				'cm' => 'extract',
 				'w' => $this->getCrop()[0] ?? 0,
 				'h' => $this->getCrop()[1] ?? 0,
 				'x' => $this->getCrop()[2] ?? 0,
 				'y' => $this->getCrop()[3] ?? 0,
-			],
-			[
+			]),
+			array_filter([
 				'c' => $this->getMode(),
 				'w' => $this->getWidth(),
 				'h' => $this->getHeight(),
-			],
+			]),
 		];
 
 		$options = implode(':', array_map(static function ($parameter) {

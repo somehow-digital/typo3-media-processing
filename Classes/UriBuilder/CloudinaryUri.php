@@ -129,18 +129,18 @@ class CloudinaryUri implements UriInterface
 	private function buildPath(): string
 	{
 		$parameters = array_filter([
-			$this->getCrop() ? [
+			$this->getCrop() ? array_filter([
 				'c' => 'crop',
 				'x' => $this->getCrop()[0],
 				'y' => $this->getCrop()[1],
 				'w' => $this->getCrop()[2],
 				'h' => $this->getCrop()[3],
-			] : null,
-			$this->getMode() ? [
+			]): null,
+			$this->getMode() ? array_filter([
 				'c' => $this->getMode(),
 				'w' => $this->getWidth(),
 				'h' => $this->getHeight(),
-			] : null,
+			]) : null,
 		]);
 
 		$options = implode('/', array_map(static function ($parameter) {

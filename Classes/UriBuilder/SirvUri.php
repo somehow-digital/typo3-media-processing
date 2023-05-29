@@ -112,10 +112,10 @@ class SirvUri implements UriInterface
 			'scale.option' => $this->getScale(),
 			'w' => $this->getWidth(),
 			'h' => $this->getHeight(),
-			'cw' => $this->getCrop()[0] ?? null,
-			'ch' => $this->getCrop()[1] ?? null,
-			'cx' => $this->getCrop()[2] ?? null,
-			'cy' => $this->getCrop()[3] ?? null,
+			'cw' => $this->getCrop()[0] ?? 0,
+			'ch' => $this->getCrop()[1] ?? 0,
+			'cx' => $this->getCrop()[2] ?? 0,
+			'cy' => $this->getCrop()[3] ?? 0,
 		]);
 
 		$options = implode('&', array_map(static function ($name, $value) {
