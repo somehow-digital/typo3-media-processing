@@ -246,7 +246,9 @@ Version **2.0.0** 🏷️ `planning`
 * Integration for [**glide** `library`](https://glide.thephpleague.com/).
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
 * Integration for [**imageflow** `library`](https://www.imageflow.io/).
+* Integration for [**weserv** `library`](https://images.weserv.nl/).
 * Integration for [**fastly.com** `service`](https://fastly.com/).
+* Integration for [**shortpixel.com** `service`](https://shortpixel.com/).
 * Integrations per site.
 * Send HEAD requests to speed up image generation.
 
