@@ -12,6 +12,10 @@ services:
     resource: '../Classes/Processor/*'
     public: true
 
+  SomehowDigital\Typo3\MediaProcessing\Report\:
+    resource: '../Classes/Report/*'
+    public: true
+
   SomehowDigital\Typo3\MediaProcessing\EventListener\:
     resource: '../Classes/EventListener/*'
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext">
+		<header/>
+		<body>
+			<trans-unit id="label">
+				<source>Media Processing</source>
+			</trans-unit>
+			<trans-unit id="integration">
+				<source>Active Integration</source>
+			</trans-unit>
+			<trans-unit id="configuration">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="frontend">
+				<source>Frontend Usage</source>
+			</trans-unit>
+			<trans-unit id="backend">
+				<source>Backend Usage</source>
+			</trans-unit>
+			<trans-unit id="storage">
+				<source>File Storage</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
