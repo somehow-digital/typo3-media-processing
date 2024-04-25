@@ -6,7 +6,9 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
+use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class ImgProxyImageService extends ImageServiceAbstract
@@ -122,6 +124,14 @@ class ImgProxyImageService extends ImageServiceAbstract
 					(int) $configuration['crop']->getOffsetTop(),
 				],
 			);
+		}
+
+		$focusArea = $configuration['focusArea'] ?? false;
+		if ($focusArea instanceof Area && !$focusArea->isEmpty()) {
+			$focusPointX = FocusAreaUtility::calculateCenter($focusArea->getOffsetLeft(), $focusArea->getWidth());
+			$focusPointY = FocusAreaUtility::calculateCenter($focusArea->getOffsetTop(), $focusArea->getHeight());
+
+			$uri->setGravity('fp', (float)$focusPointX, (float)$focusPointY);
 		}
 
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
