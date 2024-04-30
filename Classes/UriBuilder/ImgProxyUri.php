@@ -99,9 +99,9 @@ class ImgProxyUri implements UriInterface
 		return $this->type;
 	}
 
-	public function setGravity(string $type, ?int $horizontalOffset, ?int $verticalOffset): self
+	public function setGravity(string $type, ?float $horizontalOffset, ?float $verticalOffset): self
 	{
-		$this->gravity = array_filter([$type, $horizontalOffset, $verticalOffset]);
+		$this->gravity = [$type, $horizontalOffset, $verticalOffset];
 
 		return $this;
 	}
