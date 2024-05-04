@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Add focus area support for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
+
 ## [0.3.3]
 
 ### Fixed
