@@ -89,7 +89,7 @@ class OptimoleImageService extends ImageServiceAbstract
 				(int) $configuration['crop']->getWidth(),
 				(int) $configuration['crop']->getHeight(),
 				[
-					'nowe',
+					OptimoleUri::GRAVITY_TOP_LEFT,
 					(int) $configuration['crop']->getOffsetLeft(),
 					(int) $configuration['crop']->getOffsetTop(),
 				],

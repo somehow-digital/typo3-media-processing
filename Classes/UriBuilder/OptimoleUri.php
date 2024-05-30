@@ -8,6 +8,26 @@ class OptimoleUri implements UriInterface
 {
 	public const API_ENDPOINT_TEMPLATE = 'https://%key%.i.optimole.com/';
 
+	public const GRAVITY_TOP = 'no';
+
+	public const GRAVITY_LEFT = 'we';
+
+	public const GRAVITY_RIGHT = 'ea';
+
+	public const GRAVITY_BOTTOM = 'so';
+
+	public const GRAVITY_TOP_RIGHT = 'noea';
+
+	public const GRAVITY_TOP_LEFT = 'nowe';
+
+	public const GRAVITY_BOTTOM_RIGHT = 'soea';
+
+	public const GRAVITY_BOTTOM_LEFT = 'sowe';
+
+	public const GRAVITY_CENTER = 'ce';
+
+	public const GRAVITY_SMART = 'sm';
+
 	private ?string $source = null;
 
 	private ?string $type = null;
