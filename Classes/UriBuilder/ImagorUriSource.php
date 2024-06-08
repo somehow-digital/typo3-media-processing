@@ -4,17 +4,15 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
-use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\FileInterface;
-use TYPO3\CMS\Core\Utility\PathUtility;
 
 class ImagorUriSource implements UriSourceInterface
 {
 	public const IDENTIFIER = 'uri';
 
-	public function __construct(private readonly string $host)
-	{
-	}
+	public function __construct(
+		private readonly string $host,
+	) {}
 
 	public function getSource(FileInterface $file): string
 	{
@@ -23,24 +21,11 @@ class ImagorUriSource implements UriSourceInterface
 
 	private function build(FileInterface $source): string
 	{
-		$base = PathUtility::dirname(
-			Environment::getPublicPath() . '/' . $source->getPublicUrl(),
-		);
+		$path = parse_url($source->getPublicUrl(), PHP_URL_PATH);
 
-		$path = PathUtility::getRelativePath(
-			Environment::getPublicPath(),
-			$base,
-		);
-
-		$file = mb_substr(
-			Environment::getPublicPath() . '/' . $source->getPublicUrl(),
-			strlen($base) + 1,
-		);
-
-		return strtr('%host%/%path%/%file%', [
+		return strtr('%host%/%path%', [
 			'%host%' => trim($this->host, '/'),
 			'%path%' => trim($path, '/'),
-			'%file%' => trim($file, '/'),
 		]);
 	}
 }
