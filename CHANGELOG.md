@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Add integration for [**gumlet.com** `service`](https://www.gumlet.com/).
+
 ## [0.4.0]
 
 ### Added

@@ -170,6 +170,10 @@
 			<trans-unit id="integration.cloudimage.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
+
+			<trans-unit id="integration.gumlet.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

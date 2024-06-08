@@ -9,6 +9,7 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudImageUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryFetchSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUploadSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
@@ -49,6 +50,7 @@ class ImageServiceFactory
 			ImgixImageService::getIdentifier() => $this->getImgixImageService($options),
 			CloudinaryImageService::getIdentifier() => $this->getCloudinaryImageService($options),
 			CloudImageImageService::getIdentifier() => $this->getCloudImageImageService($options),
+			GumletImageService::getIdentifier() => $this->getGumletImageService($options),
 		};
 	}
 
@@ -227,6 +229,16 @@ class ImageServiceFactory
 			$options['api_endpoint'],
 			$source,
 			$options['signature'] ? $options['signature_key'] : null,
+		);
+	}
+
+	private function getGumletImageService(array $options): GumletImageService
+	{
+		$source = new GumletUriSource();
+
+		return new GumletImageService(
+			$options['api_endpoint'],
+			$source,
 		);
 	}
 }

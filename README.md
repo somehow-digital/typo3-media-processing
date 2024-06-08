@@ -20,6 +20,7 @@ Currently, all integrations support `resize` and `crop` operations for images.
 * [**imgix.com** `service`](https://imgix.com/)
 * [**cloudinary.com** `service`](https://cloudinary.com/)
 * [**cloudimage.io** `service`](https://cloudimage.io/)
+* [**gumlet.com** `service`](https://www.gumlet.com/)
 
 ## Installation 📦
 
@@ -200,6 +201,15 @@ for more information.
 See also the official [`cloudimage.io` documentation](https://docs.cloudimage.io/)
 for more information.
 
+**gumlet.com** `integration.gumlet`
+
+| option       | type   | description                               | default |
+|--------------|--------|-------------------------------------------|---------|
+| api_endpoint | string | The Gumlet URL of the gumlet.com service. | `null`  |
+
+See also the official [`gumlet.com` documentation](https://docs.gumlet.com/)
+for more information.
+
 ## Usage 🪄
 
 ### Backend
@@ -237,6 +247,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**imgix.com** `service`](https://imgix.com/).
 * ✅ Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * ✅ Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
+* ✅ Integration for [**gumlet.com** `service`](https://www.gumlet.com/).
 * ✅ Backend toolbar action and CLI command for processed media invalidation.
 * Release.
 
@@ -254,7 +265,6 @@ Version **2.0.0** 🏷️ `planning`
 
 Version **3.0.0** 🏷️ `researching`
 
-* Integration for [**gumlet.com** `service`](https://www.gumlet.com/). 
 * Integration for more image processing libraries/services.
 * Integration for video processing libraries/services.
 
