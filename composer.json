@@ -55,7 +55,7 @@
 		"typo3/cms-core": "^12.4 || dev-main"
 	},
 	"require-dev": {
-		"jetstreamlabs/pinte": "^1.0",
+		"johnbacon/stout": "^1.51",
 		"roave/security-advisories": "dev-latest"
 	},
 	"autoload": {
