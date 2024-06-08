@@ -8,7 +8,6 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
-use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class ImgProxyImageService extends ImageServiceAbstract

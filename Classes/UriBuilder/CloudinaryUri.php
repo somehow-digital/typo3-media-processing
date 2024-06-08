@@ -135,7 +135,7 @@ class CloudinaryUri implements UriInterface
 				'y' => $this->getCrop()[1],
 				'w' => $this->getCrop()[2],
 				'h' => $this->getCrop()[3],
-			]): null,
+			]) : null,
 			$this->getMode() ? array_filter([
 				'c' => $this->getMode(),
 				'w' => $this->getWidth(),

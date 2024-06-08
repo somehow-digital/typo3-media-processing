@@ -27,11 +27,13 @@ class ServiceStatus implements StatusProviderInterface
 		$this->translator = $GLOBALS['LANG'];
 	}
 
-	public function getLabel(): string {
+	public function getLabel(): string
+	{
 		return 'image_processing';
 	}
 
-	public function getStatus(): array {
+	public function getStatus(): array
+	{
 		$result = [
 			'integration' => $this->getIntegrationStatus(),
 		];

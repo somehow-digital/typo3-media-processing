@@ -12,7 +12,8 @@ class CloudinaryFetchSource implements UriSourceInterface
 
 	public function __construct(
 		private readonly string $host,
-	) {}
+	) {
+	}
 
 	public function getIdentifier(): string
 	{

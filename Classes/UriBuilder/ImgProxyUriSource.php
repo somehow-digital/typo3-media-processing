@@ -12,7 +12,8 @@ class ImgProxyUriSource implements UriSourceInterface
 
 	public function __construct(
 		private readonly string $host,
-	) {}
+	) {
+	}
 
 	public function getSource(FileInterface $file): string
 	{
