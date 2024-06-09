@@ -22,9 +22,9 @@ libraries like `ImageMagick` for image processing operations.
 | [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟡   |  🟢  |
 
-🟢 supported  
-🟡 unsupported  
-🔴 unavailable  
+🟢 supported and integrated  
+🟡 supported but not integrated  
+🔴 unsupported    
 
 ## Installation 📦
 
