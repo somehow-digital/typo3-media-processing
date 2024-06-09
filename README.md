@@ -12,7 +12,7 @@ libraries like `ImageMagick` for image processing operations.
 | [**imgproxy**](https://imgproxy.net/)                     |   🟢   |  🟢  |  🟢   |  🟢  |
 | [**imagor**](https://github.com/cshum/imagor)             |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**thumbor**](https://github.com/thumbor/thumbor)         |   🟢   |  🟢  |  🟡   |  🟢  |
-| [**optimole.com** ](https://optimole.com/)                |   🟢   |  🟢  |  🟡   |  🔴  |
+| [**optimole.com** ](https://optimole.com/)                |   🟢   |  🟢  |  🟢   |  🔴  |
 | [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🟡   |  🟡  |
 | [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟡   |  🟡  |
 | [**imagekit.io** ](https://imagekit.io/)                  |   🟢   |  🟢  |  🟡   |  🟢  |
