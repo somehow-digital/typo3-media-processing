@@ -5,22 +5,26 @@ libraries and SaaS cloud services into TYPO3 by leveraging their APIs to
 process images. This  basically replaces the need for local image processing
 libraries like `ImageMagick` for image processing operations.
 
-Currently, all integrations support `resize` and `crop` operations for images.
-
 **Integrations**
 
-* [**imgproxy** `library`](https://imgproxy.net/)
-* [**imagor** `library`](https://github.com/cshum/imagor)
-* [**thumbor** `library`](https://github.com/thumbor/thumbor)
-* [**optimole.com** `service`](https://optimole.com/)
-* [**bunny.net** `service`](https://bunny.net/)
-* [**cloudflare.com** `service`](https://developers.cloudflare.com/images/)
-* [**imagekit.io** `service`](https://imagekit.io/)
-* [**sirv.com** `service`](https://sirv.com/)
-* [**imgix.com** `service`](https://imgix.com/)
-* [**cloudinary.com** `service`](https://cloudinary.com/)
-* [**cloudimage.io** `service`](https://cloudimage.io/)
-* [**gumlet.com** `service`](https://www.gumlet.com/)
+| name                                                      | resize | crop | focus | sign |
+|:----------------------------------------------------------|:------:|:----:|:-----:|:----:|
+| [**imgproxy**](https://imgproxy.net/)                     |   🟢   |  🟢  |  🟢   |  🟢  |
+| [**imagor**](https://github.com/cshum/imagor)             |   🟢   |  🟢  |  🟡   |  🟢  |
+| [**thumbor**](https://github.com/thumbor/thumbor)         |   🟢   |  🟢  |  🟡   |  🟢  |
+| [**optimole.com** ](https://optimole.com/)                |   🟢   |  🟢  |  🟡   |  🔴  |
+| [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🟡   |  🟡  |
+| [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟡   |  🟡  |
+| [**imagekit.io** ](https://imagekit.io/)                  |   🟢   |  🟢  |  🟡   |  🟢  |
+| [**sirv.com** ](https://sirv.com/)                        |   🟢   |  🟢  |  🟡   |  🔴  |
+| [**imgix.com** ](https://imgix.com/)                      |   🟢   |  🟢  |  🟡   |  🔴  |
+| [**cloudinary.com** ](https://cloudinary.com/)            |   🟢   |  🟢  |  🟡   |  🟢  |
+| [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
+| [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟡   |  🟢  |
+
+🟢 supported  
+🟡 unsupported  
+🔴 unavailable  
 
 ## Installation 📦
 
@@ -237,7 +241,9 @@ processed files for the active media processing integration.
 Version **1.0.0** 🏷️ `developing`
 
 * ✅ Support for TYPO3 `12`.
-* ✅ Support `resizing` and `cropping` operations.
+* ✅ Support `resize` operations.
+* ✅ Support `crop` operations.
+* ✅ Backend toolbar action and CLI command for processed media invalidation.
 * ✅ Integration for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
 * ✅ Integration for [**imagor** `library`](https://github.com/cshum/imagor).
 * ✅ Integration for [**thumbor** `library`](https://github.com/thumbor/thumbor).
@@ -250,7 +256,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * ✅ Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
 * ✅ Integration for [**gumlet.com** `service`](https://www.gumlet.com/).
-* ✅ Backend toolbar action and CLI command for processed media invalidation.
+* Support `focusArea` operations.
 * Release.
 
 Version **2.0.0** 🏷️ `planning`
@@ -262,6 +268,7 @@ Version **2.0.0** 🏷️ `planning`
 * Integration for [**weserv** `library`](https://images.weserv.nl/).
 * Integration for [**fastly.com** `service`](https://fastly.com/).
 * Integration for [**shortpixel.com** `service`](https://shortpixel.com/).
+* Integration for [**imagify.io** `service`](https://imagify.io/).
 * Integrations per site.
 * Send HEAD requests to speed up image generation.
 
