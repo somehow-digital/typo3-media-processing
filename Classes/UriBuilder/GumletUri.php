@@ -6,6 +6,8 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
 class GumletUri implements UriInterface
 {
+	public const SIGNATURE_ALGORITHM = 'md5';
+
 	private ?string $source = null;
 
 	private ?int $width = null;
@@ -15,7 +17,8 @@ class GumletUri implements UriInterface
 	private ?array $crop = null;
 
 	public function __construct(
-		private readonly ?string $endpoint,
+		private readonly string $endpoint,
+		private readonly ?string $key,
 	) {
 	}
 
@@ -27,6 +30,16 @@ class GumletUri implements UriInterface
 	public function __toString(): string
 	{
 		return $this->build();
+	}
+
+	public function getEndpoint(): string
+	{
+		return $this->endpoint;
+	}
+
+	public function getKey(): string
+	{
+		return $this->key;
 	}
 
 	public function setSource(string $source): self
@@ -86,9 +99,14 @@ class GumletUri implements UriInterface
 	{
 		$path = $this->buildPath();
 
-		return strtr('%endpoint%/%path%', [
-			'%endpoint%' => trim($this->endpoint, '/'),
-			'%path%' => $path,
+		$signature = $this->getKey()
+			? $this->calculateSignature($path)
+			: null;
+
+		return strtr($signature ? '%endpoint%/%path%&s=%signature%' : '%endpoint%/%path%', [
+			'%endpoint%' => trim($this->getEndpoint(), '/'),
+			'%path%' => trim($path, '/'),
+			'%signature%' => $signature,
 		]);
 	}
 
@@ -111,5 +129,15 @@ class GumletUri implements UriInterface
 			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
 		]);
+	}
+
+	private function calculateSignature(string $path): string
+	{
+		$data = strtr('%key%/%path%', [
+			'%key%' => $this->getKey(),
+			'%path%' => $path,
+		]);
+
+		return base64_encode(hash(static::SIGNATURE_ALGORITHM, $data, true));
 	}
 }

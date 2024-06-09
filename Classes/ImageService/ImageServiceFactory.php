@@ -239,6 +239,7 @@ class ImageServiceFactory
 		return new GumletImageService(
 			$options['api_endpoint'],
 			$source,
+			$options['signature'] ? $options['signature_key'] : null,
 		);
 	}
 }

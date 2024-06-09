@@ -182,5 +182,11 @@ integration {
 	gumlet {
 		# cat=gumlet.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.api_endpoint
 		api_endpoint =
+
+		# cat=gumlet.com; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature
+		signature = 0
+
+		# cat=gumlet.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature_key
+		signature_key =
 	}
 }

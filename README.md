@@ -203,9 +203,11 @@ for more information.
 
 **gumlet.com** `integration.gumlet`
 
-| option       | type   | description                               | default |
-|--------------|--------|-------------------------------------------|---------|
-| api_endpoint | string | The Gumlet URL of the gumlet.com service. | `null`  |
+| option        | type   | description                                  | default |
+|---------------|--------|----------------------------------------------|---------|
+| api_endpoint  | string | The Gumlet URL of the gumlet.com service.    | `null`  |
+| signature     | bool   | Enable signature of the gumlet.com service.  | `false` |
+| signature_key | string | The signature key of the gumlet.com service. | `null`  |
 
 See also the official [`gumlet.com` documentation](https://docs.gumlet.com/)
 for more information.

@@ -19,12 +19,18 @@ class GumletImageService extends ImageServiceAbstract
 	public function __construct(
 		protected readonly string $endpoint,
 		protected readonly UriSourceInterface $source,
+		protected readonly ?string $key,
 	) {
 	}
 
 	public function getEndpoint(): string
 	{
 		return $this->endpoint;
+	}
+
+	public function getKey(): ?string
+	{
+		return $this->key;
 	}
 
 	public function hasConfiguration(): bool
@@ -60,7 +66,11 @@ class GumletImageService extends ImageServiceAbstract
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new GumletUri($this->getEndpoint());
+		$uri = new GumletUri(
+			$this->getEndpoint(),
+			$this->getKey(),
+		);
+
 		$uri->setSource($this->source->getSource($file));
 
 		if (isset($configuration['crop'])) {
