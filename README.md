@@ -13,8 +13,8 @@ libraries like `ImageMagick` for image processing operations.
 | [**imagor**](https://github.com/cshum/imagor)             |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**thumbor**](https://github.com/thumbor/thumbor)         |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**optimole.com** ](https://optimole.com/)                |   🟢   |  🟢  |  🟢   |  🔴  |
-| [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🟡   |  🟡  |
-| [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟡   |  🟡  |
+| [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🔴   |  🟡  |
+| [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟢   |  🟡  |
 | [**imagekit.io** ](https://imagekit.io/)                  |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**sirv.com** ](https://sirv.com/)                        |   🟢   |  🟢  |  🟡   |  🔴  |
 | [**imgix.com** ](https://imgix.com/)                      |   🟢   |  🟢  |  🟡   |  🔴  |

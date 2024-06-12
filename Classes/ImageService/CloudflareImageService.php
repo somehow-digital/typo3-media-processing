@@ -6,6 +6,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -75,6 +76,20 @@ class CloudflareImageService extends ImageServiceAbstract
 				(int) ($file->getProperty('height') - $configuration['crop']->getHeight() - $configuration['crop']->getOffsetTop()),
 				(int) $configuration['crop']->getOffsetLeft(),
 			);
+		}
+
+		if (isset($configuration['focusArea']) && !$configuration['focusArea']->isEmpty()) {
+			$horizontalOffset = FocusAreaUtility::calculateCenter(
+				$configuration['focusArea']->getOffsetLeft(),
+				$configuration['focusArea']->getWidth(),
+			);
+
+			$verticalOffset = FocusAreaUtility::calculateCenter(
+				$configuration['focusArea']->getOffsetTop(),
+				$configuration['focusArea']->getHeight(),
+			);
+
+			$uri->setGravity($horizontalOffset, $verticalOffset);
 		}
 
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {

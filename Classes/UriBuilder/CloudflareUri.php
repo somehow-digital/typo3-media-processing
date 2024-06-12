@@ -16,6 +16,8 @@ class CloudflareUri implements UriInterface
 
 	private ?array $trim = null;
 
+	private ?array $gravity = null;
+
 	public function __construct(
 		private readonly ?string $endpoint,
 	) {
@@ -96,6 +98,18 @@ class CloudflareUri implements UriInterface
 		return $this->trim;
 	}
 
+	public function getGravity(): ?array
+	{
+		return $this->gravity;
+	}
+
+	public function setGravity(float $horizontalOffset, float $verticalOffset): self
+	{
+		$this->gravity = [$horizontalOffset, $verticalOffset];
+
+		return $this;
+	}
+
 	private function build(): string
 	{
 		$path = $this->buildPath();
@@ -113,6 +127,7 @@ class CloudflareUri implements UriInterface
 			'width' => $this->getWidth(),
 			'height' => $this->getHeight(),
 			'trim' => $this->getTrim() ? implode(';', $this->getTrim()) : null,
+			'gravity' => $this->getGravity() ? implode('x', $this->getGravity()) : null,
 		]);
 
 		$options = implode(',', array_map(static function ($name, $value) {
