@@ -37,7 +37,7 @@ class GumletUri implements UriInterface
 		return $this->endpoint;
 	}
 
-	public function getKey(): string
+	public function getKey(): ?string
 	{
 		return $this->key;
 	}
