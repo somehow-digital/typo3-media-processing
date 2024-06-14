@@ -5,6 +5,12 @@
 ### Added
 
 * Add integration for [**gumlet.com** `service`](https://www.gumlet.com/).
+* Add support for `gravity` parameter for `cloudflare.com` integration.
+
+### Fixed
+
+* Fix URL building when `config.absRefPrefix` is set.
+* Fix composer configuration regarding supported PHP versions.
 
 ## [0.4.0]
 
