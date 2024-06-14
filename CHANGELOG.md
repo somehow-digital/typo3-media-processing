@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+* Add support for `gravity` parameter for `gumlet.com` integration.
+
 ## [0.5.0]
 
 ### Added

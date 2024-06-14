@@ -16,6 +16,8 @@ class GumletUri implements UriInterface
 
 	private ?array $crop = null;
 
+	private ?array $gravity = null;
+
 	public function __construct(
 		private readonly string $endpoint,
 		private readonly ?string $key,
@@ -95,6 +97,18 @@ class GumletUri implements UriInterface
 		return $this->crop;
 	}
 
+	public function getGravity(): ?array
+	{
+		return $this->gravity;
+	}
+
+	public function setGravity(float $horizontalOffset, float $verticalOffset): self
+	{
+		$this->gravity = [$horizontalOffset, $verticalOffset];
+
+		return $this;
+	}
+
 	private function build(): string
 	{
 		$path = $this->buildPath();
@@ -113,9 +127,13 @@ class GumletUri implements UriInterface
 	private function buildPath(): string
 	{
 		$parameters = array_filter([
+			'extract' => $this->getCrop() && !$this->getGravity() ? implode(',', $this->getCrop()) : null,
+			'mode' => $this->getGravity() ? 'crop' : null,
+			'crop' =>  $this->getGravity() ? 'focalpoint' : null,
+			'fp-x' => $this->getGravity() ? $this->getGravity()[0] : null,
+			'fp-y' => $this->getGravity() ? $this->getGravity()[1] : null,
 			'w' => $this->getWidth(),
 			'h' => $this->getHeight(),
-			'extract' => $this->getCrop() ? implode(',', $this->getCrop()) : null,
 		]);
 
 		$options = implode('&', array_map(static function ($name, $value) {

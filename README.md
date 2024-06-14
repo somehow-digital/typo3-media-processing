@@ -20,7 +20,7 @@ libraries like `ImageMagick` for image processing operations.
 | [**imgix.com** ](https://imgix.com/)                      |   🟢   |  🟢  |  🟡   |  🔴  |
 | [**cloudinary.com** ](https://cloudinary.com/)            |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
-| [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟡   |  🟢  |
+| [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟢   |  🟢  |
 
 🟢 supported and integrated  
 🟡 supported but not integrated  
