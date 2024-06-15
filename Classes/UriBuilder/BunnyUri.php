@@ -6,6 +6,10 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
 class BunnyUri implements UriInterface
 {
+	public const SIGNATURE_ALGORITHM = 'sha256';
+
+	public const SIGNATURE_EXPIRATION = 31536000;
+
 	private ?string $source = null;
 
 	private ?int $width = null;
@@ -16,6 +20,7 @@ class BunnyUri implements UriInterface
 
 	public function __construct(
 		private readonly ?string $endpoint,
+		private readonly ?string $key,
 	) {
 	}
 
@@ -27,6 +32,16 @@ class BunnyUri implements UriInterface
 	public function __toString(): string
 	{
 		return $this->build();
+	}
+
+	public function getEndpoint(): string
+	{
+		return $this->endpoint;
+	}
+
+	public function getKey(): ?string
+	{
+		return $this->key;
 	}
 
 	public function setSource(string $source): self
@@ -85,25 +100,32 @@ class BunnyUri implements UriInterface
 	private function build(): string
 	{
 		$path = $this->buildPath();
+		$expiration = time() + static::SIGNATURE_EXPIRATION;
 
-		return strtr('%endpoint%/%path%', [
-			'%endpoint%' => trim($this->endpoint, '/'),
+		$signature = $this->getKey()
+			? $this->calculateSignature($path, $expiration)
+			: null;
+
+		return strtr($signature ? '%endpoint%/%path%&token=%signature%&expires=%expiration%' : '%endpoint%/%path%', [
+			'%endpoint%' => trim($this->getEndpoint(), '/'),
 			'%path%' => $path,
+			'%signature%' => $signature,
+			'%expiration%' => $expiration,
 		]);
 	}
 
 	private function buildPath(): string
 	{
 		$parameters = array_filter([
-			'width' => $this->getWidth(),
-			'height' => $this->getHeight(),
 			'crop' => $this->getCrop() ? implode(',', $this->getCrop()) : null,
+			'height' => $this->getHeight(),
+			'width' => $this->getWidth(),
 		]);
 
 		$options = implode('&', array_map(static function ($name, $value) {
 			return strtr('%name%=%value%', [
 				'%name%' => $name,
-				'%value%' => $value,
+				'%value%' => urlencode((string) $value),
 			]);
 		}, array_keys($parameters), $parameters));
 
@@ -111,5 +133,24 @@ class BunnyUri implements UriInterface
 			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
 		]);
+	}
+
+	private function calculateSignature(string $path, int $expiration): string
+	{
+		$url = parse_url($path);
+
+		parse_str($url['query'], $parameters);
+		ksort($parameters);
+
+		$data = implode('', [
+			$this->getKey(),
+			'/' . $url['path'],
+			$expiration,
+			urldecode(http_build_query($parameters)),
+		]);
+
+		$hash = hash(static::SIGNATURE_ALGORITHM, $data, true);
+
+		return str_replace('=', '', strtr(base64_encode($hash), '+/', '-_'));
 	}
 }

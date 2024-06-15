@@ -99,6 +99,12 @@ integration {
 	bunny {
 		# cat=bunny.net; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.api_endpoint
 		api_endpoint =
+
+		# cat=bunny.net; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.signature
+		signature = 0
+
+		# cat=bunny.net; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.signature_key
+		signature_key =
 	}
 
 	cloudflare {

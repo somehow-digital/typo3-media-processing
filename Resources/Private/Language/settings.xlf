@@ -98,6 +98,12 @@
 			<trans-unit id="integration.bunny.api_endpoint">
 				<source>Pull Zone URL</source>
 			</trans-unit>
+			<trans-unit id="integration.bunny.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="integration.bunny.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
 
 			<trans-unit id="integration.cloudflare.api_endpoint">
 				<source>API Endpoint URL</source>

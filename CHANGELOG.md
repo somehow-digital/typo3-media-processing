@@ -3,6 +3,7 @@
 ## [Unreleased]
 
 * Add support for `gravity` parameter for `gumlet.com` integration.
+* Add support for URL signing for `bunny.net` integration.
 
 ## [0.5.0]
 

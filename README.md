@@ -13,7 +13,7 @@ libraries like `ImageMagick` for image processing operations.
 | [**imagor**](https://github.com/cshum/imagor)             |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**thumbor**](https://github.com/thumbor/thumbor)         |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**optimole.com** ](https://optimole.com/)                |   🟢   |  🟢  |  🟢   |  🔴  |
-| [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🔴   |  🟡  |
+| [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🔴   |  🟢  |
 | [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟢   |  🟡  |
 | [**imagekit.io** ](https://imagekit.io/)                  |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**sirv.com** ](https://sirv.com/)                        |   🟢   |  🟢  |  🟡   |  🔴  |
@@ -24,7 +24,7 @@ libraries like `ImageMagick` for image processing operations.
 
 🟢 supported and integrated  
 🟡 supported but not integrated  
-🔴 unsupported    
+🔴 unsupported  
 
 ## Installation 📦
 
