@@ -14,7 +14,7 @@ libraries like `ImageMagick` for image processing operations.
 | [**thumbor**](https://github.com/thumbor/thumbor)         |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**optimole.com** ](https://optimole.com/)                |   🟢   |  🟢  |  🟢   |  🔴  |
 | [**bunny.net** ](https://bunny.net/)                      |   🟢   |  🟢  |  🔴   |  🟢  |
-| [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟢   |  🟡  |
+| [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟢   |  🔴  |
 | [**imagekit.io** ](https://imagekit.io/)                  |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**sirv.com** ](https://sirv.com/)                        |   🟢   |  🟢  |  🟡   |  🔴  |
 | [**imgix.com** ](https://imgix.com/)                      |   🟢   |  🟢  |  🟡   |  🟢  |
@@ -126,10 +126,12 @@ for more information.
 
 **bunny.net** `integration.bunny`
 
-| option       | type   | description                                 | default |
-|--------------|--------|---------------------------------------------|---------|
-| api_endpoint | string | The Pull Zone URL of the bunny.net service. | `null`  |
-| source_uri   | string | The origin host URL where files are stored. | `null`  |
+| option        | type   | description                                 | default |
+|---------------|--------|---------------------------------------------|---------|
+| api_endpoint  | string | The Pull Zone URL of the bunny.net service. | `null`  |
+| source_uri    | string | The origin host URL where files are stored. | `null`  |
+| signature     | bool   | Enable signature of the bunny.net service.  | `false` |
+| signature_key | string | The signature key of the bunny.net service. | `null`  |
 
 See also the official [`bunny.net` documentation](https://docs.bunny.net/docs/)
 for more information.
@@ -256,12 +258,13 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
 * ✅ Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
 * ✅ Integration for [**gumlet.com** `service`](https://www.gumlet.com/).
-* Support `focusArea` operations.
 * Release.
 
 Version **2.0.0** 🏷️ `planning`
 
-* Support for manual and smart focus/gravity configuration.
+* Support for TYPO3 `13`.
+* Support for gravity configuration via `focusArea` operations.
+* Support for manual and smart gravity configuration.
 * Integration for [**glide** `library`](https://glide.thephpleague.com/).
 * Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
 * Integration for [**imageflow** `library`](https://www.imageflow.io/).
