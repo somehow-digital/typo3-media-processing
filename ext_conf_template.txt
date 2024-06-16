@@ -17,7 +17,7 @@ integration {
 		# cat=ImgProxy; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgproxy.api_endpoint
 		api_endpoint =
 
-		# cat=ImgProxy; type=options[URI=uri, Local Files=file, Amazon S3=aws, Google Cloud Storage=gcs, Azure Blob Storage=abs, OpenStack Object Storage=swift]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.
+		# cat=ImgProxy; type=options[URI=uri, Local Files=file, Amazon S3=aws, Google Cloud Storage=gcs, Azure Blob Storage=abs, OpenStack Object Storage=swift]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgproxy.source_loader
 		source_loader = uri
 
 		# cat=ImgProxy; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgproxy.source_uri
