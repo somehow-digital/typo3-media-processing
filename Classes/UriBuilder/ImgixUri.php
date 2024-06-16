@@ -6,6 +6,8 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
 class ImgixUri implements UriInterface
 {
+	public const SIGNATURE_ALGORITHM = 'md5';
+
 	private ?string $source = null;
 
 	private ?string $fit = null;
@@ -34,6 +36,16 @@ class ImgixUri implements UriInterface
 	public function __toString(): string
 	{
 		return $this->build();
+	}
+
+	public function getEndpoint(): string
+	{
+		return $this->endpoint;
+	}
+
+	public function getKey(): ?string
+	{
+		return $this->key;
 	}
 
 	public function setSource(string $source): self
@@ -129,13 +141,14 @@ class ImgixUri implements UriInterface
 	{
 		$path = $this->buildPath();
 
-		if ($this->key) {
-			$path .= '&s=' . md5($this->key . '/' . $path);
-		}
+		$signature = $this->getKey()
+			? $this->calculateSignature($path)
+			: null;
 
-		return strtr('%endpoint%/%path%', [
+		return strtr($signature ? '%endpoint%/%path%&s=%signature%' : '%endpoint%/%path%', [
 			'%endpoint%' => trim($this->endpoint, '/'),
 			'%path%' => $path,
+			'%signature%' => $signature,
 		]);
 	}
 
@@ -154,14 +167,21 @@ class ImgixUri implements UriInterface
 
 		$options = implode('&', array_map(static function ($name, $value) {
 			return strtr('%name%=%value%', [
-				'%name%' => rawurlencode((string) $name),
-				'%value%' => rawurlencode((string) $value),
+				'%name%' => (string) $name,
+				'%value%' => urlencode((string) $value),
 			]);
 		}, array_keys($parameters), $parameters));
 
 		return strtr('%source%?%options%', [
-			'%source%' => rawurlencode(trim($this->getSource(), '/')),
+			'%source%' => trim($this->getSource(), '/'),
 			'%options%' => $options,
 		]);
+	}
+
+	private function calculateSignature(string $path): string
+	{
+		$data = $this->getKey() . '/' . $path;
+
+		return hash(static::SIGNATURE_ALGORITHM, $data);
 	}
 }

@@ -17,7 +17,7 @@ libraries like `ImageMagick` for image processing operations.
 | [**cloudflare.com** ](https://developers.cloudflare.com/) |   🟢   |  🟢  |  🟢   |  🟡  |
 | [**imagekit.io** ](https://imagekit.io/)                  |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**sirv.com** ](https://sirv.com/)                        |   🟢   |  🟢  |  🟡   |  🔴  |
-| [**imgix.com** ](https://imgix.com/)                      |   🟢   |  🟢  |  🟡   |  🔴  |
+| [**imgix.com** ](https://imgix.com/)                      |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**cloudinary.com** ](https://cloudinary.com/)            |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟢   |  🟢  |
