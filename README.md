@@ -22,6 +22,11 @@ libraries like `ImageMagick` for image processing operations.
 | [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟢   |  🟢  |
 
+* `resize`: Integration supports resize operations.
+* `crop`: Integration supports crop operations.
+* `focus`: Integration supports gravity or focus points. (experimental)
+* `sign`: Integration supports URL signing.
+
 🟢 supported and integrated  
 🟡 supported but not integrated  
 🔴 unsupported  
