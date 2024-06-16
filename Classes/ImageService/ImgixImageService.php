@@ -19,7 +19,7 @@ class ImgixImageService extends ImageServiceAbstract
 	public function __construct(
 		protected readonly string $endpoint,
 		protected readonly UriSourceInterface $source,
-		protected readonly string $key,
+		protected readonly ?string $key,
 	) {
 	}
 
