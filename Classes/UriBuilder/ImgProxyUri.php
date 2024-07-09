@@ -161,7 +161,7 @@ class ImgProxyUri implements UriInterface
 
 	public function setCrop(int $width, int $height, array $gravity): self
 	{
-		$this->crop = array_filter([$width, $height, ...$gravity]);
+		$this->crop = [$width, $height, ...$gravity];
 
 		return $this;
 	}
