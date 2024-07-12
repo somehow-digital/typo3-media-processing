@@ -2,8 +2,18 @@
 
 ## [Unreleased]
 
+### Added
+
 * Add support for `gravity` parameter for `gumlet.com` integration.
 * Add support for URL signing for `bunny.net` integration.
+
+### Fixed
+
+* Fix configuration label for the `imgproxy` integration.
+* Fix argument definition on the `ImgixImageService::__construct` method.
+* Fix return-type on the `GumletUri::getKey` method.
+* Fix incorrect gravity parameter for the `imgproxy` integration.
+* Fix incorrect gravity parameter for the `optimole` integration.
 
 ## [0.5.0]
 
