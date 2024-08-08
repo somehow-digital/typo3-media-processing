@@ -7,8 +7,14 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
+use TYPO3\CMS\Core\Imaging\Exception\ZeroImageDimensionException;
+use TYPO3\CMS\Core\Imaging\GraphicalFunctions;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
+use TYPO3\CMS\Core\Resource\Processing\ImagePreviewTask;
+use TYPO3\CMS\Core\Resource\Processing\LocalCropScaleMaskHelper;
+use TYPO3\CMS\Core\Resource\Processing\LocalPreviewHelper;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ImgProxyImageService extends ImageServiceAbstract
 {
@@ -78,11 +84,50 @@ class ImgProxyImageService extends ImageServiceAbstract
 			]);
 	}
 
+	protected function getHelperByTaskName($taskName)
+	{
+		switch ($taskName) {
+			case 'Preview':
+				$helper = GeneralUtility::makeInstance(LocalPreviewHelper::class);
+				break;
+			case 'CropScaleMask':
+				$helper = GeneralUtility::makeInstance(LocalCropScaleMaskHelper::class);
+				break;
+			default:
+				throw new \InvalidArgumentException('Cannot find helper for task name: "' . $taskName . '"', 1353401352);
+		}
+
+		return $helper;
+	}
+
 	public function processTask(TaskInterface $task): ImageServiceResult
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
-		$dimension = ImageDimension::fromProcessingTask($task);
+
+		try {
+			$dimension = ImageDimension::fromProcessingTask($task);
+		} catch (ZeroImageDimensionException $e){
+
+			/**
+			 * PDF files sometimes do not contain the dimensions of the files
+			 * So we retrieve them using the GraphicalFunctions helper
+			 */
+
+			$absoluteFilePath = $file->getForLocalProcessing(false);
+
+			/** @var ImagePreviewTask $imagePreviewTask */
+			$helper = $this->getHelperByTaskName($task->getName());
+			$result = $helper->processWithLocalFile($task, $absoluteFilePath);
+
+			if(!empty($result['filePath']) && file_exists($result['filePath'])){
+				$graphicalFunctions = GeneralUtility::makeInstance(GraphicalFunctions::class);
+				$imageDimensions = $graphicalFunctions->getImageDimensions($result['filePath']);
+				$configuration['width'] = $imageDimensions[0] ?? 0;
+				$configuration['height'] = $imageDimensions[1] ?? 0;
+			}
+			$dimension = new ImageDimension($configuration['width'], $configuration['height']);
+		}
 
 		$uri = new ImgProxyUri(
 			$this->getEndpoint(),
@@ -113,7 +158,8 @@ class ImgProxyImageService extends ImageServiceAbstract
 
 		$uri->setType($type);
 
-		if (isset($configuration['crop'])) {
+		if (isset($configuration['crop']) && $configuration['crop'] instanceof \TYPO3\CMS\Core\Imaging\ImageManipulation\Area) {
+
 			$uri->setCrop(
 				(int) $configuration['crop']->getWidth(),
 				(int) $configuration['crop']->getHeight(),
