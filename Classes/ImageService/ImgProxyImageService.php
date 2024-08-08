@@ -11,6 +11,7 @@ use TYPO3\CMS\Core\Imaging\Exception\ZeroImageDimensionException;
 use TYPO3\CMS\Core\Imaging\GraphicalFunctions;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\ImagePreviewTask;
+use TYPO3\CMS\Core\Resource\Processing\LocalCropScaleMaskHelper;
 use TYPO3\CMS\Core\Resource\Processing\LocalPreviewHelper;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -83,6 +84,22 @@ class ImgProxyImageService extends ImageServiceAbstract
 			]);
 	}
 
+	protected function getHelperByTaskName($taskName)
+	{
+		switch ($taskName) {
+			case 'Preview':
+				$helper = GeneralUtility::makeInstance(LocalPreviewHelper::class);
+				break;
+			case 'CropScaleMask':
+				$helper = GeneralUtility::makeInstance(LocalCropScaleMaskHelper::class);
+				break;
+			default:
+				throw new \InvalidArgumentException('Cannot find helper for task name: "' . $taskName . '"', 1353401352);
+		}
+
+		return $helper;
+	}
+
 	public function processTask(TaskInterface $task): ImageServiceResult
 	{
 		$file = $task->getSourceFile();
@@ -100,8 +117,8 @@ class ImgProxyImageService extends ImageServiceAbstract
 			$absoluteFilePath = $file->getForLocalProcessing(false);
 
 			/** @var ImagePreviewTask $imagePreviewTask */
-			$helper = GeneralUtility::makeInstance(LocalPreviewHelper::class);
-			$result = $helper->process($task);
+			$helper = $this->getHelperByTaskName($task->getName());
+			$result = $helper->processWithLocalFile($task, $absoluteFilePath);
 
 			if(!empty($result['filePath']) && file_exists($result['filePath'])){
 				$graphicalFunctions = GeneralUtility::makeInstance(GraphicalFunctions::class);
