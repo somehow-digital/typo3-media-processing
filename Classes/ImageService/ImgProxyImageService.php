@@ -158,7 +158,7 @@ class ImgProxyImageService extends ImageServiceAbstract
 
 		$uri->setType($type);
 
-		if (isset($configuration['crop']) && $configuration['crop'] instanceof \TYPO3\CMS\Core\Imaging\ImageManipulation\Area) {
+		if (isset($configuration['crop'])) {
 
 			$uri->setCrop(
 				(int) $configuration['crop']->getWidth(),
