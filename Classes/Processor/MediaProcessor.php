@@ -34,6 +34,11 @@ class MediaProcessor implements ProcessorInterface
 				($context->isBackend() && $this->configuration['common']['backend']) ||
 				($context->isFrontend() && $this->configuration['common']['frontend'])
 			) &&
+			(
+				$task->getSourceFile()->exists() &&
+				$task->getSourceFile()->getProperty('width') &&
+				$task->getSourceFile()->getProperty('height')
+			) &&
 			$this->service?->hasConfiguration() &&
 			$this->service?->canProcessTask($task);
 	}
