@@ -33,6 +33,11 @@ class BeforeFileProcessing
 				($context->isBackend() && $this->configuration['common']['backend']) ||
 				($context->isFrontend() && $this->configuration['common']['frontend'])
 			) &&
+			(
+				$file->getTask()->getSourceFile()->exists() &&
+				$file->getTask()->getSourceFile()->getProperty('width') &&
+				$file->getTask()->getSourceFile()->getProperty('height')
+			) &&
 			$this->service?->hasConfiguration() &&
 			$this->service?->canProcessTask($file->getTask())
 		) {

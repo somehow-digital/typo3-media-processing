@@ -60,7 +60,6 @@ class ImgProxyImageService extends ImageServiceAbstract
 	public function canProcessTask(TaskInterface $task): bool
 	{
 		return
-			$task->getSourceFile()->exists() &&
 			$task->getSourceFile()->getStorage()?->isPublic() &&
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
 			in_array($task->getSourceFile()->getMimeType(), [
