@@ -113,20 +113,22 @@ class ImgProxyImageService extends ImageServiceAbstract
 			 * PDF files sometimes do not contain the dimensions of the files
 			 * So we retrieve them using the GraphicalFunctions helper
 			 */
-
-			$absoluteFilePath = $file->getForLocalProcessing(false);
-
 			/** @var ImagePreviewTask $imagePreviewTask */
 			$helper = $this->getHelperByTaskName($task->getName());
-			$result = $helper->processWithLocalFile($task, $absoluteFilePath);
+			$result = $helper->processWithLocalFile($task, $file->getForLocalProcessing(false));
+
+			// Setting fallback values in case the local file was not found
+			$dimensionWidth = 1;
+			$dimensionHeight = 1;
 
 			if(!empty($result['filePath']) && file_exists($result['filePath'])){
 				$graphicalFunctions = GeneralUtility::makeInstance(GraphicalFunctions::class);
 				$imageDimensions = $graphicalFunctions->getImageDimensions($result['filePath']);
-				$configuration['width'] = $imageDimensions[0] ?? 0;
-				$configuration['height'] = $imageDimensions[1] ?? 0;
+				$dimensionWidth = $imageDimensions[0] ?? 0;
+				$dimensionHeight = $imageDimensions[1] ?? 0;
 			}
-			$dimension = new ImageDimension($configuration['width'], $configuration['height']);
+
+			$dimension = new ImageDimension($dimensionWidth, $dimensionHeight);
 		}
 
 		$uri = new ImgProxyUri(
