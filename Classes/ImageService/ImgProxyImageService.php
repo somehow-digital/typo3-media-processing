@@ -39,6 +39,7 @@ class ImgProxyImageService extends ImageServiceAbstract
 			'signature_key' => null,
 			'signature_salt' => null,
 			'signature_size' => 0,
+			'processing_pdf' => false,
 		]);
 	}
 
@@ -77,19 +78,24 @@ class ImgProxyImageService extends ImageServiceAbstract
 		return
 			$task->getSourceFile()->getStorage()?->isPublic() &&
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), [
-				'image/jpeg',
-				'image/png',
-				'image/webp',
-				'image/avif',
-				'image/gif',
-				'image/ico',
-				'image/heic',
-				'image/heif',
-				'image/bmp',
-				'image/tiff',
-				'application/pdf',
-			]);
+			(
+				in_array($task->getSourceFile()->getMimeType(), [
+					'image/jpeg',
+					'image/png',
+					'image/webp',
+					'image/avif',
+					'image/gif',
+					'image/ico',
+					'image/heic',
+					'image/heif',
+					'image/bmp',
+					'image/tiff',
+				]) ||
+				(
+					$task->getSourceFile()->getMimeType() === 'application/pdf' &&
+					$this->options['processing_pdf']
+				)
+			);
 	}
 
 	public function processTask(TaskInterface $task): ImageServiceResult

@@ -43,6 +43,9 @@
 			<trans-unit id="integration.imgproxy.signature_size">
 				<source>URL Signature Size</source>
 			</trans-unit>
+			<trans-unit id="integration.imgproxy.processing_pdf">
+				<source>Enable PDF processing (PRO license)</source>
+			</trans-unit>
 
 			<trans-unit id="integration.imagor.api_endpoint">
 				<source>API Endpoint URL</source>

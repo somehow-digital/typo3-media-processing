@@ -40,6 +40,9 @@ integration {
 
 		# cat=ImgProxy; type=int; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgproxy.signature_size
 		signature_size =
+
+		# cat=ImgProxy; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgproxy.processing_pdf
+		processing_pdf = 0
 	}
 
 	imagor {
