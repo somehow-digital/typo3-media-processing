@@ -4,6 +4,7 @@
 
 ### Fixed
 
+* Declare report classes as private services.
 * Introduce option to enable/disable PDF processing for the `imgproxy` integration.
 * Skip processing for files not having valid dimensions set.
 
