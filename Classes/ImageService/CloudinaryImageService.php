@@ -6,6 +6,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -17,26 +18,39 @@ class CloudinaryImageService extends ImageServiceAbstract
 	}
 
 	public function __construct(
-		protected readonly string $endpoint,
 		protected readonly UriSourceInterface $source,
-		protected readonly ?string $key,
-		protected readonly ?string $algorithm,
+		protected array $options,
 	) {
+		$resolver = new OptionsResolver();
+		$this->configureOptions($resolver);
+		$this->options = $resolver->resolve($options);
+	}
+
+	public function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'api_endpoint' => null,
+			'delivery_mode' => 'fetch',
+			'source_uri' => null,
+			'signature' => false,
+			'signature_algorithm' => 'sha1',
+			'signature_key' => null,
+		]);
 	}
 
 	public function getEndpoint(): string
 	{
-		return $this->endpoint;
+		return $this->options['api_endpoint'];
 	}
 
-	public function getKey(): ?string
+	public function getSignatureKey(): ?string
 	{
-		return $this->key;
+		return $this->options['signature_key'] ?: null;
 	}
 
-	public function getAlgorithm(): ?string
+	public function getSignatureAlgorithm(): ?string
 	{
-		return $this->algorithm;
+		return $this->options['signature_algorithm'] ?: null;
 	}
 
 	public function getSource(): ?UriSourceInterface
@@ -83,8 +97,8 @@ class CloudinaryImageService extends ImageServiceAbstract
 		$uri = new CloudinaryUri(
 			$this->getEndpoint(),
 			$this->getSource(),
-			$this->getKey(),
-			$this->getAlgorithm(),
+			$this->getSignatureKey(),
+			$this->getSignatureAlgorithm(),
 		);
 
 		$uri->setSource($this->source->getSource($task->getSourceFile()));

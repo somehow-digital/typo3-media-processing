@@ -7,6 +7,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -18,38 +19,52 @@ class ImgProxyImageService extends ImageServiceAbstract
 	}
 
 	public function __construct(
-		protected readonly string $endpoint,
 		protected readonly UriSourceInterface $source,
-		protected readonly ?string $key,
-		protected readonly ?string $salt,
-		protected readonly ?int $size,
-		protected readonly ?string $secret,
+		protected array $options,
 	) {
+		$resolver = new OptionsResolver();
+		$this->configureOptions($resolver);
+		$this->options = $resolver->resolve($options);
+	}
+
+	public function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'api_endpoint' => null,
+			'source_loader' => 'uri',
+			'source_uri' => null,
+			'encryption' => false,
+			'encryption_key' => null,
+			'signature' => false,
+			'signature_key' => null,
+			'signature_salt' => null,
+			'signature_size' => 0,
+		]);
 	}
 
 	public function getEndpoint(): string
 	{
-		return $this->endpoint;
+		return $this->options['api_endpoint'];
 	}
 
-	public function getKey(): ?string
+	public function getSignatureKey(): ?string
 	{
-		return $this->key;
+		return $this->options['signature_key'] ?: null;
 	}
 
 	public function getSignatureSalt(): ?string
 	{
-		return $this->salt;
+		return $this->options['signature_salt'] ?: null;
 	}
 
 	public function getSignatureSize(): ?int
 	{
-		return $this->size;
+		return (int) $this->options['signature_size'] ?: null;
 	}
 
-	public function getEncryptionSecret(): ?string
+	public function getEncryptionKey(): ?string
 	{
-		return $this->secret;
+		return $this->options['encryption_key'] ?: null;
 	}
 
 	public function hasConfiguration(): bool
@@ -85,10 +100,10 @@ class ImgProxyImageService extends ImageServiceAbstract
 
 		$uri = new ImgProxyUri(
 			$this->getEndpoint(),
-			$this->getKey(),
+			$this->getSignatureKey(),
 			$this->getSignatureSalt(),
 			$this->getSignatureSize(),
-			$this->getEncryptionSecret(),
+			$this->getEncryptionKey(),
 		);
 
 		$uri->setSource($this->source->getSource(($file)));

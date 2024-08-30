@@ -68,12 +68,8 @@ class ImageServiceFactory
 		};
 
 		return new ImgProxyImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
-			$options['signature'] ? $options['signature_salt'] : null,
-			$options['signature'] ? (int) $options['signature_size'] : 0,
-			$options['encryption'] ? $options['encryption_key'] : null,
+			$options,
 		);
 	}
 
@@ -91,11 +87,8 @@ class ImageServiceFactory
 		};
 
 		return new ImagorImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
-			$options['signature'] ? $options['signature_algorithm'] : null,
-			$options['signature'] ? (int) $options['signature_length'] : 0,
+			$options,
 		);
 	}
 
@@ -113,11 +106,8 @@ class ImageServiceFactory
 		};
 
 		return new ThumborImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
-			$options['signature'] ? $options['signature_algorithm'] : null,
-			$options['signature'] ? (int) $options['signature_length'] : 0,
+			$options,
 		);
 	}
 
@@ -128,8 +118,8 @@ class ImageServiceFactory
 		);
 
 		return new OptimoleImageService(
-			$options['api_key'],
 			$source,
+			$options,
 		);
 	}
 
@@ -138,9 +128,8 @@ class ImageServiceFactory
 		$source = new BunnyUriSource();
 
 		return new BunnyImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
+			$options,
 		);
 	}
 
@@ -151,8 +140,8 @@ class ImageServiceFactory
 		);
 
 		return new CloudflareImageService(
-			$options['api_endpoint'],
 			$source,
+			$options,
 		);
 	}
 
@@ -163,9 +152,8 @@ class ImageServiceFactory
 		);
 
 		return new ImageKitImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
+			$options,
 		);
 	}
 
@@ -174,8 +162,8 @@ class ImageServiceFactory
 		$source = new SirvUriSource();
 
 		return new SirvImageService(
-			$options['api_endpoint'],
 			$source,
+			$options,
 		);
 	}
 
@@ -193,9 +181,8 @@ class ImageServiceFactory
 		};
 
 		return new ImgixImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
+			$options,
 		);
 	}
 
@@ -213,10 +200,8 @@ class ImageServiceFactory
 		};
 
 		return new CloudinaryImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
-			$options['signature'] ? $options['signature_algorithm'] : null,
+			$options,
 		);
 	}
 
@@ -227,9 +212,8 @@ class ImageServiceFactory
 		);
 
 		return new CloudImageImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
+			$options,
 		);
 	}
 
@@ -238,9 +222,8 @@ class ImageServiceFactory
 		$source = new GumletUriSource();
 
 		return new GumletImageService(
-			$options['api_endpoint'],
 			$source,
-			$options['signature'] ? $options['signature_key'] : null,
+			$options,
 		);
 	}
 }

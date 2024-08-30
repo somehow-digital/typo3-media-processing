@@ -6,4 +6,5 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 abstract class ImageServiceAbstract implements ImageServiceInterface
 {
+	protected array $options = [];
 }

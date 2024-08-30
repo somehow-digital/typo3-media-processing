@@ -7,6 +7,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -18,14 +19,25 @@ class CloudflareImageService extends ImageServiceAbstract
 	}
 
 	public function __construct(
-		protected readonly string $endpoint,
 		protected readonly UriSourceInterface $source,
+		protected array $options,
 	) {
+		$resolver = new OptionsResolver();
+		$this->configureOptions($resolver);
+		$this->options = $resolver->resolve($options);
+	}
+
+	public function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'api_endpoint' => null,
+			'source_uri' => null,
+		]);
 	}
 
 	public function getEndpoint(): string
 	{
-		return $this->endpoint;
+		return $this->options['api_endpoint'];
 	}
 
 	public function hasConfiguration(): bool

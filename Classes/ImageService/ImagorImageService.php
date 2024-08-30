@@ -6,6 +6,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -17,32 +18,45 @@ class ImagorImageService extends ImageServiceAbstract
 	}
 
 	public function __construct(
-		protected readonly string $endpoint,
 		protected readonly UriSourceInterface $source,
-		protected readonly ?string $key,
-		protected readonly ?string $algorithm,
-		protected readonly ?int $length,
+		protected array $options,
 	) {
+		$resolver = new OptionsResolver();
+		$this->configureOptions($resolver);
+		$this->options = $resolver->resolve($options);
+	}
+
+	public function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'api_endpoint' => null,
+			'source_loader' => 'uri',
+			'source_uri' => null,
+			'signature' => false,
+			'signature_key' => null,
+			'signature_algorithm' => 'sha1',
+			'signature_length' => null,
+		]);
 	}
 
 	public function getEndpoint(): string
 	{
-		return $this->endpoint;
+		return $this->options['api_endpoint'];
 	}
 
-	public function getKey(): ?string
+	public function getSignatureKey(): ?string
 	{
-		return $this->key;
+		return $this->options['signature_key'] ?: null;
 	}
 
 	public function getSignatureAlgorithm(): ?string
 	{
-		return $this->algorithm;
+		return $this->options['signature_algorithm'] ?: null;
 	}
 
 	public function getSignatureLength(): ?int
 	{
-		return $this->length;
+		return (int) $this->options['signature_length'] ?: null;
 	}
 
 	public function hasConfiguration(): bool
@@ -74,7 +88,7 @@ class ImagorImageService extends ImageServiceAbstract
 
 		$uri = new ImagorUri(
 			$this->getEndpoint(),
-			$this->getKey(),
+			$this->getSignatureKey(),
 			$this->getSignatureAlgorithm(),
 			$this->getSignatureLength(),
 		);
