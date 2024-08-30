@@ -2,6 +2,11 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* Introduce option to enable/disable PDF processing for the `imgproxy` integration.
+* Skip processing for files not having valid dimensions set.
+
 ## [0.6.0]
 
 ### Added
