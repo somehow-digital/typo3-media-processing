@@ -39,3 +39,5 @@ services:
     tags:
       - name: event.listener
         event: TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent
+
+  Smalot\PdfParser\Parser:

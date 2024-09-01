@@ -52,6 +52,7 @@
 	"require": {
 		"php": "^8.1 || ^8.2 || ^8.3",
 		"ext-openssl": "*",
+		"smalot/pdfparser": "^v2.11.0",
 		"symfony/options-resolver": "^6.4 || ^7.1",
 		"typo3/cms-core": "^12.4 || dev-main"
 	},
