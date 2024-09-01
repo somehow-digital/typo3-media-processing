@@ -2,10 +2,13 @@
 
 ## [Unreleased]
 
+### Added
+
+* Introduce option to enable/disable PDF processing for the `imgproxy` integration.
+
 ### Fixed
 
 * Determine and set dimensions of PDF files prior to processing.
-* Introduce option to enable/disable PDF processing for the `imgproxy` integration.
 * Skip processing for files not having valid dimensions set.
 * Declare report classes as private services.
 
