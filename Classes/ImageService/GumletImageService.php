@@ -51,25 +51,30 @@ class GumletImageService extends ImageServiceAbstract
 		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
+	public function getSupportedMimeTypes(): array
+	{
+		return [
+			'image/jpeg',
+			'image/jpx',
+			'image/jpm',
+			'image/jxl',
+			'image/png',
+			'image/webp',
+			'image/tiff',
+			'image/gif',
+			'image/heic',
+			'image/heif',
+			'image/avif',
+			'application/pdf',
+		];
+	}
+
 	public function canProcessTask(TaskInterface $task): bool
 	{
 		return
 			$task->getSourceFile()->getStorage()?->isPublic() &&
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), [
-				'image/jpeg',
-				'image/jpx',
-				'image/jpm',
-				'image/jxl',
-				'image/png',
-				'image/webp',
-				'image/tiff',
-				'application/pdf',
-				'image/gif',
-				'image/heic',
-				'image/heif',
-				'image/avif',
-			]);
+			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function processTask(TaskInterface $task): ImageServiceResult

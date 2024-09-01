@@ -73,29 +73,29 @@ class ImgProxyImageService extends ImageServiceAbstract
 		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
+	public function getSupportedMimeTypes(): array
+	{
+		return array_filter([
+			'image/jpeg',
+			'image/png',
+			'image/webp',
+			'image/avif',
+			'image/gif',
+			'image/ico',
+			'image/heic',
+			'image/heif',
+			'image/bmp',
+			'image/tiff',
+			$this->options['processing_pdf'] ? 'application/pdf' : null,
+		]);
+	}
+
 	public function canProcessTask(TaskInterface $task): bool
 	{
 		return
 			$task->getSourceFile()->getStorage()?->isPublic() &&
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			(
-				in_array($task->getSourceFile()->getMimeType(), [
-					'image/jpeg',
-					'image/png',
-					'image/webp',
-					'image/avif',
-					'image/gif',
-					'image/ico',
-					'image/heic',
-					'image/heif',
-					'image/bmp',
-					'image/tiff',
-				]) ||
-				(
-					$task->getSourceFile()->getMimeType() === 'application/pdf' &&
-					$this->options['processing_pdf']
-				)
-			);
+			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function processTask(TaskInterface $task): ImageServiceResult

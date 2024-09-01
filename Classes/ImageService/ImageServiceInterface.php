@@ -15,6 +15,8 @@ interface ImageServiceInterface
 
 	public function hasConfiguration(): bool;
 
+	public function getSupportedMimeTypes(): array;
+
 	public function canProcessTask(TaskInterface $task): bool;
 
 	public function processTask(TaskInterface $task): ImageServiceResult;

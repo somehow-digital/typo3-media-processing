@@ -64,20 +64,25 @@ class ImagorImageService extends ImageServiceAbstract
 		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
+	public function getSupportedMimeTypes(): array
+	{
+		return [
+			'image/jpeg',
+			'image/png',
+			'image/webp',
+			'image/avif',
+			'image/gif',
+			'image/bmp',
+			'image/tiff',
+		];
+	}
+
 	public function canProcessTask(TaskInterface $task): bool
 	{
 		return
 			($task->getSourceFile()->getStorage()?->isPublic()) &&
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), [
-				'image/jpeg',
-				'image/png',
-				'image/webp',
-				'image/avif',
-				'image/gif',
-				'image/bmp',
-				'image/tiff',
-			]);
+			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function processTask(TaskInterface $task): ImageServiceResult
