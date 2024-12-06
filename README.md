@@ -248,6 +248,7 @@ processed files for the active media processing integration.
 Version **1.0.0** 🏷️ `developing`
 
 * ✅ Support for TYPO3 `12`.
+* ✅ Support for TYPO3 `13`.
 * ✅ Support `resize` operations.
 * ✅ Support `crop` operations.
 * ✅ Backend toolbar action and CLI command for processed media invalidation.
@@ -267,7 +268,6 @@ Version **1.0.0** 🏷️ `developing`
 
 Version **2.0.0** 🏷️ `planning`
 
-* Support for TYPO3 `13`.
 * Support for gravity configuration via `focusArea` operations.
 * Support for manual and smart gravity configuration.
 * Integration for [**glide** `library`](https://glide.thephpleague.com/).
