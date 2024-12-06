@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+* Fix calculation of the integration checksum.
+
 ## [0.7.0]
 
 ### Added
