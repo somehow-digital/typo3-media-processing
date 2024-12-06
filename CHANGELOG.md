@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Support `TYPO3` v13.
+
 ## [0.7.1]
 
 ### Fixed
