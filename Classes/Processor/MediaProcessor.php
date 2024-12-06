@@ -48,6 +48,13 @@ class MediaProcessor implements ProcessorInterface
 		$result = $this->service?->processTask($task);
 
 		if ($result->getUri()) {
+			$checksum = sha1(
+				$this->service->getIdentifier() .
+				$task->getSourceFile()->getIdentifier() .
+				$task->getSourceFile()->getSize() .
+				serialize($this->configuration)
+			);
+
 			$task->getTargetFile()->setName($task->getTargetFileName());
 
 			$task->getTargetFile()->updateProperties([
@@ -55,7 +62,7 @@ class MediaProcessor implements ProcessorInterface
 				'height' => $result->getDimension()->getHeight(),
 				'checksum' => $task->getConfigurationChecksum(),
 				'integration' => $this->service::getIdentifier(),
-				'integration_checksum' => sha1(serialize($this->configuration)),
+				'integration_checksum' => $checksum,
 				'processing_url' => (string) $result->getUri(),
 			]);
 

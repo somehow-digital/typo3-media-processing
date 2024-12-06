@@ -65,14 +65,13 @@ class BeforeFileProcessing
 
 	private function needsReprocessing(ProcessedFile $file): bool
 	{
-		if ($file->getProperty('integration') !== $this->service?->getIdentifier()) {
-			return true;
-		}
+		$checksum = sha1(
+			$this->service->getIdentifier() .
+			$file->getOriginalFile()->getIdentifier() .
+			$file->getOriginalFile()->getSize() .
+			serialize($this->configuration)
+		);
 
-		if ($file->getProperty('integration_checksum') !== sha1(serialize($this->configuration))) {
-			return true;
-		}
-
-		return false;
+		return $file->getProperty('integration_checksum') !== $checksum;
 	}
 }
