@@ -49,8 +49,9 @@ extension from the `TYPO3 Extension Repository`.
 
 ### Requirements
 
-* TYPO3 `12`
-* PHP with [`openssl`](https://www.php.net/manual/en/book.openssl.php) extension
+* TYPO3 `12`-`13`
+* PHP `8.1`-`8.4`
+* PHP [`openssl`](https://www.php.net/manual/en/book.openssl.php) extension
 
 ## Setup ⚙️
 
