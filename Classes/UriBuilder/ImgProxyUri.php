@@ -54,6 +54,11 @@ class ImgProxyUri implements UriInterface
 
 	private ?array $crop = null;
 
+    /**
+    * Pixel density
+    */
+    private ?int $dpr = null;
+
 	private ?string $hash = null;
 
 	public function __construct(
@@ -171,6 +176,16 @@ class ImgProxyUri implements UriInterface
 		return $this->crop;
 	}
 
+    public function setDpr(int $dpr): self
+    {
+        $this->dpr = $dpr;
+        return $this;
+    }
+    public function getDpr(): ?int
+    {
+        return $this->dpr;
+    }
+
 	public function setHash(string $hash): self
 	{
 		$this->hash = $hash;
@@ -208,7 +223,8 @@ class ImgProxyUri implements UriInterface
 			'h' => $this->getHeight(),
 			'mh' => $this->getMinHeight(),
 			'c' => $this->getCrop() ? implode(':', $this->getCrop()) : null,
-			'cb' => $this->getHash(),
+            'dpr' => $this->getDpr(),
+            'cb' => $this->getHash(),
 		]);
 
 		$options = implode('/', array_map(static function ($name, $value) {

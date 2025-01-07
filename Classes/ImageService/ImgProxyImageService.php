@@ -157,6 +157,9 @@ class ImgProxyImageService extends ImageServiceAbstract
 			$uri->setGravity('fp', $horizontalOffset, $verticalOffset);
 		}
 
+        if (isset($configuration['dpr']) && $configuration['dpr'] > 1) {
+            $uri->setDpr($configuration['dpr']);
+        }
 
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
 			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
