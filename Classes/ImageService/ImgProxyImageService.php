@@ -174,6 +174,10 @@ class ImgProxyImageService extends ImageServiceAbstract
 			$uri->setMinHeight((int) $configuration['minHeight']);
 		}
 
+		if (isset($configuration['dpr']) && $configuration['dpr'] > 1) {
+			$uri->setDevicePixelRatio($configuration['dpr']);
+		}
+
 		$uri->setHash($file->getSha1());
 
 		return new ImageServiceResult(

@@ -54,6 +54,8 @@ class ImgProxyUri implements UriInterface
 
 	private ?array $crop = null;
 
+	private ?int $devicePixelRatio = null;
+
 	private ?string $hash = null;
 
 	public function __construct(
@@ -171,6 +173,16 @@ class ImgProxyUri implements UriInterface
 		return $this->crop;
 	}
 
+	public function setDevicePixelRatio(int $ratio): void
+	{
+		$this->devicePixelRatio = $ratio;
+	}
+
+	public function getDevicePixelRatio(): ?int
+	{
+		return $this->devicePixelRatio;
+	}
+
 	public function setHash(string $hash): self
 	{
 		$this->hash = $hash;
@@ -208,6 +220,7 @@ class ImgProxyUri implements UriInterface
 			'h' => $this->getHeight(),
 			'mh' => $this->getMinHeight(),
 			'c' => $this->getCrop() ? implode(':', $this->getCrop()) : null,
+			'dpr' => $this->getDevicePixelRatio(),
 			'cb' => $this->getHash(),
 		]);
 

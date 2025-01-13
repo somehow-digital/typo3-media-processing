@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Add support for `device pixel ratio` parameter for `imgproxy` integration.
+
 ## [0.8.0]
 
 ### Added
