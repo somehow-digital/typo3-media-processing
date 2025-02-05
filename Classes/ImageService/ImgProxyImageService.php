@@ -175,7 +175,7 @@ class ImgProxyImageService extends ImageServiceAbstract
 		}
 
 		if (isset($configuration['dpr']) && $configuration['dpr'] > 1) {
-			$uri->setDevicePixelRatio($configuration['dpr']);
+			$uri->setDevicePixelRatio((float) $configuration['dpr']);
 		}
 
 		$uri->setHash($file->getSha1());

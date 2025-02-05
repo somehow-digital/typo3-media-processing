@@ -54,7 +54,7 @@ class ImgProxyUri implements UriInterface
 
 	private ?array $crop = null;
 
-	private ?int $devicePixelRatio = null;
+	private ?float $devicePixelRatio = null;
 
 	private ?string $hash = null;
 
@@ -173,12 +173,12 @@ class ImgProxyUri implements UriInterface
 		return $this->crop;
 	}
 
-	public function setDevicePixelRatio(int $ratio): void
+	public function setDevicePixelRatio(float $ratio): void
 	{
 		$this->devicePixelRatio = $ratio;
 	}
 
-	public function getDevicePixelRatio(): ?int
+	public function getDevicePixelRatio(): ?float
 	{
 		return $this->devicePixelRatio;
 	}
