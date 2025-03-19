@@ -6,9 +6,13 @@ namespace SomehowDigital\Typo3\MediaProcessing\Processor;
 
 use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Database\Connection;
+use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Resource\Exception\InsufficientFolderReadPermissionsException;
 use TYPO3\CMS\Core\Resource\Processing\ProcessorInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
+use TYPO3\CMS\Core\Type\File\ImageInfo;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MediaProcessor implements ProcessorInterface
@@ -17,7 +21,9 @@ class MediaProcessor implements ProcessorInterface
 
 	private ?array $configuration;
 
-	public function __construct(
+    private const TABLE_NAME = 'sys_file_processedfile';
+
+    public function __construct(
 		?ImageServiceInterface $service,
 		?ExtensionConfiguration $configuration,
 	) {
@@ -66,6 +72,10 @@ class MediaProcessor implements ProcessorInterface
 				'processing_url' => (string) $result->getUri(),
 			]);
 
+            if ($this->checkForExistingDatabaseEntry($checksum)) {
+                return;
+            }
+
 			if ($this->configuration['common']['storage']) {
 				$this->storeFile($task, $result);
 			}
@@ -86,4 +96,27 @@ class MediaProcessor implements ProcessorInterface
 
 		GeneralUtility::unlink_tempfile($path);
 	}
+
+    protected function checkForExistingDatabaseEntry(string $checksum): bool
+    {
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $connection     = $connectionPool
+            ->getConnectionForTable(static::TABLE_NAME);
+        $queryBuilder   = $connection->createQueryBuilder();
+
+        $result = $queryBuilder
+            ->select('*')
+            ->from(self::TABLE_NAME)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'integration_checksum',
+                    $queryBuilder->createNamedParameter($checksum),
+                ),
+            )
+            ->executeQuery()
+            ->rowCount();
+
+        return (bool)$result;
+    }
+
 }
