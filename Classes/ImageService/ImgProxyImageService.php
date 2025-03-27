@@ -9,7 +9,9 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ImgProxyImageService extends ImageServiceAbstract
 {
@@ -41,6 +43,11 @@ class ImgProxyImageService extends ImageServiceAbstract
 			'signature_size' => 0,
 			'processing_pdf' => false,
 		]);
+	}
+
+	public function getSourceUri(): string
+	{
+		return $this->options['source_uri'];
 	}
 
 	public function getEndpoint(): string
@@ -86,6 +93,8 @@ class ImgProxyImageService extends ImageServiceAbstract
 			'image/heif',
 			'image/bmp',
 			'image/tiff',
+			'video/youtube',
+			'video/vimeo',
 			$this->options['processing_pdf'] ? 'application/pdf' : null,
 		]);
 	}
@@ -112,7 +121,20 @@ class ImgProxyImageService extends ImageServiceAbstract
 			$this->getEncryptionKey(),
 		);
 
-		$uri->setSource($this->source->getSource(($file)));
+		if ($file->getExtension() === 'youtube' || $file->getExtension() === 'vimeo') {
+			$onlineMediaHelper = GeneralUtility::makeInstance(OnlineMediaHelperRegistry::class)->getOnlineMediaHelper(
+				$file
+			);
+			$previewImage      = $onlineMediaHelper->getPreviewImage($file);
+			$source            = $this->getSourceUri() . substr(
+					$previewImage,
+					strpos($previewImage, '/typo3temp/assets/online_media')
+				);
+		} else {
+			$source = $this->source->getSource(($file));
+		}
+
+		$uri->setSource($source);
 
 		$type = (static function ($configuration) {
 			switch (true) {
