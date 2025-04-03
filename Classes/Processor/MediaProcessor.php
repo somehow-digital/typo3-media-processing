@@ -61,6 +61,8 @@ class MediaProcessor implements ProcessorInterface
 			$result = $this->service?->processTask($task);
 
 			if ($result->getUri()) {
+				$task->setExecuted(true);
+
 				$task->getTargetFile()->setName($task->getTargetFileName());
 
 				$task->getTargetFile()->updateProperties([
@@ -75,9 +77,11 @@ class MediaProcessor implements ProcessorInterface
 				if ($this->configuration['common']['storage']) {
 					$this->storeFile($task, (string) $result->getUri(), $checksum);
 				}
-
-				$task->setExecuted(true);
+			} else {
+				$task->setExecuted(false);
 			}
+		} else {
+			$task->setExecuted(true);
 		}
 	}
 
