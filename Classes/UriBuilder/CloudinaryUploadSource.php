@@ -22,6 +22,9 @@ class CloudinaryUploadSource implements UriSourceInterface
 
 	private function build(FileInterface $source): string
 	{
-		return parse_url($source->getPublicUrl(), PHP_URL_PATH);
+		$path = parse_url($source->getPublicUrl(), PHP_URL_PATH);
+		$query = parse_url($source->getPublicUrl(), PHP_URL_QUERY) ?? '';
+
+		return implode('?', array_filter([trim($path, '/'), trim($query)]));
 	}
 }

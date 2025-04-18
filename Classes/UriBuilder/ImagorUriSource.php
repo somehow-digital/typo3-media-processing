@@ -23,10 +23,11 @@ class ImagorUriSource implements UriSourceInterface
 	private function build(FileInterface $source): string
 	{
 		$path = parse_url($source->getPublicUrl(), PHP_URL_PATH);
+		$query = parse_url($source->getPublicUrl(), PHP_URL_QUERY) ?? '';
 
 		return strtr('%host%/%path%', [
 			'%host%' => trim($this->host, '/'),
-			'%path%' => trim($path, '/'),
+			'%path%' => implode('?', array_filter([trim($path, '/'), trim($query)])),
 		]);
 	}
 }

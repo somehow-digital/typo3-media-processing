@@ -35,6 +35,13 @@ class MediaProcessor implements ProcessorInterface
 				($context->isFrontend() && $this->configuration['common']['frontend'])
 			) &&
 			(
+				$task->getSourceFile()->getStorage()?->isOnline() &&
+				(
+					$task->getSourceFile()->getStorage()?->isPublic() ||
+					(!$task->getSourceFile()->getStorage()?->isPublic() && $this->configuration['common']['private'])
+				)
+			) &&
+			(
 				$task->getSourceFile()->exists() &&
 				$task->getSourceFile()->getProperty('width') &&
 				$task->getSourceFile()->getProperty('height')

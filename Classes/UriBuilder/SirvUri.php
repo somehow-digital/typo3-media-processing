@@ -125,8 +125,10 @@ class SirvUri implements UriInterface
 			]);
 		}, array_keys($parameters), $parameters));
 
+		$source = rawurlencode(trim($this->getSource(), '/'));
+
 		return strtr('%source%?%options%', [
-			'%source%' => trim($this->getSource(), '/'),
+			'%source%' => $source,
 			'%options%' => $options,
 		]);
 	}

@@ -203,8 +203,10 @@ class OptimoleUri implements UriInterface
 			]);
 		}, array_keys($parameters), $parameters));
 
+		$source = rawurlencode(trim($this->getSource(), '/'));
+
 		return strtr('%options%/%source%', [
-			'%source%' => trim($this->getSource(), '/'),
+			'%source%' => $source,
 			'%options%' => $options,
 		]);
 	}

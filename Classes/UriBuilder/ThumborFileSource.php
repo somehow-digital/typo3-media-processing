@@ -17,6 +17,9 @@ class ThumborFileSource implements UriSourceInterface
 
 	private function build(FileInterface $source): string
 	{
-		return trim($source->getPublicUrl(), '/');
+		$path = parse_url($source->getPublicUrl(), PHP_URL_PATH);
+		$query = parse_url($source->getPublicUrl(), PHP_URL_QUERY) ?? '';
+
+		return implode('?', array_filter([trim($path, '/'), trim($query)]));
 	}
 }

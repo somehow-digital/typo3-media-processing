@@ -7,13 +7,16 @@
 				<source>Integration</source>
 			</trans-unit>
 			<trans-unit id="common.storage">
-				<source>Store processed files</source>
+				<source>Store processed files on disk</source>
+			</trans-unit>
+			<trans-unit id="common.private">
+				<source>Enable media processing for private storage</source>
 			</trans-unit>
 			<trans-unit id="common.backend">
-				<source>Enable in Backend</source>
+				<source>Enable media processing in backend</source>
 			</trans-unit>
 			<trans-unit id="common.frontend">
-				<source>Enable in Frontend</source>
+				<source>Enable media processing in frontend</source>
 			</trans-unit>
 
 			<trans-unit id="integration.imgproxy.api_endpoint">

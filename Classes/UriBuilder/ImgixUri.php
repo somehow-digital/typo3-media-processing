@@ -168,12 +168,14 @@ class ImgixUri implements UriInterface
 		$options = implode('&', array_map(static function ($name, $value) {
 			return strtr('%name%=%value%', [
 				'%name%' => (string) $name,
-				'%value%' => urlencode((string) $value),
+				'%value%' => rawurlencode((string) $value),
 			]);
 		}, array_keys($parameters), $parameters));
 
+		$source = rawurlencode(trim($this->getSource(), '/'));
+
 		return strtr('%source%?%options%', [
-			'%source%' => trim($this->getSource(), '/'),
+			'%source%' => $source,
 			'%options%' => $options,
 		]);
 	}
