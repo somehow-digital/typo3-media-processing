@@ -65,6 +65,8 @@ class CloudImageImageService extends ImageServiceAbstract
 			'image/avif',
 			'image/gif',
 			'application/pdf',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

@@ -66,6 +66,8 @@ class GumletImageService extends ImageServiceAbstract
 			'image/heif',
 			'image/avif',
 			'application/pdf',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

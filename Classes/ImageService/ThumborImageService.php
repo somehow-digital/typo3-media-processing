@@ -75,6 +75,8 @@ class ThumborImageService extends ImageServiceAbstract
 			'image/gif',
 			'image/bmp',
 			'image/tiff',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

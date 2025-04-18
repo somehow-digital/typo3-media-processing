@@ -57,6 +57,8 @@ class BunnyImageService extends ImageServiceAbstract
 			'image/png',
 			'image/webp',
 			'image/gif',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

@@ -9,7 +9,9 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
+use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ImgProxyImageService extends ImageServiceAbstract
 {
@@ -86,6 +88,8 @@ class ImgProxyImageService extends ImageServiceAbstract
 			'image/heif',
 			'image/bmp',
 			'image/tiff',
+			'video/youtube',
+			'video/vimeo',
 			$this->options['processing_pdf'] ? 'application/pdf' : null,
 		]);
 	}

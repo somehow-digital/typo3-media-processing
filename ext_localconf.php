@@ -10,7 +10,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 	if ($service?->hasConfiguration()) {
 		$GLOBALS['TYPO3_CONF_VARS']['SYS']['fal']['processors'][MediaProcessor::class] = [
 			'className' => MediaProcessor::class,
-			'before' => ['LocalImageProcessor', 'DeferredBackendImageProcessor'],
+			'before' => [
+				'LocalImageProcessor',
+				'DeferredBackendImageProcessor',
+				'OnlineMediaPreviewProcessor',
+			],
 		];
 	}
 })();

@@ -83,6 +83,8 @@ class CloudinaryImageService extends ImageServiceAbstract
 			'image/x-targa',
 			'image/x-tga',
 			'application/pdf',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 
