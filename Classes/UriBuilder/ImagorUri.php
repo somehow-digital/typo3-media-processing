@@ -134,8 +134,10 @@ class ImagorUri implements UriInterface
 
 		$options = implode('/', array_filter($parameters));
 
+		$source = rawurlencode(trim($this->getSource(), '/'));
+
 		return strtr('%options%/%source%', [
-			'%source%' => trim($this->getSource(), '/'),
+			'%source%' => $source,
 			'%options%' => $options,
 		]);
 	}

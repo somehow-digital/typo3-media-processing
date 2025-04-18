@@ -232,15 +232,15 @@ class ImgProxyUri implements UriInterface
 		}, array_keys($parameters), $parameters));
 
 		$source = $this->secret && extension_loaded('openssl')
-			? $this->encryptSource($this->getSource())
-			: $this->getSource();
+			? $this->encryptSource(rawurlencode(trim($this->getSource(), '/')))
+			: rawurlencode(trim($this->getSource(), '/'));
 
 		$prefix = $this->secret && extension_loaded('openssl')
 			? static::ENCRYPTION_ENCRYPTED
 			: static::ENCRYPTION_PLAIN;
 
 		return strtr('%options%/%prefix%/%source%', [
-			'%source%' => trim($source, '/'),
+			'%source%' => $source,
 			'%prefix%' => $prefix,
 			'%options%' => $options,
 		]);

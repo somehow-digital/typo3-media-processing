@@ -21,7 +21,7 @@ class ImgProxyFileSource implements UriSourceInterface
 	{
 		return strtr('%protocol%/%path%', [
 			'%protocol%' => static::PROTOCOL,
-			'%path%' => trim($source->getPublicUrl(), '/'),
+			'%path%' => rawurlencode(trim($source->getPublicUrl(), '/')),
 		]);
 	}
 }

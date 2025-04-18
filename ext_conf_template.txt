@@ -5,6 +5,9 @@ common {
 	# cat=Common; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:common.storage
 	storage = 0
 
+	# cat=Common; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:common.private
+	private = 0
+
 	# cat=Common; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:common.backend
 	backend = 1
 
