@@ -52,6 +52,8 @@ class CloudflareImageService extends ImageServiceAbstract
 			'image/png',
 			'image/webp',
 			'image/gif',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

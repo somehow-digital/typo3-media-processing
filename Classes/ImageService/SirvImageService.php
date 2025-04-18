@@ -55,6 +55,8 @@ class SirvImageService extends ImageServiceAbstract
 			'image/eps',
 			'image/tiff',
 			'application/pdf',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

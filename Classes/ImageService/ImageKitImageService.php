@@ -62,6 +62,8 @@ class ImageKitImageService extends ImageServiceAbstract
 			'image/avif',
 			'image/heic',
 			'image/heif',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 

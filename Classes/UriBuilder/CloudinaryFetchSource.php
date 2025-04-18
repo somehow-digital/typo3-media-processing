@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
+use SomehowDigital\Typo3\MediaProcessing\Utility\OnlineMediaUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
 class CloudinaryFetchSource implements UriSourceInterface
@@ -22,13 +23,15 @@ class CloudinaryFetchSource implements UriSourceInterface
 
 	public function getSource(FileInterface $file): string
 	{
-		return $this->build($file);
+		$url = OnlineMediaUtility::getPreviewImage($file) ?? $file->getPublicUrl();
+
+		return $this->build($url);
 	}
 
-	private function build(FileInterface $source): string
+	private function build(string $url): string
 	{
-		$path = parse_url($source->getPublicUrl(), PHP_URL_PATH);
-		$query = parse_url($source->getPublicUrl(), PHP_URL_QUERY) ?? '';
+		$path = parse_url($url, PHP_URL_PATH);
+		$query = parse_url($url, PHP_URL_QUERY) ?? '';
 
 		return strtr('%host%/%path%', [
 			'%host%' => trim($this->host, '/'),

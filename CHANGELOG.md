@@ -5,6 +5,7 @@
 ### Added
 
 * Add support for media processing of files in private storage.
+* Add support for rendering online media preview images.
 
 ## [0.9.0]
 

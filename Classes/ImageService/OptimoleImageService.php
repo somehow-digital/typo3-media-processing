@@ -66,6 +66,8 @@ class OptimoleImageService extends ImageServiceAbstract
 			'image/bmp',
 			'image/tiff',
 			'application/pdf',
+			'video/youtube',
+			'video/vimeo',
 		];
 	}
 
