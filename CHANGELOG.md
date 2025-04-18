@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Add support for media processing of files in private storage.
+
 ## [0.9.0]
 
 ### Added
