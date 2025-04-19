@@ -95,110 +95,110 @@ integration {
 	}
 
 	optimole {
-		# cat=optimole.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.api_key
+		# cat=optimole/basic; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.api_key
 		api_key =
 
-		# cat=optimole.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.source_uri
+		# cat=optimole/basic; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.source_uri
 		source_uri =
 	}
 
 	bunny {
-		# cat=bunny.net; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.api_endpoint
+		# cat=bunny; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.api_endpoint
 		api_endpoint =
 
-		# cat=bunny.net; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.signature
+		# cat=bunny; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.signature
 		signature = 0
 
-		# cat=bunny.net; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.signature_key
+		# cat=bunny; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.bunny.signature_key
 		signature_key =
 	}
 
 	cloudflare {
-		# cat=cloudflare.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudflare.api_endpoint
+		# cat=cloudflare; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudflare.api_endpoint
 		api_endpoint =
 
-		# cat=cloudflare.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudflare.source_uri
+		# cat=cloudflare; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudflare.source_uri
 		source_uri =
 	}
 
 	imagekit {
-		# cat=imagekit.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.api_endpoint
+		# cat=imagekit; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.api_endpoint
 		api_endpoint =
 
-		# cat=imagekit.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.source_uri
+		# cat=imagekit; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.source_uri
 		source_uri =
 
-		# cat=imagekit.io; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.signature
+		# cat=imagekit; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.signature
 		signature = 0
 
-		# cat=imagekit.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.signature_key
+		# cat=imagekit; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imagekit.signature_key
 		signature_key =
 	}
 
 	sirv {
-		# cat=sirv.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.sirv.api_endpoint
+		# cat=sirv; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.sirv.api_endpoint
 		api_endpoint =
 	}
 
 	imgix {
-		# cat=imgix.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.api_endpoint
+		# cat=imgix; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.api_endpoint
 		api_endpoint =
 
-		# cat=imgix.com; type=options[Web Folder=folder, Web Proxy=proxy]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.source_loader
+		# cat=imgix; type=options[Web Folder=folder, Web Proxy=proxy]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.source_loader
 		source_loader = folder
 
-		# cat=imgix.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.source_uri
+		# cat=imgix; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.source_uri
 		source_uri =
 
-		# cat=imgix.com; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.signature
+		# cat=imgix; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.signature
 		signature = 0
 
-		# cat=imgix.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.signature_key
+		# cat=imgix; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imgix.signature_key
 		signature_key =
 	}
 
 	cloudinary {
-		# cat=cloudinary.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.api_endpoint
+		# cat=cloudinary; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.api_endpoint
 		api_endpoint =
 
-		# cat=cloudinary.com; type=options[Fetch=fetch, Upload=upload]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.delivery_mode
+		# cat=cloudinary; type=options[Fetch=fetch, Upload=upload]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.delivery_mode
 		delivery_mode = fetch
 
-		# cat=cloudinary.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.source_uri
+		# cat=cloudinary; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.source_uri
 		source_uri =
 
-		# cat=cloudinary.com; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature
+		# cat=cloudinary; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature
 		signature = 0
 
-		# cat=cloudinary.com; type=options[SHA1=sha1, SHA256=sha256]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature_algorithm
+		# cat=cloudinary; type=options[SHA1=sha1, SHA256=sha256]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature_algorithm
 		signature_algorithm = sha1
 
-		# cat=cloudinary.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature_key
+		# cat=cloudinary; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudinary.signature_key
 		signature_key =
 	}
 
 	cloudimage {
-		# cat=cloudimage.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.api_endpoint
+		# cat=cloudimage; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.api_endpoint
 		api_endpoint =
 
-		# cat=cloudimage.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.source_uri
+		# cat=cloudimage; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.source_uri
 		source_uri =
 
-		# cat=cloudimage.io; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.signature
+		# cat=cloudimage; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.signature
 		signature = 0
 
-		# cat=cloudimage.io; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.signature_key
+		# cat=cloudimage; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.cloudimage.signature_key
 		signature_key =
 	}
 
 	gumlet {
-		# cat=gumlet.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.api_endpoint
+		# cat=gumlet; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.api_endpoint
 		api_endpoint =
 
-		# cat=gumlet.com; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature
+		# cat=gumlet; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature
 		signature = 0
 
-		# cat=gumlet.com; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature_key
+		# cat=gumlet; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature_key
 		signature_key =
 	}
 }
