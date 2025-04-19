@@ -95,10 +95,10 @@ integration {
 	}
 
 	optimole {
-		# cat=optimole/basic; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.api_key
+		# cat=optimole; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.api_key
 		api_key =
 
-		# cat=optimole/basic; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.source_uri
+		# cat=optimole; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.optimole.source_uri
 		source_uri =
 	}
 
