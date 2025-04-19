@@ -9,9 +9,7 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
-use TYPO3\CMS\Core\Resource\OnlineMedia\Helpers\OnlineMediaHelperRegistry;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ImgProxyImageService extends ImageServiceAbstract
 {
