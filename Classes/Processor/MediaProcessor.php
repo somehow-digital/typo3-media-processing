@@ -29,25 +29,20 @@ class MediaProcessor implements ProcessorInterface
 	{
 		$context = ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST']);
 
-		return
-			(
-				($context->isBackend() && $this->configuration['common']['backend']) ||
-				($context->isFrontend() && $this->configuration['common']['frontend'])
-			) &&
-			(
-				$task->getSourceFile()->getStorage()?->isOnline() &&
-				(
-					$task->getSourceFile()->getStorage()?->isPublic() ||
-					(!$task->getSourceFile()->getStorage()?->isPublic() && $this->configuration['common']['private'])
-				)
-			) &&
-			(
-				$task->getSourceFile()->exists() &&
-				$task->getSourceFile()->getProperty('width') &&
-				$task->getSourceFile()->getProperty('height')
-			) &&
-			$this->service?->hasConfiguration() &&
-			$this->service?->canProcessTask($task);
+		if ($context->isBackend() && !$this->configuration['common']['backend']) return false;
+		if ($context->isFrontend() && !$this->configuration['common']['frontend']) return false;
+
+		if (!$task->getSourceFile()->getStorage()?->isOnline()) return false;
+		if (!$task->getSourceFile()->getStorage()?->isPublic() && !$this->configuration['common']['private']) return false;
+
+		if (!$task->getSourceFile()->exists()) return false;
+		if (!$task->getSourceFile()->getProperty('width')) return false;
+		if (!$task->getSourceFile()->getProperty('height')) return false;
+
+		if (!$this->service?->hasConfiguration()) return false;
+		if (!$this->service?->canProcessTask($task)) return false;
+
+		return true;
 	}
 
 	public function processTask(TaskInterface $task): void
