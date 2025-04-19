@@ -53,10 +53,7 @@ class MediaProcessor implements ProcessorInterface
 
 	public function processTask(TaskInterface $task): void
 	{
-		$checksum =
-			$this->service?->calculateChecksum(
-			$task->getSourceFile()
-		);
+		$checksum = $this->service?->calculateChecksum($task->getSourceFile());
 
 		if ($checksum !== $task->getTargetFile()->getProperty('integration_checksum')) {
 			$result = $this->service?->processTask($task);
