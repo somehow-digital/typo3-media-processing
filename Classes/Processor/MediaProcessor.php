@@ -55,12 +55,7 @@ class MediaProcessor implements ProcessorInterface
 		$result = $this->service?->processTask($task);
 
 		if ($result->getUri()) {
-			$checksum = sha1(
-				$this->service->getIdentifier() .
-				$task->getSourceFile()->getIdentifier() .
-				$task->getSourceFile()->getSize() .
-				serialize($this->configuration)
-			);
+			$checksum = $this->service?->calculateChecksum($task->getSourceFile());
 
 			$task->getTargetFile()->setName($task->getTargetFileName());
 
