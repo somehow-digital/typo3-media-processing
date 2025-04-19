@@ -74,23 +74,25 @@ class MediaProcessor implements ProcessorInterface
 			]);
 
 			if ($this->configuration['common']['storage']) {
-				$this->storeFile($task, $result);
+				$this->storeFile($task, (string) $result->getUri(), $checksum);
 			}
 
 			$task->setExecuted(true);
 		}
 	}
 
-	private function storeFile(TaskInterface $task, $result): void
+	private function storeFile(TaskInterface $task, string $uri, string $checksum): void
 	{
-		$uri = (string) $result->getUri();
-		$path = GeneralUtility::tempnam(sha1($uri));
-
 		$contents = file_get_contents($uri);
-		file_put_contents($path, $contents);
 
-		$task->getTargetFile()->updateWithLocalFile($path);
+		if ($contents) {
+			$path = GeneralUtility::tempnam($checksum);
 
-		GeneralUtility::unlink_tempfile($path);
+			if ($path) {
+				file_put_contents($path, $contents);
+				$task->getTargetFile()->updateWithLocalFile($path);
+				GeneralUtility::unlink_tempfile($path);
+			}
+		}
 	}
 }
