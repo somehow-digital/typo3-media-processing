@@ -16,6 +16,7 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixFolderSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixProxySource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImglabUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriSource;
@@ -52,6 +53,7 @@ class ImageServiceFactory
 			CloudinaryImageService::getIdentifier() => $this->getCloudinaryImageService($options),
 			CloudImageImageService::getIdentifier() => $this->getCloudImageImageService($options),
 			GumletImageService::getIdentifier() => $this->getGumletImageService($options),
+			ImglabImageService::getIdentifier() => $this->getImglabImageService($options),
 		};
 	}
 
@@ -232,6 +234,16 @@ class ImageServiceFactory
 		};
 
 		return new GumletImageService(
+			$source,
+			$options,
+		);
+	}
+
+	private function getImglabImageService(array $options): ImglabImageService
+	{
+		$source = new ImglabUriSource();
+
+		return new ImglabImageService(
 			$source,
 			$options,
 		);
