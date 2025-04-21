@@ -7,7 +7,7 @@ use TYPO3\CMS\Backend\Backend\Event\ModifyClearCacheActionsEvent;
 use TYPO3\CMS\Backend\Routing\UriBuilder;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 
-class ModifyClearCacheActions
+class ModifyClearCacheActionsEventListener
 {
 	public function __construct(
 		private readonly ?ImageServiceInterface $service,
