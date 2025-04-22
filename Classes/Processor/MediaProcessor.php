@@ -53,28 +53,34 @@ class MediaProcessor implements ProcessorInterface
 
 	public function processTask(TaskInterface $task): void
 	{
-		$result = $this->service?->processTask($task);
+		$checksum = $this->service?->calculateChecksum($task->getSourceFile());
 
-		$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
+		if ($checksum !== $task->getTargetFile()->getProperty('integration_checksum')) {
+			$result = $this->service?->processTask($task);
 
-		if ($result->getUri()) {
-			$checksum = $this->service?->calculateChecksum($task->getSourceFile());
+			$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
 
-			$task->getTargetFile()->setName($task->getTargetFileName());
+			if ($result->getUri()) {
+				$task->setExecuted(true);
 
-			$task->getTargetFile()->updateProperties([
-				'width' => $result->getDimension()->getWidth(),
-				'height' => $result->getDimension()->getHeight(),
-				'checksum' => $task->getConfigurationChecksum(),
-				'integration' => $this->service::getIdentifier(),
-				'integration_checksum' => $checksum,
-				'processing_url' => (string) $result->getUri(),
-			]);
+				$task->getTargetFile()->setName($task->getTargetFileName());
 
-			if ($this->configuration['common']['storage']) {
-				$this->storeFile($task, (string) $result->getUri(), $checksum);
+				$task->getTargetFile()->updateProperties([
+					'width' => $result->getDimension()->getWidth(),
+					'height' => $result->getDimension()->getHeight(),
+					'checksum' => $task->getConfigurationChecksum(),
+					'integration' => $this->service::getIdentifier(),
+					'integration_checksum' => $checksum,
+					'processing_url' => (string) $result->getUri(),
+				]);
+
+				if ($this->configuration['common']['storage']) {
+					$this->storeFile($task, (string) $result->getUri(), $checksum);
+				}
+			} else {
+				$task->setExecuted(false);
 			}
-
+		} else {
 			$task->setExecuted(true);
 		}
 	}
