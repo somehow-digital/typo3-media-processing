@@ -30,12 +30,30 @@ class ImglabImageService extends ImageServiceAbstract
 	{
 		$resolver->setDefaults([
 			'api_endpoint' => null,
+			'signature' => false,
+			'signature_key' => null,
+			'signature_salt' => null,
 		]);
 	}
 
 	public function getEndpoint(): string
 	{
 		return $this->options['api_endpoint'];
+	}
+
+	public function hasSignature(): bool
+	{
+		return (bool) $this->options['signature'];
+	}
+
+	public function getSignatureKey(): ?string
+	{
+		return $this->options['signature_key'] ?: null;
+	}
+
+	public function getSignatureSalt(): ?string
+	{
+		return $this->options['signature_salt'] ?: null;
 	}
 
 	public function hasConfiguration(): bool
@@ -67,13 +85,18 @@ class ImglabImageService extends ImageServiceAbstract
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResult
+	public function processTask(TaskInterface $task): ImageServiceResultInterface
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new ImglabUri($this->getEndpoint());
+		$uri = new ImglabUri(
+			$this->getEndpoint(),
+			$this->hasSignature() ? $this->getSignatureKey() : null,
+			$this->hasSignature() ? $this->getSignatureSalt() : null,
+		);
+
 		$uri->setSource($this->source->getSource($file));
 
 		$mode = (static function ($configuration) {

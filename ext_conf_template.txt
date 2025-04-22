@@ -211,5 +211,14 @@ integration {
 	imglab {
     	# cat=imglab; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.api_endpoint
     	api_endpoint =
+
+    	# cat=imglab; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.signature
+		signature = 0
+
+		# cat=imglab; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.signature_key
+		signature_key =
+
+		# cat=imglab; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.signature_salt
+		signature_salt =
     }
 }

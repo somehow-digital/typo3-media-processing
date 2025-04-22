@@ -6,6 +6,8 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 
 class ImglabUri implements UriInterface
 {
+	public const SIGNATURE_ALGORITHM = 'sha256';
+
 	private ?string $source = null;
 
 	private ?string $mode = null;
@@ -17,7 +19,9 @@ class ImglabUri implements UriInterface
 	private ?array $crop = null;
 
 	public function __construct(
-		private readonly ?string $endpoint,
+		private readonly string $endpoint,
+		private readonly ?string $key,
+		private readonly ?string $salt,
 	) {
 	}
 
@@ -29,6 +33,21 @@ class ImglabUri implements UriInterface
 	public function __toString(): string
 	{
 		return $this->build();
+	}
+
+	public function getEndpoint(): string
+	{
+		return $this->endpoint;
+	}
+
+	public function getKey(): ?string
+	{
+		return $this->key;
+	}
+
+	public function getSalt(): ?string
+	{
+		return $this->salt;
 	}
 
 	public function setSource(string $source): self
@@ -100,10 +119,15 @@ class ImglabUri implements UriInterface
 	{
 		$path = $this->buildPath();
 
-		return strtr('%endpoint%/%path%', [
+		$signature = $this->getKey()
+			? $this->calculateSignature($path)
+			: null;
+
+		return strtr($signature ? '%endpoint%/%path%&signature=%signature%' : '%endpoint%/%path%', array_filter([
 			'%endpoint%' => trim($this->endpoint, '/'),
 			'%path%' => $path,
-		]);
+			'%signature%' => $signature,
+		]));
 	}
 
 	private function buildPath(): string
@@ -127,5 +151,18 @@ class ImglabUri implements UriInterface
 			'%source%' => $source,
 			'%options%' => $options,
 		]);
+	}
+
+	private function calculateSignature(string $path): string
+	{
+		$data = strtr('%salt%/%path%', [
+			'%salt%' => base64_decode($this->getSalt(), true),
+			'%path%' => rawurldecode($path),
+		]);
+
+		$hash = hash_hmac(static::SIGNATURE_ALGORITHM, $data, base64_decode($this->getKey(), true), true);
+		$digest = base64_encode($hash);
+
+		return rtrim(strtr($digest, '+/', '-_'), '=');
 	}
 }
