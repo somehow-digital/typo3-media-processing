@@ -238,6 +238,29 @@ processed files for the active media processing integration.
 
 `vendor/bin/typo3 cleanup:invalidatemedia`
 
+## API
+
+### Events
+
+**MediaProcessedEvent**
+
+The `MediaProcessedEvent` is dispatched after a media file has been processed
+and can be used to adapt the final URI before it is stored in the database.
+
+```php
+use SomehowDigital\Typo3\MediaProcessing\Event\MediaProcessedEvent;
+
+class MediaProcessedEventListener
+{
+  public function __invoke(MediaProcessedEvent $event): void
+  {
+    $event->getService();
+    $event->getTask();
+    $event->getResult();
+  }
+}
+```
+
 ## Support 🛟
 
 * Discord

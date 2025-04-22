@@ -95,7 +95,7 @@ class CloudinaryImageService extends ImageServiceAbstract
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResult
+	public function processTask(TaskInterface $task): ImageServiceResultInterface
 	{
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);

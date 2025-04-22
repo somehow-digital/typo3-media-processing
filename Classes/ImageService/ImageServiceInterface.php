@@ -22,5 +22,5 @@ interface ImageServiceInterface
 
 	public function canProcessTask(TaskInterface $task): bool;
 
-	public function processTask(TaskInterface $task): ImageServiceResult;
+	public function processTask(TaskInterface $task): ImageServiceResultInterface;
 }
