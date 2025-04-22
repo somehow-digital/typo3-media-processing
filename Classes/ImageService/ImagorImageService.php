@@ -86,7 +86,7 @@ class ImagorImageService extends ImageServiceAbstract
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResult
+	public function processTask(TaskInterface $task): ImageServiceResultInterface
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Processor;
 
+use Psr\EventDispatcher\EventDispatcherInterface;
+use SomehowDigital\Typo3\MediaProcessing\Event\MediaProcessedEvent;
 use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
@@ -17,12 +19,16 @@ class MediaProcessor implements ProcessorInterface
 
 	private ?array $configuration;
 
+	private ?EventDispatcherInterface $dispatcher;
+
 	public function __construct(
 		?ImageServiceInterface $service,
 		?ExtensionConfiguration $configuration,
+		?EventDispatcherInterface $dispatcher,
 	) {
 		$this->service = $service;
 		$this->configuration = $configuration?->get('media_processing');
+		$this->dispatcher = $dispatcher;
 	}
 
 	public function canProcessTask(TaskInterface $task): bool
@@ -48,6 +54,8 @@ class MediaProcessor implements ProcessorInterface
 	public function processTask(TaskInterface $task): void
 	{
 		$result = $this->service?->processTask($task);
+
+		$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
 
 		if ($result->getUri()) {
 			$checksum = $this->service?->calculateChecksum($task->getSourceFile());

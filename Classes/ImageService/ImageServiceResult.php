@@ -7,7 +7,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriInterface;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 
-class ImageServiceResult
+class ImageServiceResult implements ImageServiceResultInterface
 {
 	public function __construct(
 		private readonly UriInterface $uri,
