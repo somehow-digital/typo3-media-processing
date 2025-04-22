@@ -58,8 +58,11 @@ class MediaProcessor implements ProcessorInterface
 		if ($checksum !== $task->getTargetFile()->getProperty('integration_checksum')) {
 			$result = $this->service?->processTask($task);
 
-			$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));if ($result->getUri()) {
+			$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
+
+			if ($result->getUri()) {
 				$task->setExecuted(true);
+
 				$task->getTargetFile()->setName($task->getTargetFileName());
 
 				$task->getTargetFile()->updateProperties([
