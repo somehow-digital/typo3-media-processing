@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Command;
 
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -17,7 +16,6 @@ class InvalidationCommand extends Command
 
 	public function __construct(
 		private readonly ConnectionPool $connectionPool,
-		private readonly ?ImageServiceInterface $service,
 	) {
 		parent::__construct();
 	}
@@ -29,18 +27,13 @@ class InvalidationCommand extends Command
 
 	protected function execute(InputInterface $input, OutputInterface $output): int
 	{
-		if ($this->service?->hasConfiguration()) {
-			$this->connectionPool
-				->getConnectionForTable(static::TABLE_NAME)
-				->delete(static::TABLE_NAME, [
-					'integration' => $this->service::getIdentifier(),
-				], [
-					Connection::PARAM_STR,
-				]);
+		$builder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
 
-			return Command::SUCCESS;
-		}
+		$builder
+			->delete(self::TABLE_NAME)
+			->where($builder->expr()->neq('integration', $builder->createNamedParameter('', Connection::PARAM_STR)))
+			->executeStatement();
 
-		return Command::FAILURE;
+		return Command::SUCCESS;
 	}
 }

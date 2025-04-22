@@ -3,7 +3,6 @@
 namespace SomehowDigital\Typo3\MediaProcessing\Controller;
 
 use Psr\Http\Message\ResponseInterface;
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
 use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
@@ -11,24 +10,22 @@ use TYPO3\CMS\Core\Http\JsonResponse;
 
 class InvalidationController
 {
+	private const TABLE_NAME = 'sys_file_processedfile';
+
 	public function __construct(
 		private readonly ConnectionPool $connectionPool,
-		private readonly ?ImageServiceInterface $service,
 	) {
 	}
 
 	public function __invoke(): ResponseInterface
 	{
-		if (
-			$this->service?->hasConfiguration() &&
-			$this->getBackendUser()->isAdmin()) {
-			$this->connectionPool
-				->getConnectionForTable('sys_file_processedfile')
-				->delete('sys_file_processedfile', [
-					'integration' => $this->service::getIdentifier(),
-				], [
-					Connection::PARAM_STR,
-				]);
+		if ($this->getBackendUser()->isAdmin()) {
+			$builder = $this->connectionPool->getQueryBuilderForTable(self::TABLE_NAME);
+
+			$builder
+				->delete(self::TABLE_NAME)
+				->where($builder->expr()->neq('integration', $builder->createNamedParameter('', Connection::PARAM_STR)))
+				->executeStatement();
 
 			return new JsonResponse();
 		}
