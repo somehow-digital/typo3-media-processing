@@ -81,7 +81,7 @@ class CloudflareUri implements UriInterface
 		return $this->height;
 	}
 
-	public function setTrim(int $top = 0, int $right = 0, int $left = 0, $bottom = 0): self
+	public function setTrim(int $top = 0, int $right = 0, int $bottom = 0, int $left = 0): self
 	{
 		$this->trim = [
 			max(0, $top),
