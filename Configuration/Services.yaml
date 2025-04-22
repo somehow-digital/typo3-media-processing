@@ -30,11 +30,6 @@ services:
         command: 'cleanup:invalidatemedia'
         description: 'Invalidate processed media.'
 
-  SomehowDigital\Typo3\MediaProcessing\EventListener\FileReprocessingEventListener:
-    tags:
-      - name: event.listener
-        event: TYPO3\CMS\Core\Resource\Event\BeforeFileProcessingEvent
-
   SomehowDigital\Typo3\MediaProcessing\EventListener\DocumentDimensionsEventListener:
     tags:
       - name: event.listener
