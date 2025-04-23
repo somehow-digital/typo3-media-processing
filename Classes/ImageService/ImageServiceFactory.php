@@ -9,6 +9,8 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudImageUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryFetchSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUploadSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletFolderSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletProxySource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
@@ -219,7 +221,16 @@ class ImageServiceFactory
 
 	private function getGumletImageService(array $options): GumletImageService
 	{
-		$source = new GumletUriSource();
+		$source = match ($options['source_loader']) {
+			GumletFolderSource::IDENTIFIER => (static function (): GumletFolderSource {
+				return new GumletFolderSource();
+			})(),
+			GumletProxySource::IDENTIFIER => (static function () use ($options): GumletProxySource {
+				return new GumletProxySource(
+					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+				);
+			})(),
+		};
 
 		return new GumletImageService(
 			$source,

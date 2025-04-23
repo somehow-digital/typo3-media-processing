@@ -7,8 +7,10 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Utility\OnlineMediaUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
-class GumletUriSource implements UriSourceInterface
+class GumletFolderSource implements UriSourceInterface
 {
+	public const IDENTIFIER = 'folder';
+
 	public function getSource(FileInterface $file): string
 	{
 		$url = OnlineMediaUtility::getPreviewImage($file) ?? $file->getPublicUrl();

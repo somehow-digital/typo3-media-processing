@@ -195,6 +195,12 @@ integration {
 		# cat=gumlet; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.api_endpoint
 		api_endpoint =
 
+		# cat=gumlet; type=options[Folder=folder, Proxy=proxy]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.source_loader
+		source_loader = folder
+
+		# cat=gumlet; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.source_uri
+		source_uri =
+
 		# cat=gumlet; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.gumlet.signature
 		signature = 0
 

@@ -31,6 +31,8 @@ class GumletImageService extends ImageServiceAbstract
 	{
 		$resolver->setDefaults([
 			'api_endpoint' => null,
+			'source_loader' => 'folder',
+			'source_uri' => null,
 			'signature' => false,
 			'signature_key' => null,
 		]);
@@ -39,6 +41,11 @@ class GumletImageService extends ImageServiceAbstract
 	public function getEndpoint(): string
 	{
 		return $this->options['api_endpoint'];
+	}
+
+	public function hasSignature(): bool
+	{
+		return (bool) $this->options['signature'];
 	}
 
 	public function getSignatureKey(): ?string
@@ -86,7 +93,7 @@ class GumletImageService extends ImageServiceAbstract
 
 		$uri = new GumletUri(
 			$this->getEndpoint(),
-			$this->getSignatureKey(),
+			$this->hasSignature() ? $this->getSignatureKey() : null,
 		);
 
 		$uri->setSource($this->source->getSource($file));

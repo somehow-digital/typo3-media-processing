@@ -186,6 +186,12 @@
 			<trans-unit id="integration.gumlet.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
+			<trans-unit id="integration.gumlet.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="integration.gumlet.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
 			<trans-unit id="integration.gumlet.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>

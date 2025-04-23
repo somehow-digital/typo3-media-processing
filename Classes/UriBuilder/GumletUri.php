@@ -143,7 +143,7 @@ class GumletUri implements UriInterface
 			]);
 		}, array_keys($parameters), $parameters));
 
-		$source = rawurlencode(trim($this->getSource(), '/'));
+		$source = trim($this->getSource(), '/');
 
 		return strtr('%source%?%options%', [
 			'%source%' => $source,
