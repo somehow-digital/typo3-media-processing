@@ -212,6 +212,12 @@ integration {
     	# cat=imglab; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.api_endpoint
     	api_endpoint =
 
+		# cat=imglab; type=options[Web=web, Proxy=proxy]; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.source_loader
+		source_loader = web
+
+		# cat=imglab; type=string; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.source_uri
+		source_uri =
+
     	# cat=imglab; type=boolean; label=LLL:EXT:media_processing/Resources/Private/Language/settings.xlf:integration.imglab.signature
 		signature = 0
 

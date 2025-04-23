@@ -7,8 +7,20 @@ namespace SomehowDigital\Typo3\MediaProcessing\UriBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Utility\OnlineMediaUtility;
 use TYPO3\CMS\Core\Resource\FileInterface;
 
-class ImglabUriSource implements UriSourceInterface
+class ImglabProxySource implements UriSourceInterface
 {
+	public const IDENTIFIER = 'proxy';
+
+	public function __construct(
+		private readonly string $host,
+	) {
+	}
+
+	public function getHost(): string
+	{
+		return $this->host;
+	}
+
 	public function getSource(FileInterface $file): string
 	{
 		$url = OnlineMediaUtility::getPreviewImage($file) ?? $file->getPublicUrl();
@@ -21,6 +33,9 @@ class ImglabUriSource implements UriSourceInterface
 		$path = parse_url($url, PHP_URL_PATH);
 		$query = parse_url($url, PHP_URL_QUERY) ?? '';
 
-		return implode('?', array_filter([trim($path, '/'), trim($query)]));
+		return strtr('%host%/%path%', [
+			'%host%' => trim($this->getHost(), '/'),
+			'%path%' => implode('?', array_filter([trim($path, '/'), trim($query)])),
+		]);
 	}
 }

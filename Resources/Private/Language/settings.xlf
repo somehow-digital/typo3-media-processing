@@ -202,6 +202,12 @@
 			<trans-unit id="integration.imglab.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
+			<trans-unit id="integration.imglab.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="integration.imglab.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
 			<trans-unit id="integration.imglab.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>

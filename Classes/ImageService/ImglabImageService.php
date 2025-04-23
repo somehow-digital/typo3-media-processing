@@ -30,6 +30,8 @@ class ImglabImageService extends ImageServiceAbstract
 	{
 		$resolver->setDefaults([
 			'api_endpoint' => null,
+			'source_loader' => 'web',
+			'source_uri' => null,
 			'signature' => false,
 			'signature_key' => null,
 			'signature_salt' => null,
