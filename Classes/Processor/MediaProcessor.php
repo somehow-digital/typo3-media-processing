@@ -55,33 +55,35 @@ class MediaProcessor implements ProcessorInterface
 	{
 		$checksum = $this->service?->calculateChecksum($task->getSourceFile());
 
-		if ($checksum !== $task->getTargetFile()->getProperty('integration_checksum')) {
-			$result = $this->service?->processTask($task);
-
-			$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
-
-			if ($result->getUri()) {
-				$task->setExecuted(true);
-
-				$task->getTargetFile()->setName($task->getTargetFileName());
-
-				$task->getTargetFile()->updateProperties([
-					'width' => $result->getDimension()->getWidth(),
-					'height' => $result->getDimension()->getHeight(),
-					'checksum' => $task->getConfigurationChecksum(),
-					'integration' => $this->service::getIdentifier(),
-					'integration_checksum' => $checksum,
-					'processing_url' => (string) $result->getUri(),
-				]);
-
-				if ($this->configuration['common']['storage']) {
-					$this->storeFile($task, (string) $result->getUri(), $checksum);
-				}
-			} else {
-				$task->setExecuted(false);
-			}
-		} else {
+		if ($checksum === $task->getTargetFile()->getProperty('integration_checksum')) {
 			$task->setExecuted(true);
+			return;
+		}
+
+		$result = $this->service?->processTask($task);
+
+		$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
+
+		if (!$result->getUri()) {
+			$task->setExecuted(false);
+			return;
+		}
+
+		$task->setExecuted(true);
+
+		$task->getTargetFile()->setName($task->getTargetFileName());
+
+		$task->getTargetFile()->updateProperties([
+			'width' => $result->getDimension()->getWidth(),
+			'height' => $result->getDimension()->getHeight(),
+			'checksum' => $task->getConfigurationChecksum(),
+			'integration' => $this->service::getIdentifier(),
+			'integration_checksum' => $checksum,
+			'processing_url' => (string) $result->getUri(),
+		]);
+
+		if ($this->configuration['common']['storage']) {
+			$this->storeFile($task, (string) $result->getUri(), $checksum);
 		}
 	}
 
