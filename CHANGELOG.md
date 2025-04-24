@@ -15,6 +15,7 @@
 * Fix configuration template category names.
 * Fix cloudflare trim parameter order.
 * Fix CSP configuration.
+* Fix status report label.
 
 ### Removed
 

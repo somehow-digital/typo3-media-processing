@@ -29,7 +29,7 @@ class ServiceStatus implements StatusProviderInterface
 
 	public function getLabel(): string
 	{
-		return 'image_processing';
+		return 'LLL:EXT:media_processing/Resources/Private/Language/report.xlf:label';
 	}
 
 	public function getStatus(): array
