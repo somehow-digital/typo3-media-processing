@@ -146,19 +146,6 @@ class ImgProxyImageService extends ImageServiceAbstract
 			);
 		}
 
-		if (isset($configuration['focusArea']) && !$configuration['focusArea']->isEmpty()) {
-			$horizontalOffset = FocusAreaUtility::calculateCenter(
-				$configuration['focusArea']->getOffsetLeft(),
-				$configuration['focusArea']->getWidth(),
-			);
-			$verticalOffset = FocusAreaUtility::calculateCenter(
-				$configuration['focusArea']->getOffsetTop(),
-				$configuration['focusArea']->getHeight(),
-			);
-			$uri->setGravity('fp', $horizontalOffset, $verticalOffset);
-		}
-
-
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
 			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
 		}
