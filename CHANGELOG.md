@@ -5,7 +5,20 @@
 ### Added
 
 * Add support for media processing of files in private storage.
-* Add support for rendering online media preview images.
+* Add support for rendering online media preview images (for YouTube and Vimeo).
+* Add proxy source loader for `gumlet` integration.
+* Add `MediaProcessedEvent` event.
+
+### Fixed
+
+* Skip processing if processed file is up-to-date.
+* Fix configuration template category names.
+* Fix cloudflare trim parameter order.
+* Fix CSP configuration.
+
+### Removed
+
+* Remove non-standard focus area handling from all integrations.
 
 ## [0.9.0]
 
