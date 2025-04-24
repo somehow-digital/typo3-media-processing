@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [0.10.0]
+
 ### Added
 
 * Add support for media processing of files in private storage.
@@ -138,7 +140,8 @@
 * Add integration for [**imagekit.io** `service`](https://imagekit.io/).
 * Add backend toolbar action and CLI command for processed media invalidation.
 
-[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.9.0...HEAD
+[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.10.0...HEAD
+[0.10.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.7.1...v0.8.0
 [0.7.1]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.7.0...v0.7.1
