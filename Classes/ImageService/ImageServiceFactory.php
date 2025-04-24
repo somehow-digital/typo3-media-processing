@@ -11,7 +11,6 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryFetchSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUploadSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletFolderSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletProxySource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;

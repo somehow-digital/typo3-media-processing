@@ -6,12 +6,11 @@ namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
-use SomehowDigital\Typo3\MediaProcessing\Utility\FocusAreaUtility;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class CloudflareImageService extends ImageServiceAbstract
+class CloudflareImageService implements ImageServiceInterface
 {
 	public static function getIdentifier(): string
 	{

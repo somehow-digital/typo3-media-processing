@@ -226,18 +226,6 @@ for more information.
 
 ## Usage 🪄
 
-### Backend
-
-The backend `Invalidate processed media` action can be used to invalidate
-processed files for the active media processing integration.
-
-### CLI
-
-The TYPO3 CLI `cleanup:invalidatemedia` command can be used to invalidate
-processed files for the active media processing integration.
-
-`vendor/bin/typo3 cleanup:invalidatemedia`
-
 ## API
 
 ### Events
@@ -275,7 +263,6 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Support for TYPO3 `13`.
 * ✅ Support `resize` operations.
 * ✅ Support `crop` operations.
-* ✅ Backend toolbar action and CLI command for processed media invalidation.
 * ✅ Integration for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
 * ✅ Integration for [**imagor** `library`](https://github.com/cshum/imagor).
 * ✅ Integration for [**thumbor** `library`](https://github.com/thumbor/thumbor).

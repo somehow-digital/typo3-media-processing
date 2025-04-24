@@ -20,6 +20,8 @@
 ### Removed
 
 * Remove non-standard focus area handling from all integrations.
+* Remove backend toolbar action and CLI command for processed media invalidation.
+* Remove custom file checksum calculation in favor of native checksum calculation.
 
 ## [0.9.0]
 

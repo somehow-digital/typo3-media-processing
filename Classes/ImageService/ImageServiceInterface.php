@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use TYPO3\CMS\Core\Resource\FileInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 interface ImageServiceInterface
@@ -17,8 +16,6 @@ interface ImageServiceInterface
 	public function hasConfiguration(): bool;
 
 	public function getSupportedMimeTypes(): array;
-
-	public function calculateChecksum(FileInterface $file): string;
 
 	public function canProcessTask(TaskInterface $task): bool;
 

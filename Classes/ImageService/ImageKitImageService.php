@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class ImageKitImageService extends ImageServiceAbstract
+class ImageKitImageService implements ImageServiceInterface
 {
 	public static function getIdentifier(): string
 	{
