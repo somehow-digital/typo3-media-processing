@@ -16,6 +16,9 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixFolderSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixProxySource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImglabProxySource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImglabUriSource;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImglabWebSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyFileSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriSource;
@@ -52,6 +55,7 @@ class ImageServiceFactory
 			CloudinaryImageService::getIdentifier() => $this->getCloudinaryImageService($options),
 			CloudImageImageService::getIdentifier() => $this->getCloudImageImageService($options),
 			GumletImageService::getIdentifier() => $this->getGumletImageService($options),
+			ImglabImageService::getIdentifier() => $this->getImglabImageService($options),
 		};
 	}
 
@@ -232,6 +236,25 @@ class ImageServiceFactory
 		};
 
 		return new GumletImageService(
+			$source,
+			$options,
+		);
+	}
+
+	private function getImglabImageService(array $options): ImglabImageService
+	{
+		$source = match ($options['source_loader']) {
+			ImglabWebSource::IDENTIFIER => (static function () use ($options): ImglabWebSource {
+				return new ImglabWebSource();
+			})(),
+			ImglabProxySource::IDENTIFIER => (static function () use ($options): ImglabProxySource {
+				return new ImglabProxySource(
+					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+				);
+			})(),
+		};
+
+		return new ImglabImageService(
 			$source,
 			$options,
 		);
