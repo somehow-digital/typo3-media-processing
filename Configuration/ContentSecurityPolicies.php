@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceFactory;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderFactory;
 use TYPO3\CMS\Core\Security\ContentSecurityPolicy\Directive;
 use TYPO3\CMS\Core\Security\ContentSecurityPolicy\Mutation;
 use TYPO3\CMS\Core\Security\ContentSecurityPolicy\MutationCollection;
@@ -13,10 +13,10 @@ use TYPO3\CMS\Core\Type\Map;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 try {
-	$service = GeneralUtility::makeInstance(ImageServiceFactory::class)();
+	$provider = GeneralUtility::makeInstance(ProviderFactory::class)();
 
-	$collection = $service?->hasConfiguration() ? [
-		new Mutation(MutationMode::Extend, Directive::ImgSrc, new UriValue($service?->getEndpoint())),
+	$collection = $provider?->hasConfiguration() ? [
+		new Mutation(MutationMode::Extend, Directive::ImgSrc, new UriValue($provider?->getEndpoint())),
 	] : [];
 
 	return Map::fromEntries([

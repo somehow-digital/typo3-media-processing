@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class ImgProxyImageService implements ImageServiceInterface
+class ThumborProvider implements ProviderInterface
 {
 	public static function getIdentifier(): string
 	{
-		return 'imgproxy';
+		return 'thumbor';
 	}
 
 	public function __construct(
@@ -32,13 +32,10 @@ class ImgProxyImageService implements ImageServiceInterface
 			'api_endpoint' => null,
 			'source_loader' => 'uri',
 			'source_uri' => null,
-			'encryption' => false,
-			'encryption_key' => null,
 			'signature' => false,
 			'signature_key' => null,
-			'signature_salt' => null,
-			'signature_size' => 0,
-			'processing_pdf' => false,
+			'signature_algorithm' => 'sha1',
+			'signature_length' => null,
 		]);
 	}
 
@@ -52,19 +49,14 @@ class ImgProxyImageService implements ImageServiceInterface
 		return $this->options['signature_key'] ?: null;
 	}
 
-	public function getSignatureSalt(): ?string
+	public function getSignatureAlgorithm(): ?string
 	{
-		return $this->options['signature_salt'] ?: null;
+		return $this->options['signature_algorithm'] ?: null;
 	}
 
-	public function getSignatureSize(): ?int
+	public function getSignatureLength(): ?int
 	{
-		return (int) $this->options['signature_size'] ?: null;
-	}
-
-	public function getEncryptionKey(): ?string
-	{
-		return $this->options['encryption_key'] ?: null;
+		return (int) $this->options['signature_length'] ?: null;
 	}
 
 	public function hasConfiguration(): bool
@@ -72,44 +64,41 @@ class ImgProxyImageService implements ImageServiceInterface
 		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
-	public function getSupportedMimeTypes(): array
+
+	private function getSupportedMimeTypes(): array
 	{
-		return array_filter([
+		return [
 			'image/jpeg',
 			'image/png',
 			'image/webp',
 			'image/avif',
 			'image/gif',
-			'image/ico',
-			'image/heic',
-			'image/heif',
 			'image/bmp',
 			'image/tiff',
 			'video/youtube',
 			'video/vimeo',
-			$this->options['processing_pdf'] ? 'application/pdf' : null,
-		]);
+		];
 	}
 
-	public function canProcessTask(TaskInterface $task): bool
+	public function supports(TaskInterface $task): bool
 	{
 		return
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResultInterface
+	public function process(TaskInterface $task): ProviderResultInterface
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
+
 		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new ImgProxyUri(
+		$uri = new ThumborUri(
 			$this->getEndpoint(),
 			$this->getSignatureKey(),
-			$this->getSignatureSalt(),
-			$this->getSignatureSize(),
-			$this->getEncryptionKey(),
+			$this->getSignatureAlgorithm(),
+			$this->getSignatureLength(),
 		);
 
 		$uri->setSource($this->source->getSource(($file)));
@@ -117,31 +106,26 @@ class ImgProxyImageService implements ImageServiceInterface
 		$type = (static function ($configuration) {
 			switch (true) {
 				default:
-					return 'force';
+					return 'stretch';
 
 				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
 				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'fit';
-
 				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
 				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'fill';
+				case isset($configuration['maxWidth']):
+				case isset($configuration['maxHeight']):
+					return 'fit-in';
 			}
 		})($configuration);
 
-		$uri->setType($type);
+		$type && $uri->setType($type);
 
 		if (isset($configuration['crop'])) {
 			$uri->setCrop(
 				(int) $configuration['crop']->getWidth(),
 				(int) $configuration['crop']->getHeight(),
-				[
-					ImgProxyUri::GRAVITY_TOP_LEFT,
-					(int) $configuration['crop']->getOffsetLeft(),
-					(int) $configuration['crop']->getOffsetTop(),
-				],
+				(int) $configuration['crop']->getOffsetLeft(),
+				(int) $configuration['crop']->getOffsetTop(),
 			);
 		}
 
@@ -149,25 +133,11 @@ class ImgProxyImageService implements ImageServiceInterface
 			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
 		}
 
-		if (isset($configuration['minWidth'])) {
-			$uri->setMinWidth((int) $configuration['minWidth']);
-		}
-
 		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
 			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
 		}
 
-		if (isset($configuration['minHeight'])) {
-			$uri->setMinHeight((int) $configuration['minHeight']);
-		}
-
-		if (isset($configuration['dpr']) && $configuration['dpr'] > 1) {
-			$uri->setDevicePixelRatio((float) $configuration['dpr']);
-		}
-
-		$uri->setHash($file->getSha1());
-
-		return new ImageServiceResult(
+		return new ProviderResult(
 			$uri,
 			$dimension,
 		);

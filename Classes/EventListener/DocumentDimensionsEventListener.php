@@ -3,26 +3,21 @@
 namespace SomehowDigital\Typo3\MediaProcessing\EventListener;
 
 use Smalot\PdfParser\Parser;
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\Event\BeforeFileProcessingEvent;
 
-class DocumentDimensionsEventListener {
-	private ?ImageServiceInterface $service;
-
+class DocumentDimensionsEventListener
+{
 	private ?array $configuration;
 
-	private Parser $parser;
-
 	public function __construct(
-		?ImageServiceInterface $service,
+		private readonly ProviderInterface $provider,
+		private readonly Parser $parser,
 		?ExtensionConfiguration $configuration,
-		Parser $parser
 	) {
-		$this->service = $service;
 		$this->configuration = $configuration?->get('media_processing');
-		$this->parser = $parser;
 	}
 
 	public function __invoke(BeforeFileProcessingEvent $event): void {
@@ -38,8 +33,8 @@ class DocumentDimensionsEventListener {
 		if ($event->getFile()->getProperty('width')) return;
 		if ($event->getFile()->getProperty('height')) return;
 
-		if (!$this->service?->hasConfiguration()) return;
-		if (!$this->service?->canProcessTask($event->getProcessedFile()->getTask())) return;
+		if (!$this->provider?->hasConfiguration()) return;
+		if (!$this->provider?->supports($event->getProcessedFile()->getTask())) return;
 
 		$document = $this->parser->parseFile($event->getFile()->getForLocalProcessing());
 		$details = current($document->getPages())->getDetails();

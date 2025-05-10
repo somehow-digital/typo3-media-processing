@@ -6,8 +6,8 @@
 			<trans-unit id="label">
 				<source>Media Processing</source>
 			</trans-unit>
-			<trans-unit id="integration">
-				<source>Active Integration</source>
+			<trans-unit id="provider">
+				<source>Active Provider</source>
 			</trans-unit>
 			<trans-unit id="configuration">
 				<source>Configuration</source>

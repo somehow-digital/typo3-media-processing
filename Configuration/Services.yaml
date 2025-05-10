@@ -14,11 +14,11 @@ services:
   SomehowDigital\Typo3\MediaProcessing\EventListener\:
     resource: '../Classes/EventListener/*'
 
-  SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceFactory:
+  SomehowDigital\Typo3\MediaProcessing\Provider\ProviderFactory:
     public: true
 
-  SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface:
-    factory: '@SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceFactory'
+  SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface:
+    factory: '@SomehowDigital\Typo3\MediaProcessing\Provider\ProviderFactory'
 
   SomehowDigital\Typo3\MediaProcessing\EventListener\DocumentDimensionsEventListener:
     tags:

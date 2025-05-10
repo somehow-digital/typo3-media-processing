@@ -2,13 +2,17 @@
 
 ## [Unreleased]
 
+### Changed
+
+* Rename `integration` to `provider` and adapt service classes accordingly.
+
 ## [0.10.0]
 
 ### Added
 
 * Add support for media processing of files in private storage.
 * Add support for rendering online media preview images (for YouTube and Vimeo).
-* Add proxy source loader for `gumlet` integration.
+* Add proxy source loader for `gumlet` provider.
 * Add `MediaProcessedEvent` event.
 
 ### Fixed
@@ -21,7 +25,7 @@
 
 ### Removed
 
-* Remove non-standard focus area handling from all integrations.
+* Remove non-standard focus area handling from all providers.
 * Remove backend toolbar action and CLI command for processed media invalidation.
 * Remove custom file checksum calculation in favor of native checksum calculation.
 
@@ -29,7 +33,7 @@
 
 ### Added
 
-* Add support for `device pixel ratio` parameter for `imgproxy` integration.
+* Add support for `device pixel ratio` parameter for `imgproxy` provider.
 
 ## [0.8.0]
 
@@ -41,13 +45,13 @@
 
 ### Fixed
 
-* Fix calculation of the integration checksum.
+* Fix calculation of the provider checksum.
 
 ## [0.7.0]
 
 ### Added
 
-* Introduce option to enable/disable PDF processing for the `imgproxy` integration.
+* Introduce option to enable/disable PDF processing for the `imgproxy` provider.
 
 ### Fixed
 
@@ -59,23 +63,23 @@
 
 ### Added
 
-* Add support for `gravity` parameter for `gumlet.com` integration.
-* Add support for URL signing for `bunny.net` integration.
+* Add support for `gravity` parameter for `gumlet.com` provider.
+* Add support for URL signing for `bunny.net` provider.
 
 ### Fixed
 
-* Fix configuration label for the `imgproxy` integration.
-* Fix argument definition on the `ImgixImageService::__construct` method.
+* Fix configuration label for the `imgproxy` provider.
+* Fix argument definition on the `ImgixProvider::__construct` method.
 * Fix return-type on the `GumletUri::getKey` method.
-* Fix incorrect gravity parameter for the `imgproxy` integration.
-* Fix incorrect gravity parameter for the `optimole` integration.
+* Fix incorrect gravity parameter for the `imgproxy` provider.
+* Fix incorrect gravity parameter for the `optimole` provider.
 
 ## [0.5.0]
 
 ### Added
 
-* Add integration for [**gumlet.com** `service`](https://www.gumlet.com/).
-* Add support for `gravity` parameter for `cloudflare.com` integration.
+* Add provider for [**gumlet.com** `service`](https://www.gumlet.com/).
+* Add support for `gravity` parameter for `cloudflare.com` provider.
 
 ### Fixed
 
@@ -99,11 +103,11 @@
 
 ### Added
 
-* Add URL signing functionality for the imagekit.io integration.
+* Add URL signing functionality for the imagekit.io provider.
 
 ### Fixed
 
-* Fix URL building for the imagekit.io integration.
+* Fix URL building for the imagekit.io provider.
 
 ## [0.3.1]
 
@@ -115,16 +119,16 @@
 
 ### Added
 
-* Add integration for [**imgix.com** `service`](https://imgix.com/).
-* Add integration for [**cloudinary.com** `service`](https://cloudinary.com/).
-* Add integration for [**cloudimage.io** `service`](https://cloudimage.io/).
+* Add provider for [**imgix.com** `service`](https://imgix.com/).
+* Add provider for [**cloudinary.com** `service`](https://cloudinary.com/).
+* Add provider for [**cloudimage.io** `service`](https://cloudimage.io/).
 
 ## [0.2.0]
 
 ### Added
 
-* Add integration for [**bunny.net** `service`](https://bunny.net/).
-* Add integration for [**sirv.com** `service`](https://sirv.com/).
+* Add provider for [**bunny.net** `service`](https://bunny.net/).
+* Add provider for [**sirv.com** `service`](https://sirv.com/).
 
 ## [0.1.0]
 
@@ -132,12 +136,12 @@
 
 * Add support for TYPO3 `12`.
 * Add support `resizing` and `cropping` operations.
-* Add integration for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
-* Add integration for [**imagor** `library`](https://github.com/cshum/imagor).
-* Add integration for [**thumbor** `library`](https://github.com/thumbor/thumbor).
-* Add integration for [**optimole.com** `service`](https://optimole.com/).
-* Add integration for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
-* Add integration for [**imagekit.io** `service`](https://imagekit.io/).
+* Add provider for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
+* Add provider for [**imagor** `library`](https://github.com/cshum/imagor).
+* Add provider for [**thumbor** `library`](https://github.com/thumbor/thumbor).
+* Add provider for [**optimole.com** `service`](https://optimole.com/).
+* Add provider for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
+* Add provider for [**imagekit.io** `service`](https://imagekit.io/).
 * Add backend toolbar action and CLI command for processed media invalidation.
 
 [unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.10.0...HEAD

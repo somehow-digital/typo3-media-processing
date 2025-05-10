@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Report\Status;
 
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
@@ -14,15 +14,13 @@ use TYPO3\CMS\Reports\StatusProviderInterface;
 
 class ServiceStatus implements StatusProviderInterface
 {
-	private ?ImageServiceInterface $service;
-	private ?array $configuration;
-	private ?LanguageService $translator;
+	private readonly ?LanguageService $translator;
+	private readonly ?array $configuration;
 
 	public function __construct(
-		?ImageServiceInterface $service,
+		private readonly ?ProviderInterface $provider,
 		?ExtensionConfiguration $configuration,
 	) {
-		$this->service = $service;
 		$this->configuration = $configuration?->get('media_processing');
 		$this->translator = $GLOBALS['LANG'];
 	}
@@ -35,10 +33,10 @@ class ServiceStatus implements StatusProviderInterface
 	public function getStatus(): array
 	{
 		$result = [
-			'integration' => $this->getIntegrationStatus(),
+			'provider' => $this->getProviderStatus(),
 		];
 
-		if ($this->service) {
+		if ($this->provider) {
 			$result['configuration'] = $this->getConfigurationStatus();
 			$result['frontend'] = $this->getFrontendStatus();
 			$result['backend'] = $this->getBackendStatus();
@@ -48,13 +46,13 @@ class ServiceStatus implements StatusProviderInterface
 		return $result;
 	}
 
-	private function getIntegrationStatus(): Status
+	private function getProviderStatus(): Status
 	{
 		return GeneralUtility::makeInstance(
 			Status::class,
-			$this->translator->sL('LLL:EXT:media_processing/Resources/Private/Language/report.xlf:integration'),
-			$this->configuration['common']['integration'] ?: 'local',
-			$this->service?->getEndpoint(),
+			$this->translator->sL('LLL:EXT:media_processing/Resources/Private/Language/report.xlf:provider'),
+			$this->configuration['common']['provider'] ?: 'local',
+			$this->provider?->getEndpoint(),
 			ContextualFeedbackSeverity::INFO,
 		);
 	}
@@ -64,9 +62,9 @@ class ServiceStatus implements StatusProviderInterface
 		return GeneralUtility::makeInstance(
 			Status::class,
 			$this->translator->sL('LLL:EXT:media_processing/Resources/Private/Language/report.xlf:configuration'),
-			$this->service?->hasConfiguration() ? 'valid' : 'invalid',
+			$this->provider?->hasConfiguration() ? 'valid' : 'invalid',
 			'',
-			$this->service?->hasConfiguration() ? ContextualFeedbackSeverity::OK : ContextualFeedbackSeverity::ERROR,
+			$this->provider?->hasConfiguration() ? ContextualFeedbackSeverity::OK : ContextualFeedbackSeverity::ERROR,
 		);
 	}
 

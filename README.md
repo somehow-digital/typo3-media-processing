@@ -5,7 +5,7 @@ libraries and SaaS cloud services into TYPO3 by leveraging their APIs to
 process images. This  basically replaces the need for local image processing
 libraries like `ImageMagick` for image processing operations.
 
-**Integrations**
+**Providers**
 
 | name                                                      | resize | crop | focus | sign |
 |:----------------------------------------------------------|:------:|:----:|:-----:|:----:|
@@ -22,10 +22,10 @@ libraries like `ImageMagick` for image processing operations.
 | [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟢   |  🟢  |
 
-* `resize`: Integration supports resize operations.
-* `crop`: Integration supports crop operations.
-* `focus`: Integration supports gravity or focus points. (experimental)
-* `sign`: Integration supports URL signing.
+* `resize`: Provider supports resize operations.
+* `crop`: Provider supports crop operations.
+* `focus`: Provider supports gravity or focus points. (experimental)
+* `sign`: Provider supports URL signing.
 
 🟢 supported and integrated  
 🟡 supported but not integrated  
@@ -56,7 +56,7 @@ extension from the `TYPO3 Extension Repository`.
 ## Setup ⚙️
 
 By choosing and configuring one of the available image processing
-integrations, TYPO3 will use the configured integration to process
+providers, TYPO3 will use the configured provider to process
 images instead of using the local image processing library.
 
 ### Configuration
@@ -66,14 +66,14 @@ Extension configuration is located in the TYPO3 backend under
 
 **common** `common`
 
-| option      | type    | description                                      | default |
-|-------------|---------|--------------------------------------------------|---------|
-| integration | options | Service integration to use for image processing. | `null`  |
-| storage     | bool    | Enable local storage of processed files.         | `false` |
-| backend     | bool    | Enable image processing in the backend.          | `true`  |
-| frontend    | bool    | Enable image processing in the frontend.         | `true`  |
+| option     | type    | description                                     | default |
+|------------|---------|-------------------------------------------------|---------|
+| provider   | options | Service provider to use for image processing.   | `null`  |
+| storage    | bool    | Enable local storage of processed files.        | `false` |
+| backend    | bool    | Enable image processing in the backend.         | `true`  |
+| frontend   | bool    | Enable image processing in the frontend.        | `true`  |
 
-**imgproxy** `integration.imgproxy`
+**imgproxy** `provider.imgproxy`
 
 | option         | type    | description                                 | default |
 |----------------|---------|---------------------------------------------|---------|
@@ -90,7 +90,7 @@ Extension configuration is located in the TYPO3 backend under
 See also the official [`imgproxy` documentation](https://docs.imgproxy.net/)
 for more information.
 
-**imagor** `integration.imagor`
+**imagor** `provider.imagor`
 
 | option              | type    | description                                    | default |
 |---------------------|---------|------------------------------------------------|---------|
@@ -105,7 +105,7 @@ for more information.
 See also the official [`imagor` documentation](https://github.com/cshum/imagor)
 for more information.
 
-**thumbor** `integration.thumbor`
+**thumbor** `provider.thumbor`
 
 | option              | type    | description                                     | default |
 |---------------------|---------|-------------------------------------------------|---------|
@@ -120,7 +120,7 @@ for more information.
 See also the official [`thumbor` documentation](https://thumbor.readthedocs.io/)
 for more information.
 
-**optimole.com** `integration.optimole`
+**optimole.com** `provider.optimole`
 
 | option     | type   | description                                 | default |
 |------------|--------|---------------------------------------------|---------|
@@ -130,7 +130,7 @@ for more information.
 See also the official [`optimole` documentation](https://docs.optimole.com/)
 for more information.
 
-**bunny.net** `integration.bunny`
+**bunny.net** `provider.bunny`
 
 | option        | type   | description                                 | default |
 |---------------|--------|---------------------------------------------|---------|
@@ -142,7 +142,7 @@ for more information.
 See also the official [`bunny.net` documentation](https://docs.bunny.net/docs/)
 for more information.
 
-**cloudflare.com** `integration.cloudflare`
+**cloudflare.com** `provider.cloudflare`
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -152,7 +152,7 @@ for more information.
 See also the official [`cloudflare` documentation](https://developers.cloudflare.com/images/image-resizing/)
 for more information.
 
-**imagekit.io** `integration.imagekit`
+**imagekit.io** `provider.imagekit`
 
 | option        | type   | description                                 | default |
 |---------------|--------|---------------------------------------------|---------|
@@ -164,7 +164,7 @@ for more information.
 See also the official [`imagekit.io` documentation](https://docs.imagekit.io/)
 for more information.
 
-**sirv.com** `integration.sirv`
+**sirv.com** `provider.sirv`
 
 | option       | type   | description                                 | default |
 |--------------|--------|---------------------------------------------|---------|
@@ -174,7 +174,7 @@ for more information.
 See also the official [`sirv.com` documentation](https://sirv.com/help/articles/dynamic-imaging/)
 for more information.
 
-**imgix.com** `integration.imgix`
+**imgix.com** `provider.imgix`
 
 | option        | type    | description                                 | default |
 |---------------|---------|---------------------------------------------|---------|
@@ -187,7 +187,7 @@ for more information.
 See also the official [`imgix.com` documentation](https://docs.imgix.com/)
 for more information.
 
-**cloudinary.com** `integration.cloudinary`
+**cloudinary.com** `provider.cloudinary`
 
 | option              | type    | description                                        | default |
 |---------------------|---------|----------------------------------------------------|---------|
@@ -201,7 +201,7 @@ for more information.
 See also the official [`cloudinary.com` documentation](https://cloudinary.com/documentation/)
 for more information.
 
-**cloudimage.io** `integration.cloudimage`
+**cloudimage.io** `provider.cloudimage`
 
 | option              | type    | description                                        | default |
 |---------------------|---------|----------------------------------------------------|---------|
@@ -213,7 +213,7 @@ for more information.
 See also the official [`cloudimage.io` documentation](https://docs.cloudimage.io/)
 for more information.
 
-**gumlet.com** `integration.gumlet`
+**gumlet.com** `provider.gumlet`
 
 | option        | type   | description                                  | default |
 |---------------|--------|----------------------------------------------|---------|
@@ -263,38 +263,38 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Support for TYPO3 `13`.
 * ✅ Support `resize` operations.
 * ✅ Support `crop` operations.
-* ✅ Integration for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
-* ✅ Integration for [**imagor** `library`](https://github.com/cshum/imagor).
-* ✅ Integration for [**thumbor** `library`](https://github.com/thumbor/thumbor).
-* ✅ Integration for [**optimole.com** `service`](https://optimole.com/).
-* ✅ Integration for [**bunny.net** `service`](https://bunny.net/).
-* ✅ Integration for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
-* ✅ Integration for [**imagekit.io** `service`](https://imagekit.io/).
-* ✅ Integration for [**sirv.com** `service`](https://sirv.com/).
-* ✅ Integration for [**imgix.com** `service`](https://imgix.com/).
-* ✅ Integration for [**cloudinary.com** `service`](https://cloudinary.com/).
-* ✅ Integration for [**cloudimage.io** `service`](https://www.cloudimage.io/).
-* ✅ Integration for [**gumlet.com** `service`](https://www.gumlet.com/).
+* ✅ Provider for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).
+* ✅ Provider for [**imagor** `library`](https://github.com/cshum/imagor).
+* ✅ Provider for [**thumbor** `library`](https://github.com/thumbor/thumbor).
+* ✅ Provider for [**optimole.com** `service`](https://optimole.com/).
+* ✅ Provider for [**bunny.net** `service`](https://bunny.net/).
+* ✅ Provider for [**cloudflare.com** `service`](https://developers.cloudflare.com/images/).
+* ✅ Provider for [**imagekit.io** `service`](https://imagekit.io/).
+* ✅ Provider for [**sirv.com** `service`](https://sirv.com/).
+* ✅ Provider for [**imgix.com** `service`](https://imgix.com/).
+* ✅ Provider for [**cloudinary.com** `service`](https://cloudinary.com/).
+* ✅ Provider for [**cloudimage.io** `service`](https://www.cloudimage.io/).
+* ✅ Provider for [**gumlet.com** `service`](https://www.gumlet.com/).
 * Release.
 
 Version **2.0.0** 🏷️ `planning`
 
 * Support for gravity configuration via `focusArea` operations.
 * Support for manual and smart gravity configuration.
-* Integration for [**glide** `library`](https://glide.thephpleague.com/).
-* Integration for [**imaginary** `library`](https://github.com/h2non/imaginary).
-* Integration for [**imageflow** `library`](https://www.imageflow.io/).
-* Integration for [**weserv** `library`](https://images.weserv.nl/).
-* Integration for [**fastly.com** `service`](https://fastly.com/).
-* Integration for [**shortpixel.com** `service`](https://shortpixel.com/).
-* Integration for [**imagify.io** `service`](https://imagify.io/).
-* Integrations per site.
+* Provider for [**glide** `library`](https://glide.thephpleague.com/).
+* Provider for [**imaginary** `library`](https://github.com/h2non/imaginary).
+* Provider for [**imageflow** `library`](https://www.imageflow.io/).
+* Provider for [**weserv** `library`](https://images.weserv.nl/).
+* Provider for [**fastly.com** `service`](https://fastly.com/).
+* Provider for [**shortpixel.com** `service`](https://shortpixel.com/).
+* Provider for [**imagify.io** `service`](https://imagify.io/).
+* Providers per site.
 * Send HEAD requests to speed up image generation.
 
 Version **3.0.0** 🏷️ `researching`
 
-* Integration for more image processing libraries/services.
-* Integration for video processing libraries/services.
+* Integration of more image processing libraries/services.
+* Integration of video processing libraries/services.
 
 ---
 

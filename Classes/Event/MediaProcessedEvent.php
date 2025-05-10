@@ -2,29 +2,21 @@
 
 namespace SomehowDigital\Typo3\MediaProcessing\Event;
 
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceResultInterface;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderResultInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class MediaProcessedEvent
 {
-	private ImageServiceInterface $service;
-	private ImageServiceResultInterface $result;
-	private TaskInterface $task;
-
 	public function __construct(
-		ImageServiceInterface $service,
-		TaskInterface $task,
-		ImageServiceResultInterface $result,
-	) {
-		$this->service = $service;
-		$this->task = $task;
-		$this->result = $result;
-	}
+		private readonly ProviderInterface $provider,
+		private readonly TaskInterface $task,
+		private readonly ProviderResultInterface $result,
+	) {}
 
-	public function getService(): ImageServiceInterface
+	public function getProvider(): ProviderInterface
 	{
-		return $this->service;
+		return $this->provider;
 	}
 
 	public function getTask(): TaskInterface
@@ -32,7 +24,7 @@ class MediaProcessedEvent
 		return $this->task;
 	}
 
-	public function getResult(): ImageServiceResultInterface
+	public function getResult(): ProviderResultInterface
 	{
 		return $this->result;
 	}

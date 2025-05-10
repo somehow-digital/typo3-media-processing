@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriSource;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
@@ -25,7 +25,7 @@ use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborUriSource;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class ImageServiceFactory
+class ProviderFactory
 {
 	private array $configuration;
 
@@ -34,28 +34,28 @@ class ImageServiceFactory
 		$this->configuration = $configuration->get('media_processing');
 	}
 
-	public function __invoke(): ?ImageServiceInterface
+	public function __invoke(): ?ProviderInterface
 	{
-		$options = $this->configuration['integration'][$this->configuration['common']['integration']] ?? [];
+		$options = $this->configuration['provider'][$this->configuration['common']['provider']] ?? [];
 
-		return match ($this->configuration['common']['integration']) {
+		return match ($this->configuration['common']['provider']) {
 			default => null,
-			ImgProxyImageService::getIdentifier() => $this->getImgProxyImageService($options),
-			ImagorImageService::getIdentifier() => $this->getImagorImageService($options),
-			ThumborImageService::getIdentifier() => $this->getThumborImageService($options),
-			OptimoleImageService::getIdentifier() => $this->getOptimoleImageService($options),
-			BunnyImageService::getIdentifier() => $this->getBunnyImageService($options),
-			CloudflareImageService::getIdentifier() => $this->getCloudflareImageService($options),
-			ImageKitImageService::getIdentifier() => $this->getImageKitImageService($options),
-			SirvImageService::getIdentifier() => $this->getSirvImageService($options),
-			ImgixImageService::getIdentifier() => $this->getImgixImageService($options),
-			CloudinaryImageService::getIdentifier() => $this->getCloudinaryImageService($options),
-			CloudImageImageService::getIdentifier() => $this->getCloudImageImageService($options),
-			GumletImageService::getIdentifier() => $this->getGumletImageService($options),
+			ImgProxyProvider::getIdentifier() => $this->getImgProxyProvider($options),
+			ImagorProvider::getIdentifier() => $this->getImagorProvider($options),
+			ThumborProvider::getIdentifier() => $this->getThumborProvider($options),
+			OptimoleProvider::getIdentifier() => $this->getOptimoleProvider($options),
+			BunnyProvider::getIdentifier() => $this->getBunnyProvider($options),
+			CloudflareProvider::getIdentifier() => $this->getCloudflareProvider($options),
+			ImageKitProvider::getIdentifier() => $this->getImageKitProvider($options),
+			SirvProvider::getIdentifier() => $this->getSirvProvider($options),
+			ImgixProvider::getIdentifier() => $this->getImgixProvider($options),
+			CloudinaryProvider::getIdentifier() => $this->getCloudinaryProvider($options),
+			CloudImageProvider::getIdentifier() => $this->getCloudImageProvider($options),
+			GumletProvider::getIdentifier() => $this->getGumletProvider($options),
 		};
 	}
 
-	private function getImgProxyImageService(array $options): ImgProxyImageService
+	private function getImgProxyProvider(array $options): ImgProxyProvider
 	{
 		$source = match ($options['source_loader']) {
 			ImgProxyUriSource::IDENTIFIER => (static function () use ($options): ImgProxyUriSource {
@@ -68,13 +68,13 @@ class ImageServiceFactory
 			})(),
 		};
 
-		return new ImgProxyImageService(
+		return new ImgProxyProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getImagorImageService(array $options): ImagorImageService
+	private function getImagorProvider(array $options): ImagorProvider
 	{
 		$source = match ($options['source_loader']) {
 			ImagorUriSource::IDENTIFIER => (static function () use ($options): ImagorUriSource {
@@ -87,13 +87,13 @@ class ImageServiceFactory
 			})(),
 		};
 
-		return new ImagorImageService(
+		return new ImagorProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getThumborImageService(array $options): ThumborImageService
+	private function getThumborProvider(array $options): ThumborProvider
 	{
 		$source = match ($options['source_loader']) {
 			ThumborUriSource::IDENTIFIER => (static function () use ($options): ThumborUriSource {
@@ -106,69 +106,69 @@ class ImageServiceFactory
 			})(),
 		};
 
-		return new ThumborImageService(
+		return new ThumborProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getOptimoleImageService(array $options): OptimoleImageService
+	private function getOptimoleProvider(array $options): OptimoleProvider
 	{
 		$source = new OptimoleUriSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		return new OptimoleImageService(
+		return new OptimoleProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getBunnyImageService(array $options): BunnyImageService
+	private function getBunnyProvider(array $options): BunnyProvider
 	{
 		$source = new BunnyUriSource();
 
-		return new BunnyImageService(
+		return new BunnyProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getCloudflareImageService(array $options): CloudflareImageService
+	private function getCloudflareProvider(array $options): CloudflareProvider
 	{
 		$source = new CloudflareUriSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		return new CloudflareImageService(
+		return new CloudflareProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getImageKitImageService(array $options): ImageKitImageService
+	private function getImageKitProvider(array $options): ImageKitProvider
 	{
 		$source = new ImageKitUriSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		return new ImageKitImageService(
+		return new ImageKitProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getSirvImageService(array $options): SirvImageService
+	private function getSirvProvider(array $options): SirvProvider
 	{
 		$source = new SirvUriSource();
 
-		return new SirvImageService(
+		return new SirvProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getImgixImageService(array $options): ImgixImageService
+	private function getImgixProvider(array $options): ImgixProvider
 	{
 		$source = match ($options['source_loader']) {
 			ImgixProxySource::IDENTIFIER => (static function () use ($options): ImgixProxySource {
@@ -181,13 +181,13 @@ class ImageServiceFactory
 			})(),
 		};
 
-		return new ImgixImageService(
+		return new ImgixProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getCloudinaryImageService(array $options): CloudinaryImageService
+	private function getCloudinaryProvider(array $options): CloudinaryProvider
 	{
 		$source = match ($options['delivery_mode']) {
 			CloudinaryFetchSource::IDENTIFIER => (static function () use ($options): CloudinaryFetchSource {
@@ -200,25 +200,25 @@ class ImageServiceFactory
 			})(),
 		};
 
-		return new CloudinaryImageService(
+		return new CloudinaryProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getCloudImageImageService(array $options): CloudImageImageService
+	private function getCloudImageProvider(array $options): CloudImageProvider
 	{
 		$source = new CloudImageUriSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
-		return new CloudImageImageService(
+		return new CloudImageProvider(
 			$source,
 			$options,
 		);
 	}
 
-	private function getGumletImageService(array $options): GumletImageService
+	private function getGumletProvider(array $options): GumletProvider
 	{
 		$source = match ($options['source_loader']) {
 			GumletFolderSource::IDENTIFIER => (static function (): GumletFolderSource {
@@ -231,7 +231,7 @@ class ImageServiceFactory
 			})(),
 		};
 
-		return new GumletImageService(
+		return new GumletProvider(
 			$source,
 			$options,
 		);

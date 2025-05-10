@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-interface ImageServiceInterface
+interface ProviderInterface
 {
 	public function configureOptions(OptionsResolver $resolver): void;
 
@@ -15,9 +15,7 @@ interface ImageServiceInterface
 
 	public function hasConfiguration(): bool;
 
-	public function getSupportedMimeTypes(): array;
+	public function supports(TaskInterface $task): bool;
 
-	public function canProcessTask(TaskInterface $task): bool;
-
-	public function processTask(TaskInterface $task): ImageServiceResultInterface;
+	public function process(TaskInterface $task): ProviderResultInterface;
 }
