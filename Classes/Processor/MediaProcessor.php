@@ -6,7 +6,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\Processor;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use SomehowDigital\Typo3\MediaProcessing\Event\MediaProcessedEvent;
-use SomehowDigital\Typo3\MediaProcessing\ImageService\ImageServiceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\Processing\ProcessorInterface;
@@ -15,20 +15,14 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class MediaProcessor implements ProcessorInterface
 {
-	private ?ImageServiceInterface $service;
-
-	private ?array $configuration;
-
-	private ?EventDispatcherInterface $dispatcher;
+	private readonly ?array $configuration;
 
 	public function __construct(
-		?ImageServiceInterface $service,
+		private readonly ?ProviderInterface $provider,
+		private readonly ?EventDispatcherInterface $dispatcher,
 		?ExtensionConfiguration $configuration,
-		?EventDispatcherInterface $dispatcher,
 	) {
-		$this->service = $service;
 		$this->configuration = $configuration?->get('media_processing');
-		$this->dispatcher = $dispatcher;
 	}
 
 	public function canProcessTask(TaskInterface $task): bool
@@ -45,8 +39,8 @@ class MediaProcessor implements ProcessorInterface
 		if (!$task->getSourceFile()->getProperty('width')) return false;
 		if (!$task->getSourceFile()->getProperty('height')) return false;
 
-		if (!$this->service?->hasConfiguration()) return false;
-		if (!$this->service?->canProcessTask($task)) return false;
+		if (!$this->provider?->hasConfiguration()) return false;
+		if (!$this->provider?->supports($task)) return false;
 
 		return true;
 	}
@@ -58,9 +52,9 @@ class MediaProcessor implements ProcessorInterface
 			return;
 		}
 
-		$result = $this->service?->processTask($task);
+		$result = $this->provider?->process($task);
 
-		$this->dispatcher->dispatch(new MediaProcessedEvent($this->service, $task, $result));
+		$this->dispatcher->dispatch(new MediaProcessedEvent($this->provider, $task, $result));
 
 		if (!$result->getUri()) {
 			$task->setExecuted(false);

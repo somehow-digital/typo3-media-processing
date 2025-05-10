@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class OptimoleImageService implements ImageServiceInterface
+class OptimoleProvider implements ProviderInterface
 {
 	public static function getIdentifier(): string
 	{
@@ -51,7 +51,7 @@ class OptimoleImageService implements ImageServiceInterface
 		return (bool) $this->options['api_key'];
 	}
 
-	public function getSupportedMimeTypes(): array
+	private function getSupportedMimeTypes(): array
 	{
 		return [
 			'image/jpeg',
@@ -70,14 +70,14 @@ class OptimoleImageService implements ImageServiceInterface
 		];
 	}
 
-	public function canProcessTask(TaskInterface $task): bool
+	public function supports(TaskInterface $task): bool
 	{
 		return
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResultInterface
+	public function process(TaskInterface $task): ProviderResultInterface
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
@@ -135,7 +135,7 @@ class OptimoleImageService implements ImageServiceInterface
 
 		$uri->setHash($file->getSha1());
 
-		return new ImageServiceResult(
+		return new ProviderResult(
 			$uri,
 			$dimension,
 		);

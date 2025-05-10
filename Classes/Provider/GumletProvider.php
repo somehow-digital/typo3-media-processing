@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class BunnyImageService implements ImageServiceInterface
+class GumletProvider implements ProviderInterface
 {
 	public static function getIdentifier(): string
 	{
-		return 'bunny';
+		return 'gumlet';
 	}
 
 	public function __construct(
@@ -30,6 +30,8 @@ class BunnyImageService implements ImageServiceInterface
 	{
 		$resolver->setDefaults([
 			'api_endpoint' => null,
+			'source_loader' => 'folder',
+			'source_uri' => null,
 			'signature' => false,
 			'signature_key' => null,
 		]);
@@ -38,6 +40,11 @@ class BunnyImageService implements ImageServiceInterface
 	public function getEndpoint(): string
 	{
 		return $this->options['api_endpoint'];
+	}
+
+	public function hasSignature(): bool
+	{
+		return (bool) $this->options['signature'];
 	}
 
 	public function getSignatureKey(): ?string
@@ -50,34 +57,42 @@ class BunnyImageService implements ImageServiceInterface
 		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
-	public function getSupportedMimeTypes(): array
+	private function getSupportedMimeTypes(): array
 	{
 		return [
 			'image/jpeg',
+			'image/jpx',
+			'image/jpm',
+			'image/jxl',
 			'image/png',
 			'image/webp',
+			'image/tiff',
 			'image/gif',
+			'image/heic',
+			'image/heif',
+			'image/avif',
+			'application/pdf',
 			'video/youtube',
 			'video/vimeo',
 		];
 	}
 
-	public function canProcessTask(TaskInterface $task): bool
+	public function supports(TaskInterface $task): bool
 	{
 		return
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResultInterface
+	public function process(TaskInterface $task): ProviderResultInterface
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new BunnyUri(
+		$uri = new GumletUri(
 			$this->getEndpoint(),
-			$this->getSignatureKey(),
+			$this->hasSignature() ? $this->getSignatureKey() : null,
 		);
 
 		$uri->setSource($this->source->getSource($file));
@@ -99,7 +114,7 @@ class BunnyImageService implements ImageServiceInterface
 			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
 		}
 
-		return new ImageServiceResult(
+		return new ProviderResult(
 			$uri,
 			$dimension,
 		);

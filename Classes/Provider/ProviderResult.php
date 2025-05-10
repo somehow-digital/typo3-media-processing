@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriInterface;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 
-class ImageServiceResult implements ImageServiceResultInterface
+class ProviderResult implements ProviderResultInterface
 {
 	public function __construct(
 		private readonly UriInterface $uri,

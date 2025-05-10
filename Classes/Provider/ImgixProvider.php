@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class CloudinaryImageService implements ImageServiceInterface
+class ImgixProvider implements ProviderInterface
 {
 	public static function getIdentifier(): string
 	{
-		return 'cloudinary';
+		return 'imgix';
 	}
 
 	public function __construct(
@@ -30,10 +30,9 @@ class CloudinaryImageService implements ImageServiceInterface
 	{
 		$resolver->setDefaults([
 			'api_endpoint' => null,
-			'delivery_mode' => 'fetch',
+			'source_loader' => 'folder',
 			'source_uri' => null,
 			'signature' => false,
-			'signature_algorithm' => 'sha1',
 			'signature_key' => null,
 		]);
 	}
@@ -48,66 +47,47 @@ class CloudinaryImageService implements ImageServiceInterface
 		return $this->options['signature_key'] ?: null;
 	}
 
-	public function getSignatureAlgorithm(): ?string
-	{
-		return $this->options['signature_algorithm'] ?: null;
-	}
-
-	public function getSource(): ?UriSourceInterface
-	{
-		return $this->source;
-	}
-
 	public function hasConfiguration(): bool
 	{
-		return (bool) $this->getEndpoint();
+		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
-	public function getSupportedMimeTypes(): array
+	private function getSupportedMimeTypes(): array
 	{
 		return [
 			'image/jpeg',
-			'image/jp2',
-			'image/jpx',
-			'image/jpm',
-			'image/vnd.ms-photo',
 			'image/png',
 			'image/webp',
-			'image/avif',
 			'image/gif',
-			'image/ico',
 			'image/heic',
-			'image/heif',
 			'image/bmp',
+			'image/eps',
 			'image/tiff',
-			'image/x-targa',
-			'image/x-tga',
 			'application/pdf',
 			'video/youtube',
 			'video/vimeo',
 		];
 	}
 
-	public function canProcessTask(TaskInterface $task): bool
+	public function supports(TaskInterface $task): bool
 	{
 		return
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResultInterface
+	public function process(TaskInterface $task): ProviderResultInterface
 	{
+		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new CloudinaryUri(
+		$uri = new ImgixUri(
 			$this->getEndpoint(),
-			$this->getSource(),
 			$this->getSignatureKey(),
-			$this->getSignatureAlgorithm(),
 		);
 
-		$uri->setSource($this->source->getSource($task->getSourceFile()));
+		$uri->setSource($this->source->getSource($file));
 
 		$fit = (static function ($configuration) {
 			switch (true) {
@@ -116,17 +96,17 @@ class CloudinaryImageService implements ImageServiceInterface
 
 				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
 				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'fill';
+					return 'crop';
 
 				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
 				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
 				case isset($configuration['maxWidth']):
 				case isset($configuration['maxHeight']):
-					return 'fit';
+					return 'clip';
 			}
 		})($configuration);
 
-		$uri->setMode($fit);
+		$uri->setFit($fit);
 
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
 			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
@@ -137,7 +117,7 @@ class CloudinaryImageService implements ImageServiceInterface
 		}
 
 		if (isset($configuration['crop'])) {
-			$uri->setCrop(
+			$uri->setRect(
 				(int) ($configuration['crop']->getOffsetLeft()),
 				(int) ($configuration['crop']->getOffsetTop()),
 				(int) ($configuration['crop']->getWidth()),
@@ -145,7 +125,7 @@ class CloudinaryImageService implements ImageServiceInterface
 			);
 		}
 
-		return new ImageServiceResult(
+		return new ProviderResult(
 			$uri,
 			$dimension,
 		);

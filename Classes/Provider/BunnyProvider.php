@@ -2,19 +2,19 @@
 
 declare(strict_types=1);
 
-namespace SomehowDigital\Typo3\MediaProcessing\ImageService;
+namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUri;
+use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUri;
 use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
-class ImageKitImageService implements ImageServiceInterface
+class BunnyProvider implements ProviderInterface
 {
 	public static function getIdentifier(): string
 	{
-		return 'imagekit';
+		return 'bunny';
 	}
 
 	public function __construct(
@@ -30,7 +30,6 @@ class ImageKitImageService implements ImageServiceInterface
 	{
 		$resolver->setDefaults([
 			'api_endpoint' => null,
-			'source_uri' => null,
 			'signature' => false,
 			'signature_key' => null,
 		]);
@@ -51,60 +50,25 @@ class ImageKitImageService implements ImageServiceInterface
 		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
 	}
 
-	public function getSupportedMimeTypes(): array
-	{
-		return [
-			'image/jpeg',
-			'image/png',
-			'image/webp',
-			'image/gif',
-			'image/svg',
-			'image/avif',
-			'image/heic',
-			'image/heif',
-			'video/youtube',
-			'video/vimeo',
-		];
-	}
-
-	public function canProcessTask(TaskInterface $task): bool
+	public function supports(TaskInterface $task): bool
 	{
 		return
 			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function processTask(TaskInterface $task): ImageServiceResultInterface
+	public function process(TaskInterface $task): ProviderResultInterface
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new ImageKitUri(
+		$uri = new BunnyUri(
 			$this->getEndpoint(),
 			$this->getSignatureKey(),
 		);
 
 		$uri->setSource($this->source->getSource($file));
-
-		$mode = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'force';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'at_max';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'maintain_ratio';
-			}
-		})($configuration);
-
-		$uri->setMode($mode);
 
 		if (isset($configuration['crop'])) {
 			$uri->setCrop(
@@ -123,9 +87,21 @@ class ImageKitImageService implements ImageServiceInterface
 			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
 		}
 
-		return new ImageServiceResult(
+		return new ProviderResult(
 			$uri,
 			$dimension,
 		);
+	}
+
+	private function getSupportedMimeTypes(): array
+	{
+		return [
+			'image/jpeg',
+			'image/png',
+			'image/webp',
+			'image/gif',
+			'video/youtube',
+			'video/vimeo',
+		];
 	}
 }

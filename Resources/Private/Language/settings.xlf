@@ -3,8 +3,8 @@
 	<file source-language="en" datatype="plaintext">
 		<header/>
 		<body>
-			<trans-unit id="common.integration">
-				<source>Integration</source>
+			<trans-unit id="common.provider">
+				<source>Provider</source>
 			</trans-unit>
 			<trans-unit id="common.storage">
 				<source>Store processed files on disk</source>
@@ -19,183 +19,183 @@
 				<source>Enable media processing in frontend</source>
 			</trans-unit>
 
-			<trans-unit id="integration.imgproxy.api_endpoint">
+			<trans-unit id="provider.imgproxy.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.source_loader">
+			<trans-unit id="provider.imgproxy.source_loader">
 				<source>Source Loader</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.source_uri">
+			<trans-unit id="provider.imgproxy.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.encryption">
+			<trans-unit id="provider.imgproxy.encryption">
 				<source>Origin URL Encryption (PRO license)</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.encryption_key">
+			<trans-unit id="provider.imgproxy.encryption_key">
 				<source>Origin URL Encryption Key (PRO license)</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.signature">
+			<trans-unit id="provider.imgproxy.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.signature_key">
+			<trans-unit id="provider.imgproxy.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.signature_salt">
+			<trans-unit id="provider.imgproxy.signature_salt">
 				<source>URL Signature Salt</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.signature_size">
+			<trans-unit id="provider.imgproxy.signature_size">
 				<source>URL Signature Size</source>
 			</trans-unit>
-			<trans-unit id="integration.imgproxy.processing_pdf">
+			<trans-unit id="provider.imgproxy.processing_pdf">
 				<source>Enable PDF processing (PRO license)</source>
 			</trans-unit>
 
-			<trans-unit id="integration.imagor.api_endpoint">
+			<trans-unit id="provider.imagor.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imagor.source_loader">
+			<trans-unit id="provider.imagor.source_loader">
 				<source>Source Loader</source>
 			</trans-unit>
-			<trans-unit id="integration.imagor.source_uri">
+			<trans-unit id="provider.imagor.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imagor.signature">
+			<trans-unit id="provider.imagor.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.imagor.signature_key">
+			<trans-unit id="provider.imagor.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
-			<trans-unit id="integration.imagor.signature_algorithm">
+			<trans-unit id="provider.imagor.signature_algorithm">
 				<source>URL Signature Algorithm</source>
 			</trans-unit>
-			<trans-unit id="integration.imagor.signature_length">
+			<trans-unit id="provider.imagor.signature_length">
 				<source>URL Signature Length</source>
 			</trans-unit>
 
-			<trans-unit id="integration.thumbor.api_endpoint">
+			<trans-unit id="provider.thumbor.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.thumbor.source_loader">
+			<trans-unit id="provider.thumbor.source_loader">
 				<source>Source Loader</source>
 			</trans-unit>
-			<trans-unit id="integration.thumbor.source_uri">
+			<trans-unit id="provider.thumbor.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.thumbor.signature">
+			<trans-unit id="provider.thumbor.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.thumbor.signature_key">
+			<trans-unit id="provider.thumbor.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
-			<trans-unit id="integration.thumbor.signature_algorithm">
+			<trans-unit id="provider.thumbor.signature_algorithm">
 				<source>URL Signature Algorithm</source>
 			</trans-unit>
-			<trans-unit id="integration.thumbor.signature_length">
+			<trans-unit id="provider.thumbor.signature_length">
 				<source>URL Signature Length</source>
 			</trans-unit>
 
-			<trans-unit id="integration.optimole.api_key">
+			<trans-unit id="provider.optimole.api_key">
 				<source>API Key</source>
 			</trans-unit>
-			<trans-unit id="integration.optimole.source_uri">
+			<trans-unit id="provider.optimole.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
 
-			<trans-unit id="integration.bunny.api_endpoint">
+			<trans-unit id="provider.bunny.api_endpoint">
 				<source>Pull Zone URL</source>
 			</trans-unit>
-			<trans-unit id="integration.bunny.signature">
+			<trans-unit id="provider.bunny.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.bunny.signature_key">
+			<trans-unit id="provider.bunny.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
 
-			<trans-unit id="integration.cloudflare.api_endpoint">
+			<trans-unit id="provider.cloudflare.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudflare.source_uri">
+			<trans-unit id="provider.cloudflare.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
 
-			<trans-unit id="integration.imagekit.api_endpoint">
+			<trans-unit id="provider.imagekit.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imagekit.source_uri">
+			<trans-unit id="provider.imagekit.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imagekit.signature">
+			<trans-unit id="provider.imagekit.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.imagekit.signature_key">
+			<trans-unit id="provider.imagekit.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
 
-			<trans-unit id="integration.sirv.api_endpoint">
+			<trans-unit id="provider.sirv.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
 
-			<trans-unit id="integration.imgix.api_endpoint">
+			<trans-unit id="provider.imgix.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imgix.source_loader">
+			<trans-unit id="provider.imgix.source_loader">
 				<source>Source Loader</source>
 			</trans-unit>
-			<trans-unit id="integration.imgix.source_uri">
+			<trans-unit id="provider.imgix.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.imgix.signature">
+			<trans-unit id="provider.imgix.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.imgix.signature_key">
+			<trans-unit id="provider.imgix.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
 
-			<trans-unit id="integration.cloudinary.api_endpoint">
+			<trans-unit id="provider.cloudinary.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudinary.delivery_mode">
+			<trans-unit id="provider.cloudinary.delivery_mode">
 				<source>Delivery Mode</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudinary.source_uri">
+			<trans-unit id="provider.cloudinary.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudinary.signature">
+			<trans-unit id="provider.cloudinary.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudinary.signature_algorithm">
+			<trans-unit id="provider.cloudinary.signature_algorithm">
 				<source>URL Signature Algorithm</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudinary.signature_key">
+			<trans-unit id="provider.cloudinary.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
 
-			<trans-unit id="integration.cloudimage.api_endpoint">
+			<trans-unit id="provider.cloudimage.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudimage.source_uri">
+			<trans-unit id="provider.cloudimage.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudimage.signature">
+			<trans-unit id="provider.cloudimage.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.cloudimage.signature_key">
+			<trans-unit id="provider.cloudimage.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
 
-			<trans-unit id="integration.gumlet.api_endpoint">
+			<trans-unit id="provider.gumlet.api_endpoint">
 				<source>API Endpoint URL</source>
 			</trans-unit>
-			<trans-unit id="integration.gumlet.source_loader">
+			<trans-unit id="provider.gumlet.source_loader">
 				<source>Source Loader</source>
 			</trans-unit>
-			<trans-unit id="integration.gumlet.source_uri">
+			<trans-unit id="provider.gumlet.source_uri">
 				<source>Origin Host URL</source>
 			</trans-unit>
-			<trans-unit id="integration.gumlet.signature">
+			<trans-unit id="provider.gumlet.signature">
 				<source>Enable URL signing</source>
 			</trans-unit>
-			<trans-unit id="integration.gumlet.signature_key">
+			<trans-unit id="provider.gumlet.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
 		</body>
