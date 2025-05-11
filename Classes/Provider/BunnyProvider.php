@@ -4,10 +4,9 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUri;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\UriSourceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Builder\BunnyBuilder;
+use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class BunnyProvider implements ProviderInterface
@@ -18,21 +17,12 @@ class BunnyProvider implements ProviderInterface
 	}
 
 	public function __construct(
-		protected readonly UriSourceInterface $source,
+		protected readonly SourceInterface $source,
 		protected array $options,
 	) {
 		$resolver = new OptionsResolver();
 		$this->configureOptions($resolver);
 		$this->options = $resolver->resolve($options);
-	}
-
-	public function configureOptions(OptionsResolver $resolver): void
-	{
-		$resolver->setDefaults([
-			'api_endpoint' => null,
-			'signature' => false,
-			'signature_key' => null,
-		]);
 	}
 
 	public function getEndpoint(): string
@@ -57,21 +47,20 @@ class BunnyProvider implements ProviderInterface
 			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
-	public function process(TaskInterface $task): ProviderResultInterface
+	public function configure(TaskInterface $task): BunnyBuilder
 	{
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
-		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$uri = new BunnyUri(
+		$builder = new BunnyBuilder(
 			$this->getEndpoint(),
 			$this->getSignatureKey(),
 		);
 
-		$uri->setSource($this->source->getSource($file));
+		$builder->setSource($this->source->getSource($file));
 
 		if (isset($configuration['crop'])) {
-			$uri->setCrop(
+			$builder->setCrop(
 				(int) $configuration['crop']->getWidth(),
 				(int) $configuration['crop']->getHeight(),
 				(int) $configuration['crop']->getOffsetLeft(),
@@ -80,17 +69,23 @@ class BunnyProvider implements ProviderInterface
 		}
 
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
-			$uri->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+			$builder->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
 		}
 
 		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
-			$uri->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+			$builder->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
 		}
 
-		return new ProviderResult(
-			$uri,
-			$dimension,
-		);
+		return $builder;
+	}
+
+	private function configureOptions(OptionsResolver $resolver): void
+	{
+		$resolver->setDefaults([
+			'api_endpoint' => null,
+			'signature' => false,
+			'signature_key' => null,
+		]);
 	}
 
 	private function getSupportedMimeTypes(): array

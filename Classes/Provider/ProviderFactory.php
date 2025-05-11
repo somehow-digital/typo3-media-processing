@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\BunnyUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudflareUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudImageUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryFetchSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\CloudinaryUploadSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletFolderSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\GumletProxySource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImageKitUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorFileSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImagorUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixFolderSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgixProxySource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyFileSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ImgProxyUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\OptimoleUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\SirvUriSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborFileSource;
-use SomehowDigital\Typo3\MediaProcessing\UriBuilder\ThumborUriSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\BunnyUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudflareUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudImageUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinaryFetchSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinaryUploadSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\GumletFolderSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\GumletProxySource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImageKitUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImagorFileSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImagorUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgixFolderSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgixProxySource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyFileSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\OptimoleUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\SirvUrlSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ThumborFileSource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ThumborUrlSource;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -58,8 +58,8 @@ class ProviderFactory
 	private function getImgProxyProvider(array $options): ImgProxyProvider
 	{
 		$source = match ($options['source_loader']) {
-			ImgProxyUriSource::IDENTIFIER => (static function () use ($options): ImgProxyUriSource {
-				return new ImgProxyUriSource(
+			ImgProxyUrlSource::IDENTIFIER => (static function () use ($options): ImgProxyUrlSource {
+				return new ImgProxyUrlSource(
 					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 				);
 			})(),
@@ -77,8 +77,8 @@ class ProviderFactory
 	private function getImagorProvider(array $options): ImagorProvider
 	{
 		$source = match ($options['source_loader']) {
-			ImagorUriSource::IDENTIFIER => (static function () use ($options): ImagorUriSource {
-				return new ImagorUriSource(
+			ImagorUrlSource::IDENTIFIER => (static function () use ($options): ImagorUrlSource {
+				return new ImagorUrlSource(
 					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 				);
 			})(),
@@ -96,8 +96,8 @@ class ProviderFactory
 	private function getThumborProvider(array $options): ThumborProvider
 	{
 		$source = match ($options['source_loader']) {
-			ThumborUriSource::IDENTIFIER => (static function () use ($options): ThumborUriSource {
-				return new ThumborUriSource(
+			ThumborUrlSource::IDENTIFIER => (static function () use ($options): ThumborUrlSource {
+				return new ThumborUrlSource(
 					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 				);
 			})(),
@@ -114,7 +114,7 @@ class ProviderFactory
 
 	private function getOptimoleProvider(array $options): OptimoleProvider
 	{
-		$source = new OptimoleUriSource(
+		$source = new OptimoleUrlSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
@@ -126,7 +126,7 @@ class ProviderFactory
 
 	private function getBunnyProvider(array $options): BunnyProvider
 	{
-		$source = new BunnyUriSource();
+		$source = new BunnyUrlSource();
 
 		return new BunnyProvider(
 			$source,
@@ -136,7 +136,7 @@ class ProviderFactory
 
 	private function getCloudflareProvider(array $options): CloudflareProvider
 	{
-		$source = new CloudflareUriSource(
+		$source = new CloudflareUrlSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
@@ -148,7 +148,7 @@ class ProviderFactory
 
 	private function getImageKitProvider(array $options): ImageKitProvider
 	{
-		$source = new ImageKitUriSource(
+		$source = new ImageKitUrlSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
@@ -160,7 +160,7 @@ class ProviderFactory
 
 	private function getSirvProvider(array $options): SirvProvider
 	{
-		$source = new SirvUriSource();
+		$source = new SirvUrlSource();
 
 		return new SirvProvider(
 			$source,
@@ -208,7 +208,7 @@ class ProviderFactory
 
 	private function getCloudImageProvider(array $options): CloudImageProvider
 	{
-		$source = new CloudImageUriSource(
+		$source = new CloudImageUrlSource(
 			$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 		);
 
