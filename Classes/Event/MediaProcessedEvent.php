@@ -2,30 +2,28 @@
 
 namespace SomehowDigital\Typo3\MediaProcessing\Event;
 
-use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
-use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderResultInterface;
+use SomehowDigital\Typo3\MediaProcessing\Builder\BuilderInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
 class MediaProcessedEvent
 {
 	public function __construct(
-		private readonly ProviderInterface $provider,
 		private readonly TaskInterface $task,
-		private readonly ProviderResultInterface $result,
+		private BuilderInterface $builder,
 	) {}
-
-	public function getProvider(): ProviderInterface
-	{
-		return $this->provider;
-	}
 
 	public function getTask(): TaskInterface
 	{
 		return $this->task;
 	}
 
-	public function getResult(): ProviderResultInterface
+	public function getBuilder(): BuilderInterface
 	{
-		return $this->result;
+		return $this->builder;
+	}
+
+	public function setBuilder(BuilderInterface $builder): void
+	{
+		$this->builder = $builder;
 	}
 }

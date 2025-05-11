@@ -9,6 +9,7 @@ use SomehowDigital\Typo3\MediaProcessing\Event\MediaProcessedEvent;
 use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\ProcessorInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -18,8 +19,8 @@ class MediaProcessor implements ProcessorInterface
 	private readonly ?array $configuration;
 
 	public function __construct(
-		private readonly ?ProviderInterface $provider,
-		private readonly ?EventDispatcherInterface $dispatcher,
+		private readonly ProviderInterface $provider,
+		private readonly EventDispatcherInterface $dispatcher,
 		?ExtensionConfiguration $configuration,
 	) {
 		$this->configuration = $configuration?->get('media_processing');
@@ -39,8 +40,8 @@ class MediaProcessor implements ProcessorInterface
 		if (!$task->getSourceFile()->getProperty('width')) return false;
 		if (!$task->getSourceFile()->getProperty('height')) return false;
 
-		if (!$this->provider?->hasConfiguration()) return false;
-		if (!$this->provider?->supports($task)) return false;
+		if (!$this->provider->hasConfiguration()) return false;
+		if (!$this->provider->supports($task)) return false;
 
 		return true;
 	}
@@ -52,34 +53,33 @@ class MediaProcessor implements ProcessorInterface
 			return;
 		}
 
-		$result = $this->provider?->process($task);
+		$dimension = ImageDimension::fromProcessingTask($task);
 
-		$this->dispatcher->dispatch(new MediaProcessedEvent($this->provider, $task, $result));
+		$builder = $this->provider->configure($task);
 
-		if (!$result->getUri()) {
-			$task->setExecuted(false);
-			return;
-		}
+		$event = $this->dispatcher->dispatch(new MediaProcessedEvent($task, $builder));
 
-		$task->setExecuted(true);
+		$builder = $event->getBuilder() ?? $builder;
 
 		$task->getTargetFile()->setName($task->getTargetFileName());
 
 		$task->getTargetFile()->updateProperties([
-			'width' => $result->getDimension()->getWidth(),
-			'height' => $result->getDimension()->getHeight(),
+			'width' => $dimension->getWidth(),
+			'height' => $dimension->getHeight(),
 			'checksum' => $task->getConfigurationChecksum(),
-			'processing_url' => (string) $result->getUri(),
+			'processing_url' => $builder->build(),
 		]);
 
 		if ($this->configuration['common']['storage']) {
-			$this->storeFile($task, (string) $result->getUri(), $task->getConfigurationChecksum());
+			$this->storeFile($task, $builder->build(), $task->getConfigurationChecksum());
 		}
+
+		$task->setExecuted(true);
 	}
 
-	private function storeFile(TaskInterface $task, string $uri, string $checksum): void
+	private function storeFile(TaskInterface $task, string $url, string $checksum): void
 	{
-		$contents = file_get_contents($uri);
+		$contents = file_get_contents($url);
 
 		if ($contents) {
 			$path = GeneralUtility::tempnam($checksum);
