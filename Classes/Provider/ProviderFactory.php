@@ -16,6 +16,8 @@ use SomehowDigital\Typo3\MediaProcessing\Builder\ImagorFileSource;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImagorUrlSource;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgixFolderSource;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgixProxySource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgLabProxySource;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgLabWebSource;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyFileSource;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyUrlSource;
 use SomehowDigital\Typo3\MediaProcessing\Builder\OptimoleUrlSource;
@@ -52,6 +54,7 @@ class ProviderFactory
 			CloudinaryProvider::getIdentifier() => $this->getCloudinaryProvider($options),
 			CloudImageProvider::getIdentifier() => $this->getCloudImageProvider($options),
 			GumletProvider::getIdentifier() => $this->getGumletProvider($options),
+			ImgLabProvider::getIdentifier() => $this->getImgLabProvider($options),
 		};
 	}
 
@@ -232,6 +235,25 @@ class ProviderFactory
 		};
 
 		return new GumletProvider(
+			$source,
+			$options,
+		);
+	}
+
+	private function getImgLabProvider(array $options): ImgLabProvider
+	{
+		$source = match ($options['source_loader']) {
+			ImgLabWebSource::IDENTIFIER => (static function () use ($options): ImgLabWebSource {
+				return new ImgLabWebSource();
+			})(),
+			ImgLabProxySource::IDENTIFIER => (static function () use ($options): ImgLabProxySource {
+				return new ImgLabProxySource(
+					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+				);
+			})(),
+		};
+
+		return new ImgLabProvider(
 			$source,
 			$options,
 		);
