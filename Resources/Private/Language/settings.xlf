@@ -198,6 +198,25 @@
 			<trans-unit id="provider.gumlet.signature_key">
 				<source>URL Signature Key</source>
 			</trans-unit>
+
+			<trans-unit id="provider.imglab.api_endpoint">
+				<source>API Endpoint URL</source>
+			</trans-unit>
+			<trans-unit id="provider.imglab.source_loader">
+				<source>Source Loader</source>
+			</trans-unit>
+			<trans-unit id="provider.imglab.source_uri">
+				<source>Origin Host URL</source>
+			</trans-unit>
+			<trans-unit id="provider.imglab.signature">
+				<source>Enable URL signing</source>
+			</trans-unit>
+			<trans-unit id="provider.imglab.signature_key">
+				<source>URL Signature Key</source>
+			</trans-unit>
+			<trans-unit id="provider.imglab.signature_salt">
+				<source>URL Signature Salt</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

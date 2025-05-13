@@ -21,6 +21,7 @@ libraries like `ImageMagick` for image processing operations.
 | [**cloudinary.com** ](https://cloudinary.com/)            |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**cloudimage.io** ](https://cloudimage.io/)              |   🟢   |  🟢  |  🟡   |  🟢  |
 | [**gumlet.com** ](https://www.gumlet.com/)                |   🟢   |  🟢  |  🟢   |  🟢  |
+| [**imglab.io** ](https://www.imglab.io/)                  |   🟢   |  🟢  |  🟢   |  🟢  |
 
 * `resize`: Provider supports resize operations.
 * `crop`: Provider supports crop operations.
@@ -224,6 +225,17 @@ for more information.
 See also the official [`gumlet.com` documentation](https://docs.gumlet.com/)
 for more information.
 
+**imglab.io** `integration.imglab`
+
+| option        | type   | description                                 | default |
+|---------------|--------|---------------------------------------------|---------|
+| api_endpoint  | string | The Gumlet URL of the imglab.io service.    | `null`  |
+| signature     | bool   | Enable signature of the imglab.io service.  | `false` |
+| signature_key | string | The signature key of the imglab.io service. | `null`  |
+
+See also the official [`imglab.io` documentation](https://imglab.io/docs/overview/introduction/)
+for more information.
+
 ## Usage 🪄
 
 ## API
@@ -275,6 +287,7 @@ Version **1.0.0** 🏷️ `developing`
 * ✅ Provider for [**cloudinary.com** `service`](https://cloudinary.com/).
 * ✅ Provider for [**cloudimage.io** `service`](https://www.cloudimage.io/).
 * ✅ Provider for [**gumlet.com** `service`](https://www.gumlet.com/).
+* ✅ Provider for [**imglab.io** `service`](https://www.imglab.io/).
 * Release.
 
 Version **2.0.0** 🏷️ `planning`
