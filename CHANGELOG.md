@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Added
+
+* Add provider for [**imglab.io** `service`](https://www.imglab.io/).
+
 ### Changed
 
 * Rename `integration` to `provider` and adapt service classes accordingly.
