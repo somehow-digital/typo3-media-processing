@@ -59,11 +59,17 @@
 	},
 	"require-dev": {
 		"johnbacon/stout": "^1.16.1",
-		"roave/security-advisories": "dev-latest"
+		"roave/security-advisories": "dev-latest",
+		"typo3/testing-framework": "^9.5"
 	},
 	"autoload": {
 		"psr-4": {
 			"SomehowDigital\\Typo3\\MediaProcessing\\": "Classes/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"SomehowDigital\\Typo3\\MediaProcessing\\Tests\\": "Tests/"
 		}
 	},
 	"extra": {
