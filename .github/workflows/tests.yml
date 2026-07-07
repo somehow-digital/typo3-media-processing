@@ -1,0 +1,44 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+ tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            php:
+                - '8.2'
+                - '8.3'
+    steps:
+        - name: Checkout
+          uses: actions/checkout@v4
+
+        - name: Set up PHP version ${{ matrix.php }}
+          uses: shivammathur/setup-php@v2
+          with:
+            php-version: ${{ matrix.php }}
+            tools: composer:v2, php-cs-fixer
+
+        - name: Environment Check
+          run: |
+            php --version
+            composer --version
+
+        - name: Validate composer.json and composer.lock
+          run: composer validate
+
+        - name: Install dependencies
+          uses: ramsey/composer-install@v2
+
+        - name: Info
+          run: composer info
+
+        - name: Run unit tests
+          run: ./vendor/bin/phpunit Tests/Unit
+
+        - name: Run functional tests
+          run: ./vendor/bin/phpunit Tests/Functional  --bootstrap Tests/FunctionalTestsBootstrap.php
