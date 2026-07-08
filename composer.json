@@ -55,7 +55,8 @@
 		"ext-openssl": "*",
 		"smalot/pdfparser": "^v2.11.0",
 		"symfony/options-resolver": "^6.4 || ^7.2",
-		"typo3/cms-core": "^12.4 || ^13.4 || dev-main"
+		"typo3/cms-core": "^12.4 || ^13.4 || dev-main",
+		"typo3/cms-reports": "^12.4 || ^13.4 || dev-main"
 	},
 	"require-dev": {
 		"johnbacon/stout": "^1.16.1",
