@@ -162,9 +162,11 @@ class ImgProxyBuilder implements BuilderInterface
 		return $this->crop;
 	}
 
-	public function setDevicePixelRatio(float $ratio): void
+	public function setDevicePixelRatio(float $ratio): self
 	{
 		$this->devicePixelRatio = $ratio;
+
+		return $this;
 	}
 
 	public function getDevicePixelRatio(): ?float
