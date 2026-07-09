@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SomehowDigital\Typo3\MediaProcessing\Builder;
 
 use SomehowDigital\Typo3\MediaProcessing\Utility\OnlineMediaUtility;
-use TYPO3\CMS\Core\Resource\FileInterface;
+use TYPO3\CMS\Core\Resource\File;
 
 class ImgLabProxySource implements SourceInterface
 {
@@ -20,7 +20,7 @@ class ImgLabProxySource implements SourceInterface
 		return $this->host;
 	}
 
-	public function getSource(FileInterface $file): string
+	public function getSource(File $file): string
 	{
 		$url = OnlineMediaUtility::getPreviewImage($file) ?? $file->getPublicUrl();
 
