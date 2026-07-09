@@ -81,7 +81,7 @@ class OptimoleProvider implements ProviderInterface
 				(int) $configuration['crop']->getWidth(),
 				(int) $configuration['crop']->getHeight(),
 				[
-					OptimoleUri::GRAVITY_TOP_LEFT,
+					OptimoleBuilder::GRAVITY_TOP_LEFT,
 					(int) $configuration['crop']->getOffsetLeft(),
 					(int) $configuration['crop']->getOffsetTop(),
 				],
