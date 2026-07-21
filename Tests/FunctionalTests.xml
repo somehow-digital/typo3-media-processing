@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<!--
+    Functional test suite setup for gsb_newsletter extension.
+
+    Functional tests should extend \TYPO3\TestingFramework\Core\Functional\FunctionalTestCase,
+    take a look at this class for further documentation on how to run the suite.
+
+    TYPO3 CMS functional test suite also needs phpunit bootstrap code, the
+    file is located next to this .xml as FunctionalTestsBootstrap.php
+-->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.1/phpunit.xsd"
+         backupGlobals="true"
+         beStrictAboutTestsThatDoNotTestAnything="false"
+         bootstrap="FunctionalTestsBootstrap.php"
+         cacheDirectory=".phpunit.cache"
+         cacheResult="false"
+         colors="true"
+         displayDetailsOnTestsThatTriggerDeprecations="true"
+         displayDetailsOnTestsThatTriggerErrors="true"
+         displayDetailsOnTestsThatTriggerNotices="true"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         failOnDeprecation="true"
+         failOnNotice="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         requireCoverageMetadata="true"
+>
+    <testsuites>
+        <testsuite name="Functional">
+            <directory>./Functional/</directory>
+        </testsuite>
+    </testsuites>
+
+    <source>
+        <include>
+            <directory suffix=".php">../Classes</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">../Classes/Tests</directory>
+            <directory suffix=".php">../Tests</directory>
+        </exclude>
+    </source>
+
+    <php>
+        <ini name="display_errors" value="1"/>
+        <env name="TYPO3_CONTEXT" value="Testing"/>
+    </php>
+</phpunit>
+
