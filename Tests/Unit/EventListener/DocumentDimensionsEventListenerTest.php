@@ -81,7 +81,7 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 	#[Test]
 	public function doesNothingWhenProviderDoesNotSupportTask(): void
 	{
-		$event = $this->createEvent();
+		$event = $this->createEvent(taskType: 'UnsupportedTask');
 
 		$this->providerMock
 			->expects($this->once())
@@ -89,9 +89,8 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 			->willReturn(true);
 
 		$this->providerMock
-			->expects($this->once())
-			->method('supports')
-			->willReturn(false);
+			->expects($this->never())
+			->method('supports');
 
 		$this->parserMock
 			->expects($this->never())
@@ -129,9 +128,8 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 			->willReturn(true);
 
 		$this->providerMock
-			->expects($this->once())
-			->method('supports')
-			->willReturn(true);
+			->expects($this->never())
+			->method('supports');
 
 		$pageMock = $this->createMock(Page::class);
 
@@ -167,7 +165,8 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 	private function createEvent(
 		?int $width = null,
 		?int $height = null,
-		?MetaDataAspect $metadata = null
+		?MetaDataAspect $metadata = null,
+		string $taskType = 'Preview'
 	): BeforeFileProcessingEvent {
 		$storageMock = $this->createMock(ResourceStorage::class);
 
@@ -201,17 +200,11 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 		$fileStub->method('getMetaData')
 			->willReturn($metadata ?? $this->createStub(MetaDataAspect::class));
 
-		$processedFileStub = $this->createStub(ProcessedFile::class);
-
-		$processedFileStub
-			->method('getTask')
-			->willReturn($this->createStub(TaskInterface::class));
-
 		return new BeforeFileProcessingEvent(
 			$this->createStub(DriverInterface::class),
-			$processedFileStub,
+			$this->createStub(ProcessedFile::class),
 			$fileStub,
-			'task',
+			$taskType,
 			[]
 		);
 	}

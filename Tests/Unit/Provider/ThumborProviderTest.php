@@ -134,12 +134,18 @@ class ThumborProviderTest extends UnitTestCase
 			->method('getSource')
 			->willReturn('resolved-thumbor-source-path');
 
-		$targetFileStub = $this->createStub(ProcessedFile::class);
+		$targetFileStub = $this->getMockBuilder(ProcessedFile::class)
+			->disableOriginalConstructor()
+			->onlyMethods(['getProcessingConfiguration', 'getOriginalFile', 'updateProperties', 'setName'])
+			->getMock();
 		$targetFileStub
 			->method('getProcessingConfiguration')
 			->willReturn($processingConfig);
 
-		$taskStub = $this->createStub(TaskInterface::class);
+		$taskStub = $this->getMockBuilder(TaskInterface::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		$taskStub
 			->method('getSourceFile')
 			->willReturn($fileStub);
@@ -147,6 +153,8 @@ class ThumborProviderTest extends UnitTestCase
 		$taskStub
 			->method('getTargetFile')
 			->willReturn($targetFileStub);
+
+		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 
 		/** @var ThumborBuilder $builder */
 		$builder = $provider->configure($taskStub);

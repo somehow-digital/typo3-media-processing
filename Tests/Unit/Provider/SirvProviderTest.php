@@ -121,7 +121,14 @@ class SirvProviderTest extends UnitTestCase
 			->method('getSource')
 			->willReturn('resolved-sirv-source-path');
 
-		$targetFileStub = $this->createStub(ProcessedFile::class);
+		$targetFileStub = $this->getMockBuilder(ProcessedFile::class)
+			->disableOriginalConstructor()
+			->onlyMethods(['getProcessingConfiguration', 'getOriginalFile', 'updateProperties', 'setName'])
+			->getMock();
+
+		// Manually initialize the taskType property to avoid "must not be accessed before initialization" error
+		(fn() => $this->taskType = 'Preview')->call($targetFileStub);
+
 		$targetFileStub
 			->method('getProcessingConfiguration')
 			->willReturn($processingConfig);
@@ -130,7 +137,10 @@ class SirvProviderTest extends UnitTestCase
 			->method('getOriginalFile')
 			->willReturn($fileStub);
 
-		$taskStub = $this->createStub(TaskInterface::class);
+		$taskStub = $this->getMockBuilder(TaskInterface::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		$taskStub
 			->method('getSourceFile')
 			->willReturn($fileStub);
@@ -140,7 +150,6 @@ class SirvProviderTest extends UnitTestCase
 			->willReturn($targetFileStub);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-		$targetFileStub->method('getTask')->willReturn($taskStub);
 
 		/** @var SirvBuilder $builder */
 		$builder = $provider->configure($taskStub);
