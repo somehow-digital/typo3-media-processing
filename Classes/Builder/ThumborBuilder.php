@@ -123,7 +123,7 @@ class ThumborBuilder implements BuilderInterface
 
 		$options = implode('/', array_filter($parameters));
 
-		$source = rawurlencode(trim($this->getSource(), '/'));
+		$source = $this->encodeSource(trim($this->getSource(), '/'));
 
 		return strtr('%options%/%source%', [
 			'%source%' => $source,
@@ -142,5 +142,14 @@ class ThumborBuilder implements BuilderInterface
 		$signature = mb_substr($digest, 0, $this->length ?: null);
 
 		return strtr($signature, '+/', '-_');
+	}
+
+	private function encodeSource(string $path): string
+	{
+		return strtr($path, [
+			'%' => '%25',
+			'?' => '%3F',
+			'@' => '%40',
+		]);
 	}
 }
