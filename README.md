@@ -50,8 +50,8 @@ extension from the `TYPO3 Extension Repository`.
 
 ### Requirements
 
-* TYPO3 `12`-`13`
-* PHP `8.1`-`8.4`
+* TYPO3 `12`-`14`
+* PHP `8.1`-`8.5`
 * PHP [`openssl`](https://www.php.net/manual/en/book.openssl.php) extension
 
 ## Setup ⚙️
@@ -273,6 +273,7 @@ Version **1.0.0** 🏷️ `developing`
 
 * ✅ Support for TYPO3 `12`.
 * ✅ Support for TYPO3 `13`.
+* ✅ Support for TYPO3 `14`.
 * ✅ Support `resize` operations.
 * ✅ Support `crop` operations.
 * ✅ Provider for [**imgproxy** `library`](https://github.com/imgproxy/imgproxy).

@@ -120,13 +120,20 @@ class CloudImageProviderTest extends UnitTestCase
 			->method('getSource')
 			->willReturn('resolved-cloudimage-source');
 
-		$targetFileMock = $this->createMock(ProcessedFile::class);
+		$targetFileMock = $this->getMockBuilder(ProcessedFile::class)
+			->disableOriginalConstructor()
+			->onlyMethods(['getProcessingConfiguration', 'getOriginalFile', 'updateProperties', 'setName'])
+			->getMock();
+
 		$targetFileMock
 			->expects($this->once())
 			->method('getProcessingConfiguration')
 			->willReturn($processingConfig);
 
-		$taskMock = $this->createMock(TaskInterface::class);
+		$taskMock = $this->getMockBuilder(TaskInterface::class)
+			->disableOriginalConstructor()
+			->getMock();
+
 		$taskMock
 			->expects($this->once())
 			->method('getSourceFile')
@@ -136,6 +143,8 @@ class CloudImageProviderTest extends UnitTestCase
 			->expects($this->once())
 			->method('getTargetFile')
 			->willReturn($targetFileMock);
+
+		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 
 		/** @var CloudImageBuilder $builder */
 		$builder = $provider->configure($taskMock);

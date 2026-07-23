@@ -34,7 +34,7 @@ class DocumentDimensionsEventListener
 		if ($event->getFile()->getProperty('height')) return;
 
 		if (!$this->provider?->hasConfiguration()) return;
-		if (!$this->provider?->supports($event->getProcessedFile()->getTask())) return;
+		if (!in_array($event->getTaskType(), ['Preview', 'CropScaleMask'], true)) return;
 
 		$document = $this->parser->parseFile($event->getFile()->getForLocalProcessing());
 		$details = current($document->getPages())->getDetails();
