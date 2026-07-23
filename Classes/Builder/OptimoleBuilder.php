@@ -192,11 +192,20 @@ class OptimoleBuilder implements BuilderInterface
 			]);
 		}, array_keys($parameters), $parameters));
 
-		$source = trim($this->getSource(), '/');
+		$source = $this->encodeSource(trim($this->getSource(), '/'));
 
 		return strtr('%options%/%source%', [
 			'%source%' => $source,
 			'%options%' => $options,
+		]);
+	}
+
+	private function encodeSource(string $path): string
+	{
+		return strtr($path, [
+			'%' => '%25',
+			'?' => '%3F',
+			'@' => '%40',
 		]);
 	}
 }

@@ -58,7 +58,7 @@ class ImgProxyBuilderTest extends UnitTestCase
 			->setHeight(630)
 			->setType('webp');
 
-		$expectedUrl = 'http://localhost:8080/insecure/rt:webp/w:1200/h:630/plain/images%2Fbanner.jpg';
+		$expectedUrl = 'http://localhost:8080/insecure/rt:webp/w:1200/h:630/plain/images/banner.jpg';
 
 		$this->assertSame($expectedUrl, $builder->build());
 	}
@@ -97,6 +97,6 @@ class ImgProxyBuilderTest extends UnitTestCase
 		$url = $builder->build();
 
 		$this->assertStringContainsString('/enc/', $url);
-		$this->assertStringNotContainsString('private%2Fphoto.jpg', $url);
+		$this->assertStringNotContainsString('private/photo.jpg', $url);
 	}
 }

@@ -82,8 +82,8 @@ class ThumborBuilderTest extends UnitTestCase
 			400,
 			300,
 			null,
-			'400x300/folder%2Fimage.png',
-			'2rUP_K50ul8MXJ4R',
+			'400x300/folder/image.png',
+			'ojPcertThxxcgZhU',
 		];
 
 		yield 'resizing using fit-in adaptation rule' => [
@@ -91,8 +91,8 @@ class ThumborBuilderTest extends UnitTestCase
 			800,
 			600,
 			null,
-			'fit-in/800x600/folder%2Fimage.png',
-			'o8vUdcLSyNDjoWYL',
+			'fit-in/800x600/folder/image.png',
+			'gZluk9RxbtSiIvEm',
 		];
 
 		yield 'crop options calculate box boundaries correctly' => [
@@ -100,8 +100,8 @@ class ThumborBuilderTest extends UnitTestCase
 			null,
 			null,
 			[150, 100, 20, 30], // width, height, horizontal (x), vertical (y)
-			'20x30:170x130/folder%2Fimage.png', // x1xy1:x2xy2 format
-			'MQ5ciKFT6NSCOTcr',
+			'20x30:170x130/folder/image.png', // x1xy1:x2xy2 format
+			'_FYnaLq-yGt3fAQ4',
 		];
 
 		yield 'everything active at once' => [
@@ -109,8 +109,8 @@ class ThumborBuilderTest extends UnitTestCase
 			120,
 			120,
 			[50, 50, 10, 10],
-			'10x10:60x60/fit-in/120x120/folder%2Fimage.png',
-			'n3txtT_DGgAtMYCT',
+			'10x10:60x60/fit-in/120x120/folder/image.png',
+			'iazm3LcOMvg88EDm',
 		];
 	}
 }

@@ -222,13 +222,13 @@ class ImgProxyBuilder implements BuilderInterface
 			]);
 		}, array_keys($parameters), $parameters));
 
-		$source = $this->secret && extension_loaded('openssl')
-			? $this->encryptSource(rawurlencode(trim($this->getSource(), '/')))
-			: rawurlencode(trim($this->getSource(), '/'));
+		$prefix = static::ENCRYPTION_PLAIN;
+		$source = $this->encodeSource(trim($this->getSource(), '/'));
 
-		$prefix = $this->secret && extension_loaded('openssl')
-			? static::ENCRYPTION_ENCRYPTED
-			: static::ENCRYPTION_PLAIN;
+		if ($this->secret && extension_loaded('openssl')) {
+			$prefix = static::ENCRYPTION_ENCRYPTED;
+			$source = $this->encryptSource($source);
+		}
 
 		return strtr('%options%/%prefix%/%source%', [
 			'%source%' => $source,
@@ -263,5 +263,14 @@ class ImgProxyBuilder implements BuilderInterface
 		$digest = base64_encode($vector.$cipher);
 
 		return rtrim(strtr($digest, '+/', '-_'), '=');
+	}
+
+	private function encodeSource(string $path): string
+	{
+		return strtr($path, [
+			'%' => '%25',
+			'?' => '%3F',
+			'@' => '%40',
+		]);
 	}
 }
