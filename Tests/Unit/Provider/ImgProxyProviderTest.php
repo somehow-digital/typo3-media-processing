@@ -53,10 +53,10 @@ class ImgProxyProviderTest extends UnitTestCase
 	}
 
 	#[Test]
-	public function hasConfigurationReturnsFalseForInvalidUrl(): void
+	public function hasConfigurationReturnsFalseForEmptyUrl(): void
 	{
 		$options = $this->defaultOptions;
-		$options['api_endpoint'] = 'invalid-url';
+		$options['api_endpoint'] = '';
 		$provider = new ImgProxyProvider($this->sourceStub, $options);
 
 		$this->assertFalse($provider->hasConfiguration());

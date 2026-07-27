@@ -53,7 +53,7 @@ class ImgProxyProvider implements ProviderInterface
 
 	public function hasConfiguration(): bool
 	{
-		return filter_var($this->getEndpoint(), FILTER_VALIDATE_URL) !== false;
+		return $this->getEndpoint() !== '';
 	}
 
 	public function supports(TaskInterface $task): bool
