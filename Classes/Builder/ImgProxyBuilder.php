@@ -195,7 +195,7 @@ class ImgProxyBuilder implements BuilderInterface
 			: static::SIGNATURE_INSECURE;
 
 		return strtr('%endpoint%/%signature%/%path%', [
-			'%endpoint%' => trim($this->endpoint, '/'),
+			'%endpoint%' => rtrim($this->endpoint, '/'),
 			'%signature%' => $signature,
 			'%path%' => $path,
 		]);

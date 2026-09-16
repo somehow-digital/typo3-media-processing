@@ -99,4 +99,19 @@ class ImgProxyBuilderTest extends UnitTestCase
 		$this->assertStringContainsString('/enc/', $url);
 		$this->assertStringNotContainsString('private/photo.jpg', $url);
 	}
+
+	#[Test]
+	public function buildReturnsRelativeUrlOnRelativeEndpoint(): void
+	{
+		$builder = new ImgProxyBuilder('/_assets/processed/', null, null, null, null);
+
+		$builder->setSource('images/banner.jpg')
+			->setWidth(1200)
+			->setHeight(630)
+			->setType('webp');
+
+		$expectedUrl = '/_assets/processed/insecure/rt:webp/w:1200/h:630/plain/images/banner.jpg';
+
+		$this->assertSame($expectedUrl, $builder->build());
+	}
 }
