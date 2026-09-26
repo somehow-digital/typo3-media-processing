@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+## [1.0.0]
+
 ### Added
 
 * Add provider for [**imglab.io** `service`](https://www.imglab.io/).
@@ -157,7 +159,8 @@
 * Add provider for [**imagekit.io** `service`](https://imagekit.io/).
 * Add backend toolbar action and CLI command for processed media invalidation.
 
-[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.10.0...HEAD
+[unreleased]: https://github.com/somehow-digital/typo3-media-processing/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.10.0...v1.0.0
 [0.10.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.9.0...v0.10.0
 [0.9.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.8.0...v0.9.0
 [0.8.0]: https://github.com/somehow-digital/typo3-media-processing/compare/v0.7.1...v0.8.0
