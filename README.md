@@ -225,7 +225,7 @@ for more information.
 See also the official [`gumlet.com` documentation](https://docs.gumlet.com/)
 for more information.
 
-**imglab.io** `integration.imglab`
+**imglab.io** `provider.imglab`
 
 | option        | type   | description                                 | default |
 |---------------|--------|---------------------------------------------|---------|

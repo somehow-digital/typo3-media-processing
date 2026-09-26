@@ -9,6 +9,15 @@
 ### Changed
 
 * Rename `integration` to `provider` and adapt service classes accordingly.
+* Make `ImgProxyBuilder::setDevicePixelRatio` fluent.
+* Allow relative URLs for API endpoint for the `imgproxy` provider.
+
+### Fixed
+
+* Use `OptimoleBuilder` for gravity constant instead of non-existent constant.
+* Correct type hint in `OnlineMediaUtility::getPreviewImage`.
+* Adapt source url encoding.
+* Preserve leading slash in endpoint when using relative URLs for the `imgproxy` provider.
 
 ## [0.10.0]
 
