@@ -11,13 +11,18 @@ use TYPO3\CMS\Core\Security\ContentSecurityPolicy\Scope;
 use TYPO3\CMS\Core\Security\ContentSecurityPolicy\UriValue;
 use TYPO3\CMS\Core\Type\Map;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 try {
 	$provider = GeneralUtility::makeInstance(ProviderFactory::class)();
+    $endpoint = $provider?->getEndpoint();
 
-	$collection = $provider?->hasConfiguration() ? [
-		new Mutation(MutationMode::Extend, Directive::ImgSrc, new UriValue($provider?->getEndpoint())),
+	$isAbsolute = $endpoint !== null && filter_var($endpoint, FILTER_VALIDATE_URL) !== false;
+
+	$collection = ($provider?->hasConfiguration() && $isAbsolute) ? [
+		new Mutation(MutationMode::Extend, Directive::ImgSrc, new UriValue($endpoint)),
 	] : [];
+
 
 	return Map::fromEntries([
 		Scope::backend(),
