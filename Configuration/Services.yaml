@@ -14,6 +14,9 @@ services:
   SomehowDigital\Typo3\MediaProcessing\EventListener\:
     resource: '../Classes/EventListener/*'
 
+  SomehowDigital\Typo3\MediaProcessing\Service\:
+    resource: '../Classes/Service/*'
+
   SomehowDigital\Typo3\MediaProcessing\Provider\ProviderFactory:
     public: true
 

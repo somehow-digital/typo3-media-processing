@@ -10,8 +10,7 @@ use Smalot\PdfParser\Document;
 use Smalot\PdfParser\Page;
 use Smalot\PdfParser\Parser;
 use SomehowDigital\Typo3\MediaProcessing\EventListener\DocumentDimensionsEventListener;
-use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use SomehowDigital\Typo3\MediaProcessing\Service\MediaProcessingGuard;
 use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
 use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Resource\Driver\DriverInterface;
@@ -19,36 +18,19 @@ use TYPO3\CMS\Core\Resource\Event\BeforeFileProcessingEvent;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\MetaDataAspect;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class DocumentDimensionsEventListenerTest extends UnitTestCase
 {
-	private ProviderInterface&MockObject $providerMock;
 	private Parser&MockObject $parserMock;
-	private ExtensionConfiguration&MockObject $extensionConfiguration;
+	private MediaProcessingGuard&MockObject $guardMock;
 
 	protected function setUp(): void
 	{
 		parent::setUp();
 
-		$this->providerMock = $this->createMock(ProviderInterface::class);
+		$this->guardMock = $this->createMock(MediaProcessingGuard::class);
 		$this->parserMock = $this->createMock(Parser::class);
-		$this->extensionConfiguration = $this->createMock(ExtensionConfiguration::class);
-		$this->resetSingletonInstances = true;
-
-		$this->extensionConfiguration
-			->expects($this->once())
-			->method('get')
-			->with('media_processing')
-			->willReturn([
-				'common' => [
-					'backend' => true,
-					'frontend' => true,
-					'private' => true,
-					'ignoreExtensionAssets' => true,
-				],
-			]);
 
 		$GLOBALS['TYPO3_REQUEST'] = (new ServerRequest())
 			->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
@@ -61,69 +43,42 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 			width: 100
 		);
 
-		$this->providerMock
-			->expects($this->never())
-			->method('supports');
+		$this->guardMock
+			->expects($this->once())
+			->method('isProcessingAllowed')
+			->willReturn(true);
 
 		$this->parserMock
 			->expects($this->never())
 			->method('parseFile');
 
 		$listener = new DocumentDimensionsEventListener(
-			$this->providerMock,
+			$this->guardMock,
 			$this->parserMock,
-			$this->extensionConfiguration
 		);
 
 		$listener($event);
 	}
 
-	#[Test]
-	public function doesNothingWhenExtensionAssetsAreIgnored(): void
-	{
-		$event = $this->createEvent(
-			publicUrl: '/_assets/12345/Favicons/favicon.ico'
-		);
 
-		$this->providerMock
-			->expects($this->never())
-			->method('hasConfiguration');
-
-		$this->parserMock
-			->expects($this->never())
-			->method('parseFile');
-
-		$listener = new DocumentDimensionsEventListener(
-			$this->providerMock,
-			$this->parserMock,
-			$this->extensionConfiguration
-		);
-
-		$listener($event);
-	}
 
 	#[Test]
-	public function doesNothingWhenProviderDoesNotSupportTask(): void
+	public function doesNothingWhenGuardDisallowsProcessing(): void
 	{
 		$event = $this->createEvent(taskType: 'UnsupportedTask');
 
-		$this->providerMock
+		$this->guardMock
 			->expects($this->once())
-			->method('hasConfiguration')
-			->willReturn(true);
-
-		$this->providerMock
-			->expects($this->never())
-			->method('supports');
+			->method('isProcessingAllowed')
+			->willReturn(false);
 
 		$this->parserMock
 			->expects($this->never())
 			->method('parseFile');
 
 		$listener = new DocumentDimensionsEventListener(
-			$this->providerMock,
+			$this->guardMock,
 			$this->parserMock,
-			$this->extensionConfiguration
 		);
 
 		$listener($event);
@@ -132,6 +87,11 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 	#[Test]
 	public function readsDimensionsFromPdf(): void
 	{
+		$this->guardMock
+			->expects($this->once())
+			->method('isProcessingAllowed')
+			->willReturn(true);
+
 		$metadataMock = $this->createMock(MetaDataAspect::class);
 
 		$metadataMock
@@ -145,15 +105,6 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 		$event = $this->createEvent(
 			metadata: $metadataMock
 		);
-
-		$this->providerMock
-			->expects($this->once())
-			->method('hasConfiguration')
-			->willReturn(true);
-
-		$this->providerMock
-			->expects($this->never())
-			->method('supports');
 
 		$pageMock = $this->createMock(Page::class);
 
@@ -178,9 +129,8 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 			->willReturn($document);
 
 		$listener = new DocumentDimensionsEventListener(
-			$this->providerMock,
+			$this->guardMock,
 			$this->parserMock,
-			$this->extensionConfiguration
 		);
 
 		$listener($event);
@@ -190,27 +140,11 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 		?int $width = null,
 		?int $height = null,
 		?MetaDataAspect $metadata = null,
-		string $taskType = 'Preview',
-		?string $publicUrl = 'fileadmin/document.pdf'
+		string $taskType = 'Preview'
 	): BeforeFileProcessingEvent {
-		$storageMock = $this->createMock(ResourceStorage::class);
-
-		$storageMock
-			->expects($this->atLeastOnce())
-			->method('isOnline')
-			->willReturn(true);
-
-		$storageMock
-			->expects($this->atLeastOnce())
-			->method('isPublic')
-			->willReturn(true);
 
 		$fileStub = $this->createStub(File::class);
-
-		$fileStub->method('getStorage')->willReturn($storageMock);
-		$fileStub->method('exists')->willReturn(true);
 		$fileStub->method('getForLocalProcessing')->willReturn('/tmp/document.pdf');
-		$fileStub->method('getPublicUrl')->willReturn($publicUrl);
 
 		$fileStub->method('getProperty')
 			->willReturnCallback(
