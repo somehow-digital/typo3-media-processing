@@ -11,14 +11,12 @@ use SomehowDigital\Typo3\MediaProcessing\Builder\BuilderInterface;
 use SomehowDigital\Typo3\MediaProcessing\Event\MediaProcessedEvent;
 use SomehowDigital\Typo3\MediaProcessing\Processor\MediaProcessor;
 use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
+use SomehowDigital\Typo3\MediaProcessing\Service\MediaProcessingGuard;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Core\SystemEnvironmentBuilder;
-use TYPO3\CMS\Core\Http\ServerRequest;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
-use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class MediaProcessorTest extends UnitTestCase
@@ -26,6 +24,7 @@ class MediaProcessorTest extends UnitTestCase
 	private ProviderInterface&MockObject $providerMock;
 	private EventDispatcherInterface&MockObject $dispatcherMock;
 	private ExtensionConfiguration&MockObject $extensionConfigurationMock;
+	private MediaProcessingGuard&MockObject $guardMock;
 
 	protected function setUp(): void
 	{
@@ -34,6 +33,7 @@ class MediaProcessorTest extends UnitTestCase
 		$this->providerMock = $this->createMock(ProviderInterface::class);
 		$this->dispatcherMock = $this->createMock(EventDispatcherInterface::class);
 		$this->extensionConfigurationMock = $this->createMock(ExtensionConfiguration::class);
+		$this->guardMock = $this->createMock(MediaProcessingGuard::class);
 	}
 
 	protected function tearDown(): void
@@ -45,36 +45,16 @@ class MediaProcessorTest extends UnitTestCase
 	#[Test]
 	public function canProcessTaskReturnsTrueWhenAllConditionsAreMet(): void
 	{
-		$GLOBALS['TYPO3_REQUEST'] = (new ServerRequest())
-			->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
-
-		$storageMock = $this->createMock(ResourceStorage::class);
-
-		$storageMock
-			->expects($this->once())
-			->method('isOnline')
+		$this->guardMock->expects($this->once())
+			->method('isProcessingAllowed')
 			->willReturn(true);
 
-		$storageMock
-			->expects($this->once())
-			->method('isPublic')
-			->willReturn(false);
 		$sourceFileMock = $this->createMock(File::class);
-
-		$sourceFileMock
-			->expects($this->once())
-			->method('exists')
-			->willReturn(true);
 
 		$sourceFileMock
 			->expects($this->atLeastOnce())
 			->method('getProperty')
 			->willReturn(1920);
-
-		$sourceFileMock
-			->expects($this->atLeastOnce())
-			->method('getStorage')
-			->willReturn($storageMock);
 
 		$taskMock = $this->createMock(TaskInterface::class);
 
@@ -83,26 +63,10 @@ class MediaProcessorTest extends UnitTestCase
 			->method('getSourceFile')
 			->willReturn($sourceFileMock);
 
-		$this->extensionConfigurationMock
-			->expects($this->once())
-			->method('get')
-			->with('media_processing')
-			->willReturn([
-				'common' => [
-					'backend' => true,
-					'private' => true,
-				],
-			]);
-
 		$this->providerMock
 			->expects($this->once())
 			->method('supports')
 			->with($taskMock)
-			->willReturn(true);
-
-		$this->providerMock
-			->expects($this->once())
-			->method('hasConfiguration')
 			->willReturn(true);
 
 		$this->dispatcherMock
@@ -112,6 +76,7 @@ class MediaProcessorTest extends UnitTestCase
 		$processor = new MediaProcessor(
 			$this->providerMock,
 			$this->dispatcherMock,
+			$this->guardMock,
 			$this->extensionConfigurationMock
 		);
 
@@ -119,31 +84,20 @@ class MediaProcessorTest extends UnitTestCase
 	}
 
 	#[Test]
-	public function canProcessTaskReturnsFalseIfBackendNotAllowedByConfig(): void
+	public function canProcessTaskReturnsFalseWhenGuardDisallowsProcessing(): void
 	{
-		$GLOBALS['TYPO3_REQUEST'] = (new ServerRequest())
-			->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_FE);
+		$this->guardMock->expects($this->once())
+			->method('isProcessingAllowed')
+			->willReturn(false);
 
 		$this->dispatcherMock
 			->expects($this->never())
 			->method('dispatch');
 
-		$this->providerMock
-			->expects($this->never())
-			->method('hasConfiguration')
-			->willReturn(true);
-
-		$this->extensionConfigurationMock
-			->expects($this->once())
-			->method('get')
-			->with('media_processing')
-			->willReturn([
-				'common' => ['frontend' => false],
-			]);
-
 		$processor = new MediaProcessor(
 			$this->providerMock,
 			$this->dispatcherMock,
+			$this->guardMock,
 			$this->extensionConfigurationMock
 		);
 
@@ -199,6 +153,7 @@ class MediaProcessorTest extends UnitTestCase
 		$processor = new MediaProcessor(
 			$this->providerMock,
 			$this->dispatcherMock,
+			$this->guardMock,
 			$this->extensionConfigurationMock
 		);
 
@@ -288,6 +243,7 @@ class MediaProcessorTest extends UnitTestCase
 		$processor = new MediaProcessor(
 			$this->providerMock,
 			$this->dispatcherMock,
+			$this->guardMock,
 			$this->extensionConfigurationMock
 		);
 

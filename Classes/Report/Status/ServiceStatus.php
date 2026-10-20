@@ -41,6 +41,7 @@ class ServiceStatus implements StatusProviderInterface
 			$result['frontend'] = $this->getFrontendStatus();
 			$result['backend'] = $this->getBackendStatus();
 			$result['storage'] = $this->getStorageStatus();
+			$result['ignoreExtensionAssets'] = $this->getIgnoreExtensionAssetsStatus();
 		}
 
 		return $result;
@@ -98,6 +99,17 @@ class ServiceStatus implements StatusProviderInterface
 			$this->configuration['common']['storage'] ? 'enabled' : 'disabled',
 			'',
 			$this->configuration['common']['storage'] ? ContextualFeedbackSeverity::WARNING : ContextualFeedbackSeverity::OK,
+		);
+	}
+
+	private function getIgnoreExtensionAssetsStatus(): Status
+	{
+		return GeneralUtility::makeInstance(
+			Status::class,
+			$this->translator->sL('LLL:EXT:media_processing/Resources/Private/Language/report.xlf:storage'),
+			$this->configuration['common']['ignoreExtensionAssets'] ? 'enabled' : 'disabled',
+			'',
+			$this->configuration['common']['ignoreExtensionAssets'] ? ContextualFeedbackSeverity::OK : ContextualFeedbackSeverity::WARNING,
 		);
 	}
 }

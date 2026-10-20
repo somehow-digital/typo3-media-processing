@@ -70,6 +70,7 @@ class ServiceStatusTest extends UnitTestCase
 		$this->assertArrayNotHasKey('frontend', $statusArray);
 		$this->assertArrayNotHasKey('backend', $statusArray);
 		$this->assertArrayNotHasKey('storage', $statusArray);
+		$this->assertArrayNotHasKey('ignoreExtensionAssets', $statusArray);
 
 		$providerStatus = $statusArray['provider'];
 		$this->assertInstanceOf(Status::class, $providerStatus);
@@ -106,9 +107,9 @@ class ServiceStatusTest extends UnitTestCase
 		$statusArray = $serviceStatus->getStatus();
 
 		// Assert that all keys exist when a provider is present
-		$this->assertCount(5, $statusArray);
+		$this->assertCount(6, $statusArray);
 
-		foreach (['provider', 'configuration', 'frontend', 'backend', 'storage'] as $key) {
+		foreach (['provider', 'configuration', 'frontend', 'backend', 'storage', 'ignoreExtensionAssets'] as $key) {
 			$statusObj = $statusArray[$key];
 			$this->assertInstanceOf(Status::class, $statusObj);
 			$this->assertSame($expectedSeverities[$key], $statusObj->getSeverity(), "Severity mismatch for key: {$key}");
@@ -125,6 +126,7 @@ class ServiceStatusTest extends UnitTestCase
 					'frontend' => true,
 					'backend' => true,
 					'storage' => true,
+					'ignoreExtensionAssets' => true
 				],
 			],
 			'hasConfiguration' => true,
@@ -135,6 +137,8 @@ class ServiceStatusTest extends UnitTestCase
 				'frontend' => ContextualFeedbackSeverity::OK,
 				'backend' => ContextualFeedbackSeverity::OK,
 				'storage' => ContextualFeedbackSeverity::WARNING,
+				'ignoreExtensionAssets' => ContextualFeedbackSeverity::OK,
+
 			],
 			'expectedValues' => [
 				'provider' => 'imgproxy',
@@ -142,6 +146,7 @@ class ServiceStatusTest extends UnitTestCase
 				'frontend' => 'enabled',
 				'backend' => 'enabled',
 				'storage' => 'enabled',
+				'ignoreExtensionAssets' => 'enabled',
 			],
 		];
 
@@ -152,6 +157,7 @@ class ServiceStatusTest extends UnitTestCase
 					'frontend' => false,
 					'backend' => false,
 					'storage' => false,
+					'ignoreExtensionAssets' => false
 				],
 			],
 			'hasConfiguration' => false,
@@ -162,6 +168,8 @@ class ServiceStatusTest extends UnitTestCase
 				'frontend' => ContextualFeedbackSeverity::WARNING,
 				'backend' => ContextualFeedbackSeverity::WARNING,
 				'storage' => ContextualFeedbackSeverity::OK,
+				'ignoreExtensionAssets' => ContextualFeedbackSeverity::WARNING,
+
 			],
 			'expectedValues' => [
 				'provider' => 'local',
@@ -169,6 +177,7 @@ class ServiceStatusTest extends UnitTestCase
 				'frontend' => 'disabled',
 				'backend' => 'disabled',
 				'storage' => 'disabled',
+				'ignoreExtensionAssets' => 'disabled',
 			],
 		];
 	}

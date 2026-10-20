@@ -67,12 +67,13 @@ Extension configuration is located in the TYPO3 backend under
 
 **common** `common`
 
-| option     | type    | description                                     | default |
-|------------|---------|-------------------------------------------------|---------|
-| provider   | options | Service provider to use for image processing.   | `null`  |
-| storage    | bool    | Enable local storage of processed files.        | `false` |
-| backend    | bool    | Enable image processing in the backend.         | `true`  |
-| frontend   | bool    | Enable image processing in the frontend.        | `true`  |
+| option                | type    | description                                    | default |
+|-----------------------|---------|------------------------------------------------|---------|
+| provider              | options | Service provider to use for image processing.  | `null`  |
+| storage               | bool    | Enable local storage of processed files.       | `false` |
+| backend               | bool    | Enable image processing in the backend.        | `true`  |
+| frontend              | bool    | Enable image processing in the frontend.       | `true`  |
+| ignoreExtensionAssets | bool    | Disable image processing for extension assets. | `false` |
 
 **imgproxy** `provider.imgproxy`
 

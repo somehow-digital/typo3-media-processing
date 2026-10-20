@@ -18,6 +18,9 @@
 			<trans-unit id="common.frontend">
 				<source>Enable media processing in frontend</source>
 			</trans-unit>
+			<trans-unit id="common.ignoreExtensionAssets">
+				<source>Bypass media processing for extension assets</source>
+			</trans-unit>
 
 			<trans-unit id="provider.imgproxy.api_endpoint">
 				<source>API Endpoint URL</source>

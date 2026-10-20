@@ -7,8 +7,8 @@ namespace SomehowDigital\Typo3\MediaProcessing\Processor;
 use Psr\EventDispatcher\EventDispatcherInterface;
 use SomehowDigital\Typo3\MediaProcessing\Event\MediaProcessedEvent;
 use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
+use SomehowDigital\Typo3\MediaProcessing\Service\MediaProcessingGuard;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Imaging\ImageDimension;
 use TYPO3\CMS\Core\Resource\Processing\ProcessorInterface;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
@@ -21,29 +21,27 @@ class MediaProcessor implements ProcessorInterface
 	public function __construct(
 		private readonly ProviderInterface $provider,
 		private readonly EventDispatcherInterface $dispatcher,
-		?ExtensionConfiguration $configuration,
+		private readonly MediaProcessingGuard $guard,
+		?ExtensionConfiguration $configuration
+
 	) {
 		$this->configuration = $configuration?->get('media_processing');
 	}
 
 	public function canProcessTask(TaskInterface $task): bool
 	{
-		$context = ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST']);
+		$file = $task->getSourceFile();
 
-		if ($context->isBackend() && !$this->configuration['common']['backend']) return false;
-		if ($context->isFrontend() && !$this->configuration['common']['frontend']) return false;
+		if (!$this->guard->isProcessingAllowed($file)) {
+			return false;
+		}
 
-		if (!$task->getSourceFile()->getStorage()?->isOnline()) return false;
-		if (!$task->getSourceFile()->getStorage()?->isPublic() && !$this->configuration['common']['private']) return false;
+		// Processor specifically requires existing dimensions
+		if (!$file->getProperty('width') || !$file->getProperty('height')) {
+			return false;
+		}
 
-		if (!$task->getSourceFile()->exists()) return false;
-		if (!$task->getSourceFile()->getProperty('width')) return false;
-		if (!$task->getSourceFile()->getProperty('height')) return false;
-
-		if (!$this->provider->hasConfiguration()) return false;
-		if (!$this->provider->supports($task)) return false;
-
-		return true;
+		return $this->provider->supports($task);
 	}
 
 	public function processTask(TaskInterface $task): void

@@ -21,6 +21,9 @@
 			<trans-unit id="storage">
 				<source>File Storage</source>
 			</trans-unit>
+			<trans-unit id="ignoreExtensionAssets">
+				<source>Ignore extension assets</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
