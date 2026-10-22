@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyBuilder;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
@@ -113,5 +114,107 @@ class ImgProxyBuilderTest extends UnitTestCase
 		$expectedUrl = '/_assets/processed/insecure/rt:webp/w:1200/h:630/plain/images/banner.jpg';
 
 		$this->assertSame($expectedUrl, $builder->build());
+	}
+
+	#[Test]
+	#[DataProvider('sourcePathEncodingProvider')]
+	public function buildEncodesSourcePath(string $source, string $expectedEncodedSource): void
+	{
+		$builder = new ImgProxyBuilder(self::BASE_URL, null, null, null, null);
+		$url = $builder->setSource($source)->setWidth(100)->build();
+
+		$this->assertStringEndsWith('/w:100/plain/' . $expectedEncodedSource, $url);
+	}
+
+	#[Test]
+	public function buildSignsThePercentEncodedSourcePath(): void
+	{
+		$keyBinary = 'test-key-32-bytes-long-abcde12345';
+		$saltBinary = 'test-salt-32-bytes-long-abcde1234';
+
+		$builder = new ImgProxyBuilder(
+			'https://imgproxy.example.com',
+			bin2hex($keyBinary),
+			bin2hex($saltBinary),
+			32,
+			null
+		);
+
+		$url = $builder
+			->setSource('local:///user_upload/Gebäude/foto.jpg')
+			->setWidth(200)
+			->build();
+
+		// The signature must cover the path exactly as it is requested (encoded)
+		$path = '/w:200/plain/local:///user_upload/Geb%C3%A4ude/foto.jpg';
+		$signature = rtrim(
+			strtr(base64_encode(hash_hmac('sha256', $saltBinary . $path, $keyBinary, true)), '+/', '-_'),
+			'='
+		);
+
+		$this->assertSame('https://imgproxy.example.com/' . $signature . $path, $url);
+	}
+
+	public static function sourcePathEncodingProvider(): iterable
+	{
+		yield 'plain ascii stays untouched' => [
+			'images/photo.jpg',
+			'images/photo.jpg',
+		];
+
+		yield 'unreserved characters stay untouched' => [
+			'images/my-photo_v1.2~final.jpg',
+			'images/my-photo_v1.2~final.jpg',
+		];
+
+		yield 'scheme and slashes are preserved' => [
+			'local:///user_upload/photo.jpg',
+			'local:///user_upload/photo.jpg',
+		];
+
+		yield 'umlaut is encoded as utf-8 bytes' => [
+			'user_upload/Gebäude/foto.jpg',
+			'user_upload/Geb%C3%A4ude/foto.jpg',
+		];
+
+		yield 'real world path with local scheme' => [
+			'local:///user_upload/Bilder/02_Firma/Gebäude/firma_startseite_1.jpg',
+			'local:///user_upload/Bilder/02_Firma/Geb%C3%A4ude/firma_startseite_1.jpg',
+		];
+
+		yield 'all german umlauts and sharp s' => [
+			'äöüÄÖÜß.jpg',
+			'%C3%A4%C3%B6%C3%BC%C3%84%C3%96%C3%9C%C3%9F.jpg',
+		];
+
+		yield 'decomposed umlaut (a + combining diaeresis)' => [
+			"Gebau\u{0308}de.jpg",
+			'Gebau%CC%88de.jpg',
+		];
+
+		yield 'multibyte character outside latin range' => [
+			'preis-€.jpg',
+			'preis-%E2%82%AC.jpg',
+		];
+
+		yield 'space is encoded' => [
+			'my folder/my photo.jpg',
+			'my%20folder/my%20photo.jpg',
+		];
+
+		yield 'hash is encoded' => [
+			'images/photo#1.jpg',
+			'images/photo%231.jpg',
+		];
+
+		yield 'unsafe url characters are encoded' => [
+			'a"b<c>d`e{f}g.jpg',
+			'a%22b%3Cc%3Ed%60e%7Bf%7Dg.jpg',
+		];
+
+		yield 'control characters are encoded' => [
+			"a\tb\x7F.jpg",
+			'a%09b%7F.jpg',
+		];
 	}
 }
