@@ -267,10 +267,9 @@ class ImgProxyBuilder implements BuilderInterface
 
 	private function encodeSource(string $path): string
 	{
-		return strtr($path, [
-			'%' => '%25',
-			'?' => '%3F',
-			'@' => '%40',
+		return strtr(rawurlencode($path), [
+			'%2F' => '/',
+			'%3A' => ':',
 		]);
 	}
 }
