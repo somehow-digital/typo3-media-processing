@@ -53,8 +53,8 @@ class CloudinaryProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): CloudinaryBuilder
@@ -70,21 +70,10 @@ class CloudinaryProvider implements ProviderInterface
 
 		$builder->setSource($this->source->getSource($task->getSourceFile()));
 
-		$fit = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'scale';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'fill';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'fit';
-			}
+		$fit = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'fill',
+			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => 'fit',
+			default => 'scale',
 		})($configuration);
 
 		$builder->setMode($fit);

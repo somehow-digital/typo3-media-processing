@@ -13,8 +13,7 @@ class CloudinaryFetchSource implements SourceInterface
 
 	public function __construct(
 		private readonly string $host,
-	) {
-	}
+	) {}
 
 	public function getIdentifier(): string
 	{

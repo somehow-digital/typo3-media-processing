@@ -111,12 +111,10 @@ class BunnyBuilder implements BuilderInterface
 			'width' => $this->getWidth(),
 		]);
 
-		$options = implode('&', array_map(static function ($name, $value) {
-			return strtr('%name%=%value%', [
-				'%name%' => $name,
-				'%value%' => rawurlencode((string) $value),
-			]);
-		}, array_keys($parameters), $parameters));
+		$options = implode('&', array_map(static fn($name, $value): string => strtr('%name%=%value%', [
+			'%name%' => $name,
+			'%value%' => rawurlencode((string) $value),
+		]), array_keys($parameters), $parameters));
 
 		$source = rawurlencode(trim($this->getSource(), '/'));
 

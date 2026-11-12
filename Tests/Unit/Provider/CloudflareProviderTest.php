@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class CloudflareProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -85,7 +87,7 @@ class CloudflareProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -140,24 +142,25 @@ class CloudflareProviderTest extends UnitTestCase
 			->willReturn($targetFileMock);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var CloudflareBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
 		$this->assertInstanceOf(CloudflareBuilder::class, $builder);
 
 		// Reflection-less closure extraction to verify internal properties
-		$this->assertSame('resolved-cloudflare-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['fit'] ?? 'contain', (fn() => $this->fit)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['trim'] ?? null, (fn() => $this->trim)->call($builder));
+		$this->assertSame('resolved-cloudflare-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['fit'] ?? 'contain', (fn(): ?string => $this->fit)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['trim'] ?? null, (fn(): ?array => $this->trim)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default fit contain mapping with standard dimensions' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			[
 				'fit' => 'contain',
 				'width' => 300,
@@ -166,7 +169,10 @@ class CloudflareProviderTest extends UnitTestCase
 		];
 
 		yield 'Cover fit switch via width suffix c' => [
-			['width' => '400c', 'maxHeight' => 300],
+			[
+				'width' => '400c',
+				'maxHeight' => 300,
+			],
 			[
 				'fit' => 'cover',
 				'width' => 400,

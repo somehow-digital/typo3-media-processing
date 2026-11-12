@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ThumborProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -107,7 +109,7 @@ class ThumborProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -155,56 +157,82 @@ class ThumborProviderTest extends UnitTestCase
 			->willReturn($targetFileStub);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var ThumborBuilder $builder */
 		$builder = $provider->configure($taskStub);
 
 		$this->assertInstanceOf(ThumborBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding scope
-		$this->assertSame('resolved-thumbor-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedType, (fn() => $this->type)->call($builder), 'Type mapping failed');
-		$this->assertSame($expectedDimensions['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedDimensions['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedDimensions['crop'] ?? null, (fn() => $this->crop)->call($builder));
+		$this->assertSame('resolved-thumbor-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedType, (fn(): ?string => $this->type)->call($builder), 'Type mapping failed');
+		$this->assertSame($expectedDimensions['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedDimensions['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedDimensions['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Stretch type mapping default fallback' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			'stretch',
-			['width' => 300, 'height' => 200],
+			[
+				'width' => 300,
+				'height' => 200,
+			],
 		];
 
 		yield 'Fit-in type mapping via width suffix m' => [
-			['width' => '400m'],
+			[
+				'width' => '400m',
+			],
 			'fit-in',
-			['width' => 400],
+			[
+				'width' => 400,
+			],
 		];
 
 		yield 'Fit-in type mapping via height suffix m' => [
-			['height' => '500m'],
+			[
+				'height' => '500m',
+			],
 			'fit-in',
-			['height' => 500],
+			[
+				'height' => 500,
+			],
 		];
 
 		yield 'Fit-in type mapping via width suffix c' => [
-			['width' => '400c'],
+			[
+				'width' => '400c',
+			],
 			'fit-in',
-			['width' => 400],
+			[
+				'width' => 400,
+			],
 		];
 
 		yield 'Fit-in type mapping via height suffix c' => [
-			['height' => '500c'],
+			[
+				'height' => '500c',
+			],
 			'fit-in',
-			['height' => 500],
+			[
+				'height' => 500,
+			],
 		];
 
 		yield 'Fit-in type mapping via explicit max dimensions' => [
-			['maxWidth' => 600, 'maxHeight' => 400],
+			[
+				'maxWidth' => 600,
+				'maxHeight' => 400,
+			],
 			'fit-in',
-			['width' => 600, 'height' => 400],
+			[
+				'width' => 600,
+				'height' => 400,
+			],
 		];
 
 		yield 'Crop dimension positional mapping assignments' => [

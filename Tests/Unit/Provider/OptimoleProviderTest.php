@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class OptimoleProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -46,7 +48,9 @@ class OptimoleProviderTest extends UnitTestCase
 		$this->assertSame('optimole-key-12345', $provider->getKey());
 
 		// Verifies strtr replacement behaves exactly as expected against the template constant
-		$expectedEndpoint = strtr(OptimoleBuilder::API_ENDPOINT_TEMPLATE, ['%key%' => 'optimole-key-12345']);
+		$expectedEndpoint = strtr(OptimoleBuilder::API_ENDPOINT_TEMPLATE, [
+			'%key%' => 'optimole-key-12345',
+		]);
 		$this->assertSame($expectedEndpoint, $provider->getEndpoint());
 	}
 
@@ -95,7 +99,7 @@ class OptimoleProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -153,30 +157,33 @@ class OptimoleProviderTest extends UnitTestCase
 			->willReturn($targetFileMock);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var OptimoleBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
 		$this->assertInstanceOf(OptimoleBuilder::class, $builder);
 
 		// Context internal property validation via Closure binding scope
-		$this->assertSame('resolved-optimole-source', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['type'], (fn() => $this->type)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['minWidth'] ?? null, (fn() => $this->minWidth)->call($builder));
-		$this->assertSame($expectedProperties['minHeight'] ?? null, (fn() => $this->minHeight)->call($builder));
-		$this->assertSame('mocked-file-sha1', (fn() => $this->hash)->call($builder));
+		$this->assertSame('resolved-optimole-source', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['type'], (fn(): ?string => $this->type)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['minWidth'] ?? null, (fn(): ?int => $this->minWidth)->call($builder));
+		$this->assertSame($expectedProperties['minHeight'] ?? null, (fn(): ?int => $this->minHeight)->call($builder));
+		$this->assertSame('mocked-file-sha1', (fn(): ?string => $this->hash)->call($builder));
 
 		if (isset($expectedProperties['crop'])) {
-			$this->assertSame($expectedProperties['crop'], (fn() => $this->crop)->call($builder));
+			$this->assertSame($expectedProperties['crop'], (fn(): ?array => $this->crop)->call($builder));
 		}
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default switch fallback maps to force' => [
-			['width' => '300', 'height' => '200', 'minWidth' => 100, 'minHeight' => 50],
+			[
+				'width' => '300',
+				'height' => '200',
+				'minWidth' => 100,
+				'minHeight' => 50,
+			],
 			[
 				'type' => 'force',
 				'width' => 300,
@@ -187,7 +194,9 @@ class OptimoleProviderTest extends UnitTestCase
 		];
 
 		yield 'Fit mode matching width suffix m' => [
-			['width' => '400m'],
+			[
+				'width' => '400m',
+			],
 			[
 				'type' => 'fit',
 				'width' => 400,
@@ -195,7 +204,10 @@ class OptimoleProviderTest extends UnitTestCase
 		];
 
 		yield 'Fit mode via explicit max dimensions fallback' => [
-			['maxWidth' => 600, 'maxHeight' => 400],
+			[
+				'maxWidth' => 600,
+				'maxHeight' => 400,
+			],
 			[
 				'type' => 'fit',
 				'width' => 600,
@@ -204,7 +216,9 @@ class OptimoleProviderTest extends UnitTestCase
 		];
 
 		yield 'Fill mode matching height suffix c' => [
-			['height' => '500c'],
+			[
+				'height' => '500c',
+			],
 			[
 				'type' => 'fill',
 				'height' => 500,

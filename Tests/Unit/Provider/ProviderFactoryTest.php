@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -31,7 +32,9 @@ final class ProviderFactoryTest extends UnitTestCase
 			->method('get')
 			->with('media_processing')
 			->willReturn([
-				'common' => ['provider' => 'unknown_provider'],
+				'common' => [
+					'provider' => 'unknown_provider',
+				],
 				'provider' => [],
 			]);
 
@@ -59,11 +62,13 @@ final class ProviderFactoryTest extends UnitTestCase
 	/**
 	 * Data provider using positional arrays within the generator.
 	 */
-	public static function providerConfigDataProvider(): \Generator
+	public static function providerConfigDataProvider(): Generator
 	{
 		yield 'Bunny Provider' => [
 			[
-				'common' => ['provider' => 'bunny'],
+				'common' => [
+					'provider' => 'bunny',
+				],
 				'provider' => [
 					'bunny' => [],
 				],
@@ -73,7 +78,9 @@ final class ProviderFactoryTest extends UnitTestCase
 
 		yield 'ImgProxy Provider with Uri Source' => [
 			[
-				'common' => ['provider' => 'imgproxy'],
+				'common' => [
+					'provider' => 'imgproxy',
+				],
 				'provider' => [
 					'imgproxy' => [
 						'source_loader' => 'uri',
@@ -86,7 +93,9 @@ final class ProviderFactoryTest extends UnitTestCase
 
 		yield 'ImgProxy Provider with File Source' => [
 			[
-				'common' => ['provider' => 'imgproxy'],
+				'common' => [
+					'provider' => 'imgproxy',
+				],
 				'provider' => [
 					'imgproxy' => [
 						'source_loader' => 'file',

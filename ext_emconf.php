@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 $EM_CONF[$_EXTKEY] = [
 	'title' => 'Media Processing',
 	'description' => 'Integrates various image processing libraries and SaaS cloud services into TYPO3 by leveraging their APIs to process images.',

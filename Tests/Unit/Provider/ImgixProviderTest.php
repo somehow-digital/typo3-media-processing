@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ImgixProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -99,7 +101,7 @@ class ImgixProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -153,24 +155,25 @@ class ImgixProviderTest extends UnitTestCase
 			->willReturn($targetFileMock);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var ImgixBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
 		$this->assertInstanceOf(ImgixBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding scope
-		$this->assertSame('resolved-imgix-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['fit'], (fn() => $this->fit)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['rect'] ?? null, (fn() => $this->rect)->call($builder));
+		$this->assertSame('resolved-imgix-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['fit'], (fn(): ?string => $this->fit)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['rect'] ?? null, (fn(): ?array => $this->rect)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default switch fallback maps to scale' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			[
 				'fit' => 'scale',
 				'width' => 300,
@@ -179,7 +182,10 @@ class ImgixProviderTest extends UnitTestCase
 		];
 
 		yield 'Crop fit mode matching width suffix c' => [
-			['width' => '400c', 'height' => '250'],
+			[
+				'width' => '400c',
+				'height' => '250',
+			],
 			[
 				'fit' => 'crop',
 				'width' => 400,
@@ -188,7 +194,9 @@ class ImgixProviderTest extends UnitTestCase
 		];
 
 		yield 'Clip fit mode matching height suffix m' => [
-			['height' => '500m'],
+			[
+				'height' => '500m',
+			],
 			[
 				'fit' => 'clip',
 				'height' => 500,
@@ -196,7 +204,10 @@ class ImgixProviderTest extends UnitTestCase
 		];
 
 		yield 'Clip fit mode via explicit max dimensions' => [
-			['maxWidth' => 600, 'maxHeight' => 400],
+			[
+				'maxWidth' => 600,
+				'maxHeight' => 400,
+			],
 			[
 				'fit' => 'clip',
 				'width' => 600,

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class GumletProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -100,7 +102,7 @@ class GumletProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -152,29 +154,39 @@ class GumletProviderTest extends UnitTestCase
 			->willReturn($targetFileMock);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var GumletBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
 		$this->assertInstanceOf(GumletBuilder::class, $builder);
 
 		// Reflection-less property verification via Closure binding scope
-		$this->assertSame('resolved-gumlet-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['crop'] ?? null, (fn() => $this->crop)->call($builder));
+		$this->assertSame('resolved-gumlet-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Width and height explicit values' => [
-			['width' => '220', 'height' => '330'],
-			['width' => 220, 'height' => 330],
+			[
+				'width' => '220',
+				'height' => '330',
+			],
+			[
+				'width' => 220,
+				'height' => 330,
+			],
 		];
 
 		yield 'Fallback mapping utilizing maxWidth and maxHeight rules' => [
-			['maxWidth' => 800, 'maxHeight' => 600],
-			['width' => 800, 'height' => 600],
+			[
+				'maxWidth' => 800,
+				'maxHeight' => 600,
+			],
+			[
+				'width' => 800,
+				'height' => 600,
+			],
 		];
 
 		yield 'Crop area boundaries mapped into builder schema integers' => [

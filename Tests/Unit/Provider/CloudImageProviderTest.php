@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class CloudImageProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -94,7 +96,7 @@ class CloudImageProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -145,24 +147,25 @@ class CloudImageProviderTest extends UnitTestCase
 			->willReturn($targetFileMock);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var CloudImageBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
 		$this->assertInstanceOf(CloudImageBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding
-		$this->assertSame('resolved-cloudimage-source', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['function'], (fn() => $this->function)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['crop'] ?? null, (fn() => $this->crop)->call($builder));
+		$this->assertSame('resolved-cloudimage-source', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['function'], (fn(): ?string => $this->function)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default switch fallback maps to cover' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			[
 				'function' => 'cover',
 				'width' => 300,
@@ -171,7 +174,10 @@ class CloudImageProviderTest extends UnitTestCase
 		];
 
 		yield 'Crop mode matching suffix c' => [
-			['width' => '400c', 'height' => '250'],
+			[
+				'width' => '400c',
+				'height' => '250',
+			],
 			[
 				'function' => 'crop',
 				'width' => 400,
@@ -180,7 +186,9 @@ class CloudImageProviderTest extends UnitTestCase
 		];
 
 		yield 'Bound mode matching suffix m' => [
-			['width' => '500m'],
+			[
+				'width' => '500m',
+			],
 			[
 				'function' => 'bound',
 				'width' => 500,
@@ -188,7 +196,10 @@ class CloudImageProviderTest extends UnitTestCase
 		];
 
 		yield 'Bound mode via explicit max dimensions' => [
-			['maxWidth' => 600, 'maxHeight' => 400],
+			[
+				'maxWidth' => 600,
+				'maxHeight' => 400,
+			],
 			[
 				'function' => 'bound',
 				'width' => 600,

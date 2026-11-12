@@ -48,8 +48,8 @@ class CloudImageProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): CloudImageBuilder
@@ -63,21 +63,10 @@ class CloudImageProvider implements ProviderInterface
 
 		$builder->setSource($this->source->getSource($task->getSourceFile()));
 
-		$function = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'cover';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'crop';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'bound';
-			}
+		$function = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'crop',
+			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => 'bound',
+			default => 'cover',
 		})($configuration);
 
 		$builder->setFunction($function);

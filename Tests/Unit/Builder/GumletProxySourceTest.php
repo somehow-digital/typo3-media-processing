@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Iterator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\GumletProxySource;
@@ -16,6 +17,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class GumletProxySourceTest extends UnitTestCase
 {
 	private GumletProxySource $subject;
+
 	private string $testHost = 'https://example.gumlet.io';
 
 	protected function setUp(): void
@@ -51,7 +53,7 @@ class GumletProxySourceTest extends UnitTestCase
 		$this->assertSame($expected, $result);
 	}
 
-	public static function proxyUrlDataProvider(): \Iterator
+	public static function proxyUrlDataProvider(): Iterator
 	{
 		yield 'Host with trailing slash, path with query' => [
 			'https://example.com/images/pic.jpg?w=800&h=600',       // Preview URL string

@@ -53,8 +53,8 @@ class ImagorProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): ImagorBuilder
@@ -71,22 +71,12 @@ class ImagorProvider implements ProviderInterface
 
 		$builder->setSource($this->source->getSource(($file)));
 
-		$type = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'stretch';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'fit-in';
-			}
+		$type = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => 'fit-in',
+			default => 'stretch',
 		})($configuration);
 
-		$type && $builder->setType($type);
+		$type && $builder->setType($type) instanceof ImagorBuilder;
 
 		if (isset($configuration['crop'])) {
 			$builder->setCrop(

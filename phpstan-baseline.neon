@@ -1,0 +1,151 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Call to an undefined method SomehowDigital\\Typo3\\MediaProcessing\\Builder\\SourceInterface\:\:getIdentifier\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/Builder/CloudinaryBuilder.php
+
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Core\\Resource\\FileInterface\:\:exists\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/EventListener/DocumentDimensionsEventListener.php
+
+		-
+			message: '#^Call to an undefined method TYPO3\\CMS\\Core\\Resource\\FileInterface\:\:getMetaData\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: Classes/EventListener/DocumentDimensionsEventListener.php
+
+		-
+			message: '#^Using nullsafe method call on non\-nullable type SomehowDigital\\Typo3\\MediaProcessing\\Provider\\ProviderInterface\. Use \-\> instead\.$#'
+			identifier: nullsafe.neverNull
+			count: 1
+			path: Classes/EventListener/DocumentDimensionsEventListener.php
+
+		-
+			message: '#^Instanceof between SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImagorBuilder and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImagorBuilder will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: Classes/Provider/ImagorProvider.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: Classes/Provider/ImagorProvider.php
+
+		-
+			message: '#^Match expression does not handle remaining value\: mixed$#'
+			identifier: match.unhandled
+			count: 7
+			path: Classes/Provider/ProviderFactory.php
+
+		-
+			message: '#^Instanceof between SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ThumborBuilder and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ThumborBuilder will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: Classes/Provider/ThumborProvider.php
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: Classes/Provider/ThumborProvider.php
+
+		-
+			message: '#^Constant ORIGINAL_ROOT not found\.$#'
+			identifier: constant.notFound
+			count: 2
+			path: Tests/FunctionalTestsBootstrap.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\BunnyBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\BunnyBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/BunnyProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\CloudImageBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\CloudImageBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/CloudImageProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\CloudflareBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\CloudflareBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/CloudflareProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\CloudinaryBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\CloudinaryBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/CloudinaryProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\GumletBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\GumletBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/GumletProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImageKitBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImageKitBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/ImageKitProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImagorBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImagorBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/ImagorProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImgLabBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImgLabBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/ImgLabProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImgProxyBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImgProxyBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/ImgProxyProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImgixBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImgixBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/ImgixProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\OptimoleBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\OptimoleBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/OptimoleProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\SirvBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\SirvBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/SirvProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ThumborBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ThumborBuilder will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 1
+			path: Tests/Unit/Provider/ThumborProviderTest.php
+
+		-
+			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''TYPO3\\\\CMS\\\\Reports\\\\Status'' and TYPO3\\CMS\\Reports\\Status will always evaluate to true\.$#'
+			identifier: method.alreadyNarrowedType
+			count: 2
+			path: Tests/Unit/Report/Status/ServiceStatusTest.php
+
+		-
+			message: '#^Class TYPO3\\CMS\\Core\\Cache\\Backend\\NullBackend does not have a constructor and must be instantiated without any parameters\.$#'
+			identifier: new.noConstructor
+			count: 1
+			path: Tests/UnitTestsBootstrap.php

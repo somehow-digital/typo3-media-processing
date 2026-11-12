@@ -132,14 +132,10 @@ class CloudinaryBuilder implements BuilderInterface
 			]) : null,
 		]);
 
-		$options = implode('/', array_map(static function ($parameter) {
-			return implode(',', array_map(static function ($name, $value) {
-				return strtr('%name%_%value%', [
-					'%name%' => $name,
-					'%value%' => $value,
-				]);
-			}, array_keys($parameter), $parameter));
-		}, $parameters));
+		$options = implode('/', array_map(static fn(array $parameter): string => implode(',', array_map(static fn($name, $value): string => strtr('%name%_%value%', [
+			'%name%' => $name,
+			'%value%' => $value,
+		]), array_keys($parameter), $parameter)), $parameters));
 
 		$source = rawurlencode(trim($this->getSource(), '/'));
 

@@ -15,6 +15,7 @@ use TYPO3\CMS\Reports\StatusProviderInterface;
 class ServiceStatus implements StatusProviderInterface
 {
 	private readonly ?LanguageService $translator;
+
 	private readonly ?array $configuration;
 
 	public function __construct(
@@ -36,7 +37,7 @@ class ServiceStatus implements StatusProviderInterface
 			'provider' => $this->getProviderStatus(),
 		];
 
-		if ($this->provider) {
+		if ($this->provider instanceof ProviderInterface) {
 			$result['configuration'] = $this->getConfigurationStatus();
 			$result['frontend'] = $this->getFrontendStatus();
 			$result['backend'] = $this->getBackendStatus();

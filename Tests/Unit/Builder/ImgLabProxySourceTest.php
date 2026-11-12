@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgLabProxySource;
@@ -16,6 +17,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ImgLabProxySourceTest extends UnitTestCase
 {
 	private ImgLabProxySource $subject;
+
 	private string $testHost = 'https://assets.imglab-cdn.net/v1';
 
 	protected function setUp(): void
@@ -99,7 +101,7 @@ class ImgLabProxySourceTest extends UnitTestCase
 		$this->assertSame($expectedOutput, $result);
 	}
 
-	public static function urlParsingDataProvider(): \Generator
+	public static function urlParsingDataProvider(): Generator
 	{
 		yield 'leading slash is trimmed' => [
 			'/fileadmin/assets/photo.jpg',

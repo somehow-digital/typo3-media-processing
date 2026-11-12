@@ -24,7 +24,9 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class MediaProcessorTest extends UnitTestCase
 {
 	private ProviderInterface&MockObject $providerMock;
+
 	private EventDispatcherInterface&MockObject $dispatcherMock;
+
 	private ExtensionConfiguration&MockObject $extensionConfigurationMock;
 
 	protected function setUp(): void
@@ -138,7 +140,9 @@ class MediaProcessorTest extends UnitTestCase
 			->method('get')
 			->with('media_processing')
 			->willReturn([
-				'common' => ['frontend' => false],
+				'common' => [
+					'frontend' => false,
+				],
 			]);
 
 		$processor = new MediaProcessor(
@@ -282,7 +286,9 @@ class MediaProcessorTest extends UnitTestCase
 			->method('get')
 			->with('media_processing')
 			->willReturn([
-				'common' => ['storage' => false],
+				'common' => [
+					'storage' => false,
+				],
 			]);
 
 		$processor = new MediaProcessor(

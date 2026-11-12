@@ -7,43 +7,43 @@ on:
       - main
 
 jobs:
- tests:
+  tests:
     name: Tests
     runs-on: ubuntu-latest
     strategy:
-        fail-fast: false
-        matrix:
-            php:
-                - '8.2'
-                - '8.3'
-                - '8.4'
-                - '8.5'
+      fail-fast: false
+      matrix:
+        php:
+          - '8.2'
+          - '8.3'
+          - '8.4'
+          - '8.5'
     steps:
-        - name: Checkout
-          uses: actions/checkout@v7
+      - name: Checkout
+        uses: actions/checkout@v7
 
-        - name: Set up PHP version ${{ matrix.php }}
-          uses: shivammathur/setup-php@v2
-          with:
-            php-version: ${{ matrix.php }}
-            tools: composer:v2, php-cs-fixer
+      - name: Set up PHP version ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          tools: composer:v2
 
-        - name: Environment Check
-          run: |
-            php --version
-            composer --version
+      - name: Environment Check
+        run: |
+          php --version
+          composer --version
 
-        - name: Validate composer.json and composer.lock
-          run: composer validate
+      - name: Validate composer.json and composer.lock
+        run: composer validate
 
-        - name: Install dependencies
-          uses: ramsey/composer-install@4.0.0
+      - name: Install dependencies
+        uses: ramsey/composer-install@4.0.0
 
-        - name: Info
-          run: composer info
+      - name: Info
+        run: composer info
 
-        - name: Run unit tests
-          run: ./vendor/bin/phpunit Tests/Unit
+      - name: Run unit tests
+        run: ./vendor/bin/phpunit Tests/Unit
 
-        - name: Run functional tests
-          run: ./vendor/bin/phpunit Tests/Functional  --bootstrap Tests/FunctionalTestsBootstrap.php
+      - name: Run functional tests
+        run: ./vendor/bin/phpunit Tests/Functional --bootstrap Tests/FunctionalTestsBootstrap.php

@@ -43,8 +43,8 @@ class ImageKitProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): ImageKitBuilder
@@ -59,21 +59,10 @@ class ImageKitProvider implements ProviderInterface
 
 		$builder->setSource($this->source->getSource($file));
 
-		$mode = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'force';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'at_max';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'maintain_ratio';
-			}
+		$mode = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => 'at_max',
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'maintain_ratio',
+			default => 'force',
 		})($configuration);
 
 		$builder->setMode($mode);

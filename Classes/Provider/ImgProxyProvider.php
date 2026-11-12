@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
-use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\BuilderInterface;
+use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
@@ -59,8 +59,8 @@ class ImgProxyProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): BuilderInterface
@@ -78,21 +78,10 @@ class ImgProxyProvider implements ProviderInterface
 
 		$builder->setSource($this->source->getSource(($file)));
 
-		$type = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'force';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'm'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'm'):
-				case isset($configuration['maxWidth']):
-				case isset($configuration['maxHeight']):
-					return 'fit';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'fill';
-			}
+		$type = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => 'fit',
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'fill',
+			default => 'force',
 		})($configuration);
 
 		$builder->setType($type);

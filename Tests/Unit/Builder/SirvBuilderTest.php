@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SirvBuilder;
@@ -60,7 +61,7 @@ class SirvBuilderTest extends UnitTestCase
 		$this->assertSame($expectedUrl, $builder->build());
 	}
 
-	public static function sirvTransformationsDataProvider(): \Generator
+	public static function sirvTransformationsDataProvider(): Generator
 	{
 		yield 'only scaling options' => [
 			'ignore',

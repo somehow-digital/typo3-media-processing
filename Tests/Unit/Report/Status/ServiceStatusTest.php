@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Report\Status;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ServiceStatusTest extends UnitTestCase
 {
 	protected ExtensionConfiguration&MockObject $extensionConfigMock;
+
 	protected LanguageService&Stub $languageServiceStub;
 
 	protected function setUp(): void
@@ -60,7 +62,11 @@ class ServiceStatusTest extends UnitTestCase
 			->expects($this->once())
 			->method('get')
 			->with('media_processing')
-			->willReturn(['common' => ['provider' => 'local']]);
+			->willReturn([
+				'common' => [
+					'provider' => 'local',
+				],
+			]);
 
 		$serviceStatus = new ServiceStatus(null, $this->extensionConfigMock);
 		$statusArray = $serviceStatus->getStatus();
@@ -116,7 +122,7 @@ class ServiceStatusTest extends UnitTestCase
 		}
 	}
 
-	public static function statusDataProvider(): \Generator
+	public static function statusDataProvider(): Generator
 	{
 		yield 'All features enabled, valid remote configuration' => [
 			'configData' => [

@@ -1,5 +1,7 @@
 <?php
 
+use TYPO3\TestingFramework\Core\Testbase;
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -23,7 +25,7 @@
  * This file is defined in FunctionalTests.xml and called by phpunit
  * before instantiating the test suites.
  */
-(static function () {
+(static function (): void {
 	// Set default database configuration for tests if not already set
 	if (!getenv('typo3DatabaseDriver')) {
 		putenv('typo3DatabaseDriver=pdo_sqlite');
@@ -32,7 +34,7 @@
 		putenv('typo3DatabaseName=test');
 	}
 
-	$testbase = new \TYPO3\TestingFramework\Core\Testbase();
+	$testbase = new Testbase();
 	$testbase->defineOriginalRootPath();
 	$testbase->createDirectory(ORIGINAL_ROOT . 'typo3temp/var/tests');
 	$testbase->createDirectory(ORIGINAL_ROOT . 'typo3temp/var/transient');

@@ -61,14 +61,10 @@ class ProviderFactory
 	private function getImgProxyProvider(array $options): ImgProxyProvider
 	{
 		$source = match ($options['source_loader']) {
-			ImgProxyUrlSource::IDENTIFIER => (static function () use ($options): ImgProxyUrlSource {
-				return new ImgProxyUrlSource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
-			ImgProxyFileSource::IDENTIFIER => (static function (): ImgProxyFileSource {
-				return new ImgProxyFileSource();
-			})(),
+			ImgProxyUrlSource::IDENTIFIER => (static fn(): ImgProxyUrlSource => new ImgProxyUrlSource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
+			ImgProxyFileSource::IDENTIFIER => (static fn(): ImgProxyFileSource => new ImgProxyFileSource())(),
 		};
 
 		return new ImgProxyProvider(
@@ -80,14 +76,10 @@ class ProviderFactory
 	private function getImagorProvider(array $options): ImagorProvider
 	{
 		$source = match ($options['source_loader']) {
-			ImagorUrlSource::IDENTIFIER => (static function () use ($options): ImagorUrlSource {
-				return new ImagorUrlSource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
-			ImagorFileSource::IDENTIFIER => (static function (): ImagorFileSource {
-				return new ImagorFileSource();
-			})(),
+			ImagorUrlSource::IDENTIFIER => (static fn(): ImagorUrlSource => new ImagorUrlSource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
+			ImagorFileSource::IDENTIFIER => (static fn(): ImagorFileSource => new ImagorFileSource())(),
 		};
 
 		return new ImagorProvider(
@@ -99,14 +91,10 @@ class ProviderFactory
 	private function getThumborProvider(array $options): ThumborProvider
 	{
 		$source = match ($options['source_loader']) {
-			ThumborUrlSource::IDENTIFIER => (static function () use ($options): ThumborUrlSource {
-				return new ThumborUrlSource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
-			ThumborFileSource::IDENTIFIER => (static function (): ThumborFileSource {
-				return new ThumborFileSource();
-			})(),
+			ThumborUrlSource::IDENTIFIER => (static fn(): ThumborUrlSource => new ThumborUrlSource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
+			ThumborFileSource::IDENTIFIER => (static fn(): ThumborFileSource => new ThumborFileSource())(),
 		};
 
 		return new ThumborProvider(
@@ -174,14 +162,10 @@ class ProviderFactory
 	private function getImgixProvider(array $options): ImgixProvider
 	{
 		$source = match ($options['source_loader']) {
-			ImgixProxySource::IDENTIFIER => (static function () use ($options): ImgixProxySource {
-				return new ImgixProxySource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
-			ImgixFolderSource::IDENTIFIER => (static function (): ImgixFolderSource {
-				return new ImgixFolderSource();
-			})(),
+			ImgixProxySource::IDENTIFIER => (static fn(): ImgixProxySource => new ImgixProxySource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
+			ImgixFolderSource::IDENTIFIER => (static fn(): ImgixFolderSource => new ImgixFolderSource())(),
 		};
 
 		return new ImgixProvider(
@@ -193,14 +177,10 @@ class ProviderFactory
 	private function getCloudinaryProvider(array $options): CloudinaryProvider
 	{
 		$source = match ($options['delivery_mode']) {
-			CloudinaryFetchSource::IDENTIFIER => (static function () use ($options): CloudinaryFetchSource {
-				return new CloudinaryFetchSource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
-			CloudinaryUploadSource::IDENTIFIER => (static function (): CloudinaryUploadSource {
-				return new CloudinaryUploadSource();
-			})(),
+			CloudinaryFetchSource::IDENTIFIER => (static fn(): CloudinaryFetchSource => new CloudinaryFetchSource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
+			CloudinaryUploadSource::IDENTIFIER => (static fn(): CloudinaryUploadSource => new CloudinaryUploadSource())(),
 		};
 
 		return new CloudinaryProvider(
@@ -224,14 +204,10 @@ class ProviderFactory
 	private function getGumletProvider(array $options): GumletProvider
 	{
 		$source = match ($options['source_loader']) {
-			GumletFolderSource::IDENTIFIER => (static function (): GumletFolderSource {
-				return new GumletFolderSource();
-			})(),
-			GumletProxySource::IDENTIFIER => (static function () use ($options): GumletProxySource {
-				return new GumletProxySource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
+			GumletFolderSource::IDENTIFIER => (static fn(): GumletFolderSource => new GumletFolderSource())(),
+			GumletProxySource::IDENTIFIER => (static fn(): GumletProxySource => new GumletProxySource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
 		};
 
 		return new GumletProvider(
@@ -243,14 +219,10 @@ class ProviderFactory
 	private function getImgLabProvider(array $options): ImgLabProvider
 	{
 		$source = match ($options['source_loader']) {
-			ImgLabWebSource::IDENTIFIER => (static function () use ($options): ImgLabWebSource {
-				return new ImgLabWebSource();
-			})(),
-			ImgLabProxySource::IDENTIFIER => (static function () use ($options): ImgLabProxySource {
-				return new ImgLabProxySource(
-					$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
-				);
-			})(),
+			ImgLabWebSource::IDENTIFIER => (static fn(): ImgLabWebSource => new ImgLabWebSource())(),
+			ImgLabProxySource::IDENTIFIER => (static fn(): ImgLabProxySource => new ImgLabProxySource(
+				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
+			))(),
 		};
 
 		return new ImgLabProvider(

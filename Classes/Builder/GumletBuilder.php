@@ -118,19 +118,17 @@ class GumletBuilder implements BuilderInterface
 		$parameters = array_filter([
 			'extract' => $this->getCrop() && !$this->getGravity() ? implode(',', $this->getCrop()) : null,
 			'mode' => $this->getGravity() ? 'crop' : null,
-			'crop' =>  $this->getGravity() ? 'focalpoint' : null,
+			'crop' => $this->getGravity() ? 'focalpoint' : null,
 			'fp-x' => $this->getGravity() ? $this->getGravity()[0] : null,
 			'fp-y' => $this->getGravity() ? $this->getGravity()[1] : null,
 			'w' => $this->getWidth(),
 			'h' => $this->getHeight(),
 		]);
 
-		$options = implode('&', array_map(static function ($name, $value) {
-			return strtr('%name%=%value%', [
-				'%name%' => $name,
-				'%value%' => $value,
-			]);
-		}, array_keys($parameters), $parameters));
+		$options = implode('&', array_map(static fn($name, $value): string => strtr('%name%=%value%', [
+			'%name%' => $name,
+			'%value%' => $value,
+		]), array_keys($parameters), $parameters));
 
 		$source = trim($this->getSource(), '/');
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgLabBuilder;
@@ -83,7 +84,7 @@ class ImgLabBuilderTest extends UnitTestCase
 		$this->assertSame($expectedUrl, $builder->build());
 	}
 
-	public static function imgLabTransformationsDataProvider(): \Generator
+	public static function imgLabTransformationsDataProvider(): Generator
 	{
 		yield 'basic sizing modifiers match standard structure' => [
 			'crop',
