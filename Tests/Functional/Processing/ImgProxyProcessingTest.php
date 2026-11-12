@@ -62,10 +62,10 @@ class ImgProxyProcessingTest extends FunctionalTestCase
 		$storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
 		$defaultStorage = $storageRepository->getDefaultStorage();
 
-		$fixturePath = $defaultStorage->getPublicUrl($defaultStorage->getRootLevelFolder()) . 'test-image.jpg';
-		if (!file_exists($fixturePath)) {
-			$imageContent = file_get_contents('https://picsum.photos/200/300');
-			file_put_contents($this->instancePath . '/' . $fixturePath, $imageContent);
+		$fixturePath = $defaultStorage->getPublicUrl($defaultStorage->getRootLevelFolder()) . 'test-image.png';
+		if (!file_exists($this->instancePath . '/' . $fixturePath)) {
+			// A 200x300 PNG, so the test needs no network.
+			file_put_contents($this->instancePath . '/' . $fixturePath, base64_decode('iVBORw0KGgoAAAANSUhEUgAAAMgAAAEsCAIAAAAJmGvpAAACI0lEQVR42u3SQQkAAAgEwYttHOMYyxKCn4FJsGyqB85FAoyFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2NhLBUwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxsJYKmAsjIWxwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhgLY2EsMBbGwlhgLIyFscBYGAtjgbEwFsYCY2EsjAXGwlgYC4yFsTAWGAtjYSwwFsbCWGAsjIWxwFgYC2OBsTAWxgJjYSyMhbEkwFgYC2OBsTAWxgJjYSyMBcbCWBgLjIWxMBYYC2NhLDAWxsJYYCyMhbHAWBgLY4GxMBbGAmNhLIwFxsJYGAuMhbEwFhiLfwtUio26+5RKPAAAAABJRU5ErkJggg=='));
 		}
 	}
 
@@ -78,7 +78,7 @@ class ImgProxyProcessingTest extends FunctionalTestCase
 		$resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 
 		// Retrieve our file reference from the sandbox FAL system
-		$file = $resourceFactory->getFileObjectFromCombinedIdentifier('1:/test-image.jpg');
+		$file = $resourceFactory->getFileObjectFromCombinedIdentifier('1:/test-image.png');
 
 		// Target processing instructions (e.g. crop/resize via Fluid or Controller)
 		$processingInstructions = [
