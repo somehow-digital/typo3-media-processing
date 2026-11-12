@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ThumborBuilder;
@@ -75,7 +76,7 @@ class ThumborBuilderTest extends UnitTestCase
 		$this->assertSame($expectedUrl, $builder->build());
 	}
 
-	public static function thumborPathDataProvider(): \Generator
+	public static function thumborPathDataProvider(): Generator
 	{
 		yield 'only resizing width and height' => [
 			null,

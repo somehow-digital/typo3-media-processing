@@ -19,14 +19,15 @@ use TYPO3\CMS\Core\Resource\Event\BeforeFileProcessingEvent;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\MetaDataAspect;
 use TYPO3\CMS\Core\Resource\ProcessedFile;
-use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 final class DocumentDimensionsEventListenerTest extends UnitTestCase
 {
 	private ProviderInterface&MockObject $providerMock;
+
 	private Parser&MockObject $parserMock;
+
 	private ExtensionConfiguration&MockObject $extensionConfiguration;
 
 	protected function setUp(): void
@@ -188,12 +189,10 @@ final class DocumentDimensionsEventListenerTest extends UnitTestCase
 
 		$fileStub->method('getProperty')
 			->willReturnCallback(
-				static function (string $property) use ($width, $height) {
-					return match ($property) {
-						'width' => $width,
-						'height' => $height,
-						default => null,
-					};
+				static fn(string $property): ?int => match ($property) {
+					'width' => $width,
+					'height' => $height,
+					default => null,
 				}
 			);
 

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyUrlSource;
@@ -61,7 +62,7 @@ class ImgProxyUrlSourceTest extends UnitTestCase
 		$this->assertSame($expectedOutput, $result);
 	}
 
-	public static function urlParsingDataProvider(): \Generator
+	public static function urlParsingDataProvider(): Generator
 	{
 		yield 'trailing slash on host and leading slash on path are normalized' => [
 			'https://cdn.example.com/',

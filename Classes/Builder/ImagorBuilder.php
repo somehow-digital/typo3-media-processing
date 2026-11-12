@@ -133,7 +133,7 @@ class ImagorBuilder implements BuilderInterface
 
 	private function calculateSignature(string $path): string
 	{
-		if (! $this->key) {
+		if (!$this->key) {
 			return static::SIGNATURE_UNSAFE;
 		}
 

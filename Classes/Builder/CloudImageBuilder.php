@@ -116,12 +116,10 @@ class CloudImageBuilder implements BuilderInterface
 				: null,
 		]);
 
-		$options = implode('&', array_map(static function ($name, $value) {
-			return strtr('%name%=%value%', [
-				'%name%' => $name,
-				'%value%' => $value,
-			]);
-		}, array_keys($parameters), $parameters));
+		$options = implode('&', array_map(static fn($name, $value): string => strtr('%name%=%value%', [
+			'%name%' => $name,
+			'%value%' => $value,
+		]), array_keys($parameters), $parameters));
 
 		$source = rawurlencode(trim($this->getSource(), '/'));
 

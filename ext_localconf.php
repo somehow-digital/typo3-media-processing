@@ -1,10 +1,10 @@
 <?php
 
-use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderFactory;
 use SomehowDigital\Typo3\MediaProcessing\Processor\MediaProcessor;
+use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-(static function () {
+(static function (): void {
 	$provider = GeneralUtility::makeInstance(ProviderFactory::class)();
 
 	if ($provider?->hasConfiguration()) {

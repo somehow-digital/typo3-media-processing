@@ -54,8 +54,8 @@ class ImgLabProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): BuilderInterface
@@ -71,25 +71,19 @@ class ImgLabProvider implements ProviderInterface
 
 		$builder->setSource($this->source->getSource($file));
 
-		$mode = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'clip';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'crop';
-			}
+		$mode = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'crop',
+			default => 'clip',
 		})($configuration);
 
 		$builder->setMode($mode);
 
-		if (isset($configuration['width']) || isset($configuration['maxWidth']) ) {
+		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
 			$width = (int) ($configuration['width'] ?? $configuration['maxWidth'] ?? null);
 			$builder->setWidth($width);
 		}
 
-		if (isset($configuration['height']) || isset($configuration['maxHeight']) ) {
+		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
 			$height = (int) ($configuration['height'] ?? $configuration['maxHeight'] ?? null);
 			$builder->setHeight($height);
 		}

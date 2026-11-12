@@ -13,8 +13,7 @@ class GumletProxySource implements SourceInterface
 
 	public function __construct(
 		private readonly string $host,
-	) {
-	}
+	) {}
 
 	public function getHost(): string
 	{

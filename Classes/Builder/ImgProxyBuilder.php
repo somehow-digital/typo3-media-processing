@@ -215,12 +215,10 @@ class ImgProxyBuilder implements BuilderInterface
 			'cb' => $this->getHash(),
 		]);
 
-		$options = implode('/', array_map(static function ($name, $value) {
-			return strtr('%name%:%value%', [
-				'%name%' => $name,
-				'%value%' => $value,
-			]);
-		}, array_keys($parameters), $parameters));
+		$options = implode('/', array_map(static fn($name, $value): string => strtr('%name%:%value%', [
+			'%name%' => $name,
+			'%value%' => $value,
+		]), array_keys($parameters), $parameters));
 
 		$prefix = static::ENCRYPTION_PLAIN;
 		$source = $this->encodeSource(trim($this->getSource(), '/'));
@@ -239,7 +237,7 @@ class ImgProxyBuilder implements BuilderInterface
 
 	private function calculateSignature(string $path): string
 	{
-		$data = pack('H*', $this->salt).'/'.trim($path, '/');
+		$data = pack('H*', $this->salt) . '/' . trim($path, '/');
 		$key = pack('H*', $this->key);
 
 		$hash = hash_hmac(static::SIGNATURE_ALGORITHM, $data, $key, true);
@@ -260,7 +258,7 @@ class ImgProxyBuilder implements BuilderInterface
 			$vector,
 		);
 
-		$digest = base64_encode($vector.$cipher);
+		$digest = base64_encode($vector . $cipher);
 
 		return rtrim(strtr($digest, '+/', '-_'), '=');
 	}

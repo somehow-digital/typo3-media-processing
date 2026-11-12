@@ -60,7 +60,14 @@
 	},
 	"require-dev": {
 		"johnbacon/stout": "^1.16.1",
+		"phpstan/phpstan": "^2.1",
+		"phpstan/phpstan-phpunit": "^2.0",
+		"rector/rector": "^2.0",
 		"roave/security-advisories": "dev-latest",
+		"saschaegerer/phpstan-typo3": "^3.0",
+		"shipmonk/composer-dependency-analyser": "^1.8",
+		"ssch/typo3-rector": "^3.0",
+		"symplify/easy-coding-standard": "^13.0",
 		"typo3/testing-framework": "^9.5"
 	},
 	"autoload": {
@@ -72,6 +79,20 @@
 		"psr-4": {
 			"SomehowDigital\\Typo3\\MediaProcessing\\Tests\\": "Tests/"
 		}
+	},
+	"scripts": {
+		"check": [
+			"@ecs",
+			"@deps",
+			"@rector",
+			"@phpstan"
+		],
+		"deps": "composer-dependency-analyser",
+		"ecs": "ecs check",
+		"ecs-fix": "ecs check --fix",
+		"phpstan": "phpstan analyse --memory-limit=1G",
+		"rector": "rector process --dry-run",
+		"rector-fix": "rector process"
 	},
 	"extra": {
 		"typo3/cms": {

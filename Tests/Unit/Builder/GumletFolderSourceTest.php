@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\GumletFolderSource;
@@ -51,7 +52,7 @@ class GumletFolderSourceTest extends UnitTestCase
 		$this->assertSame($expected, $result);
 	}
 
-	public static function getSourceDataProvider(): \Generator
+	public static function getSourceDataProvider(): Generator
 	{
 		yield 'Online media preview URL with query' => [
 			'https://example.com/preview/image.jpg?foo=bar', // OnlineMediaUtility result

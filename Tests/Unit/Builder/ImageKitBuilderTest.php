@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImageKitBuilder;
@@ -79,7 +80,7 @@ class ImageKitBuilderTest extends UnitTestCase
 		$this->assertMatchesRegularExpression('/[?&]ik-s=[a-f0-9]{40}/', $url);
 	}
 
-	public static function transformationDataProvider(): \Generator
+	public static function transformationDataProvider(): Generator
 	{
 		yield 'basic source path raw url encoded' => [
 			'folder/sub folder/image.jpg',

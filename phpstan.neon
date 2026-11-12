@@ -1,0 +1,14 @@
+includes:
+	- phpstan-baseline.neon
+	- vendor/saschaegerer/phpstan-typo3/extension.neon
+	- vendor/phpstan/phpstan-phpunit/extension.neon
+
+parameters:
+	level: 5
+	# The supported PHP range, not just the running version.
+	phpVersion:
+		min: 80100
+		max: 80599
+	paths:
+		- Classes
+		- Tests

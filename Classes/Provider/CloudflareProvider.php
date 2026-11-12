@@ -38,8 +38,8 @@ class CloudflareProvider implements ProviderInterface
 	public function supports(TaskInterface $task): bool
 	{
 		return
-			in_array($task->getName(), ['Preview', 'CropScaleMask'], true) &&
-			in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
+			in_array($task->getName(), ['Preview', 'CropScaleMask'], true)
+			&& in_array($task->getSourceFile()->getMimeType(), $this->getSupportedMimeTypes(), true);
 	}
 
 	public function configure(TaskInterface $task): CloudflareBuilder
@@ -50,15 +50,9 @@ class CloudflareProvider implements ProviderInterface
 		$builder = new CloudflareBuilder($this->getEndpoint());
 		$builder->setSource($this->source->getSource($file));
 
-		$fit = (static function ($configuration) {
-			switch (true) {
-				default:
-					return 'contain';
-
-				case str_ends_with((string) ($configuration['width'] ?? ''), 'c'):
-				case str_ends_with((string) ($configuration['height'] ?? ''), 'c'):
-					return 'cover';
-			}
+		$fit = (static fn(array $configuration): string => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'cover',
+			default => 'contain',
 		})($configuration);
 
 		$builder->setFit($fit);
@@ -102,5 +96,4 @@ class CloudflareProvider implements ProviderInterface
 			'video/vimeo',
 		];
 	}
-
 }

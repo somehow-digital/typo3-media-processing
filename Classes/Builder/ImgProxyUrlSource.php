@@ -13,8 +13,7 @@ class ImgProxyUrlSource implements SourceInterface
 
 	public function __construct(
 		private readonly string $host,
-	) {
-	}
+	) {}
 
 	public function getSource(File $file): string
 	{

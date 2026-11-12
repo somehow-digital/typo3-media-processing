@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class SirvProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -84,7 +86,7 @@ class SirvProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -100,6 +102,7 @@ class SirvProviderTest extends UnitTestCase
 		yield 'Unsupported task name' => ['CustomTask', 'image/jpeg', false];
 		yield 'Unsupported mime type' => ['Preview', 'image/x-unsupported', false];
 	}
+
 	#[Test]
 	#[DataProvider('configurationDataProvider')]
 	public function configureBuildsExpectedSirvBuilder(array $processingConfig, array $expectedProperties): void
@@ -109,12 +112,10 @@ class SirvProviderTest extends UnitTestCase
 		$fileStub = $this->createStub(File::class);
 		$fileStub
 			->method('getProperty')
-			->willReturnCallback(static function (string $propertyName) {
-				return match ($propertyName) {
-					'width' => 1000,
-					'height' => 800,
-					default => null,
-				};
+			->willReturnCallback(static fn(string $propertyName): ?int => match ($propertyName) {
+				'width' => 1000,
+				'height' => 800,
+				default => null,
 			});
 
 		$this->sourceStub
@@ -127,7 +128,7 @@ class SirvProviderTest extends UnitTestCase
 			->getMock();
 
 		// Manually initialize the taskType property to avoid "must not be accessed before initialization" error
-		(fn() => $this->taskType = 'Preview')->call($targetFileStub);
+		(fn(): string => $this->taskType = 'Preview')->call($targetFileStub);
 
 		$targetFileStub
 			->method('getProcessingConfiguration')
@@ -150,23 +151,25 @@ class SirvProviderTest extends UnitTestCase
 			->willReturn($targetFileStub);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var SirvBuilder $builder */
 		$builder = $provider->configure($taskStub);
 
 		$this->assertInstanceOf(SirvBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding scope
-		$this->assertSame('resolved-sirv-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['scale'], (fn() => $this->scale)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['crop'] ?? null, (fn() => $this->crop)->call($builder));
+		$this->assertSame('resolved-sirv-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['scale'], (fn(): ?string => $this->scale)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
 	}
-	public static function configurationDataProvider(): \Generator
+
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default switch fallback maps to ignore' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			[
 				'scale' => 'ignore',
 				'width' => 300,
@@ -175,7 +178,10 @@ class SirvProviderTest extends UnitTestCase
 		];
 
 		yield 'Fill scale mode matching width suffix c' => [
-			['width' => '400c', 'height' => '250'],
+			[
+				'width' => '400c',
+				'height' => '250',
+			],
 			[
 				'scale' => 'fill',
 				'width' => 400,
@@ -184,7 +190,9 @@ class SirvProviderTest extends UnitTestCase
 		];
 
 		yield 'Fit scale mode matching height suffix m' => [
-			['height' => '500m'],
+			[
+				'height' => '500m',
+			],
 			[
 				'scale' => 'fit',
 				'width' => 0,
@@ -193,7 +201,10 @@ class SirvProviderTest extends UnitTestCase
 		];
 
 		yield 'Fit scale mode via explicit max dimensions' => [
-			['maxWidth' => 600, 'maxHeight' => 400],
+			[
+				'maxWidth' => 600,
+				'maxHeight' => 400,
+			],
 			[
 				'scale' => 'fit',
 				'width' => 600,

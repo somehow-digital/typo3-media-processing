@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ImgProxyProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -94,7 +96,7 @@ class ImgProxyProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and image mime type' => ['Preview', 'image/jpeg', false, true];
 		yield 'Supported CropScaleMask task' => ['CropScaleMask', 'image/png', false, true];
@@ -152,33 +154,53 @@ class ImgProxyProviderTest extends UnitTestCase
 		$this->assertInstanceOf(ImgProxyBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding
-		$this->assertSame($expectedType, (fn() => $this->type)->call($builder), 'Type mapping failed');
-		$this->assertSame($expectedDimensions['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedDimensions['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedDimensions['crop'] ?? null, (fn() => $this->crop)->call($builder));
+		$this->assertSame($expectedType, (fn(): ?string => $this->type)->call($builder), 'Type mapping failed');
+		$this->assertSame($expectedDimensions['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedDimensions['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedDimensions['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Force type mapping default' => [
-			['width' => '100', 'height' => '200'],
+			[
+				'width' => '100',
+				'height' => '200',
+			],
 			'force',
-			['width' => 100, 'height' => 200],
+			[
+				'width' => 100,
+				'height' => 200,
+			],
 		];
 		yield 'Fit type mapping via max dimensions' => [
-			['maxWidth' => 400, 'maxHeight' => 300],
+			[
+				'maxWidth' => 400,
+				'maxHeight' => 300,
+			],
 			'fit',
-			['width' => 400, 'height' => 300],
+			[
+				'width' => 400,
+				'height' => 300,
+			],
 		];
 		yield 'Fit type mapping via suffix' => [
-			['width' => '400m'],
+			[
+				'width' => '400m',
+			],
 			'fit',
-			['width' => 400],
+			[
+				'width' => 400,
+			],
 		];
 		yield 'Fill type mapping via suffix' => [
-			['height' => '500c'],
+			[
+				'height' => '500c',
+			],
 			'fill',
-			['height' => 500],
+			[
+				'height' => 500,
+			],
 		];
 		yield 'Crop dimension mapping via coordinates' => [
 			[

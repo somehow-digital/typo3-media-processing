@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ImageKitProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -98,7 +100,7 @@ class ImageKitProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -149,24 +151,25 @@ class ImageKitProviderTest extends UnitTestCase
 			->willReturn($targetFileMock);
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
-
-		/** @var ImageKitBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
 		$this->assertInstanceOf(ImageKitBuilder::class, $builder);
 
 		// Reflection-less context property validation via Closure binding scope
-		$this->assertSame('resolved-imagekit-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['mode'], (fn() => $this->mode)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['crop'] ?? null, (fn() => $this->crop)->call($builder));
+		$this->assertSame('resolved-imagekit-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['mode'], (fn(): ?string => $this->mode)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default switch fallback maps to force' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			[
 				'mode' => 'force',
 				'width' => 300,
@@ -175,7 +178,10 @@ class ImageKitProviderTest extends UnitTestCase
 		];
 
 		yield 'At_max mode via explicit max dimensions' => [
-			['maxWidth' => 600, 'maxHeight' => 400],
+			[
+				'maxWidth' => 600,
+				'maxHeight' => 400,
+			],
 			[
 				'mode' => 'at_max',
 				'width' => 600,
@@ -184,7 +190,9 @@ class ImageKitProviderTest extends UnitTestCase
 		];
 
 		yield 'At_max mode matching width suffix m' => [
-			['width' => '500m'],
+			[
+				'width' => '500m',
+			],
 			[
 				'mode' => 'at_max',
 				'width' => 500,
@@ -192,7 +200,9 @@ class ImageKitProviderTest extends UnitTestCase
 		];
 
 		yield 'Maintain_ratio mode matching height suffix c' => [
-			['height' => '450c'],
+			[
+				'height' => '450c',
+			],
 			[
 				'mode' => 'maintain_ratio',
 				'height' => 450,

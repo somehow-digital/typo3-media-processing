@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\OptimoleBuilder;
@@ -82,7 +83,7 @@ class OptimoleBuilderTest extends UnitTestCase
 		$this->assertSame($expectedUrl, $builder->build());
 	}
 
-	public static function optimoleTransformationsDataProvider(): \Generator
+	public static function optimoleTransformationsDataProvider(): Generator
 	{
 		yield 'basic scaling parameters' => [
 			'resize',

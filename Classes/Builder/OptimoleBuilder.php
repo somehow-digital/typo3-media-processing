@@ -185,12 +185,10 @@ class OptimoleBuilder implements BuilderInterface
 			'cb' => $this->getHash(),
 		]);
 
-		$options = implode('/', array_map(static function ($name, $value) {
-			return strtr('%name%:%value%', [
-				'%name%' => $name,
-				'%value%' => $value,
-			]);
-		}, array_keys($parameters), $parameters));
+		$options = implode('/', array_map(static fn($name, $value): string => strtr('%name%:%value%', [
+			'%name%' => $name,
+			'%value%' => $value,
+		]), array_keys($parameters), $parameters));
 
 		$source = $this->encodeSource(trim($this->getSource(), '/'));
 

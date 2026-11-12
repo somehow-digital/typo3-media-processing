@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Provider;
 
+use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
@@ -19,6 +20,7 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 class ImgLabProviderTest extends UnitTestCase
 {
 	protected SourceInterface&Stub $sourceStub;
+
 	protected array $defaultOptions;
 
 	protected function setUp(): void
@@ -104,7 +106,7 @@ class ImgLabProviderTest extends UnitTestCase
 		$this->assertSame($expected, $provider->supports($taskStub));
 	}
 
-	public static function supportsDataProvider(): \Generator
+	public static function supportsDataProvider(): Generator
 	{
 		yield 'Supported task and jpeg mime type' => ['Preview', 'image/jpeg', true];
 		yield 'Supported CropScaleMask task and png' => ['CropScaleMask', 'image/png', true];
@@ -165,17 +167,20 @@ class ImgLabProviderTest extends UnitTestCase
 		$this->assertInstanceOf(ImgLabBuilder::class, $builder);
 
 		// Reflection-less property verification via Closure binding scope
-		$this->assertSame('resolved-imglab-source-path', (fn() => $this->source)->call($builder));
-		$this->assertSame($expectedProperties['mode'], (fn() => $this->mode)->call($builder));
-		$this->assertSame($expectedProperties['width'] ?? null, (fn() => $this->width)->call($builder));
-		$this->assertSame($expectedProperties['height'] ?? null, (fn() => $this->height)->call($builder));
-		$this->assertSame($expectedProperties['region'] ?? null, (fn() => $this->region)->call($builder));
+		$this->assertSame('resolved-imglab-source-path', (fn(): ?string => $this->source)->call($builder));
+		$this->assertSame($expectedProperties['mode'], (fn(): ?string => $this->mode)->call($builder));
+		$this->assertSame($expectedProperties['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
+		$this->assertSame($expectedProperties['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
+		$this->assertSame($expectedProperties['region'] ?? null, (fn(): ?array => $this->region)->call($builder));
 	}
 
-	public static function configurationDataProvider(): \Generator
+	public static function configurationDataProvider(): Generator
 	{
 		yield 'Default switch fallback maps to clip' => [
-			['width' => '300', 'height' => '200'],
+			[
+				'width' => '300',
+				'height' => '200',
+			],
 			[
 				'mode' => 'clip',
 				'width' => 300,
@@ -184,7 +189,10 @@ class ImgLabProviderTest extends UnitTestCase
 		];
 
 		yield 'Crop mode matching width suffix c' => [
-			['width' => '400c', 'height' => '250'],
+			[
+				'width' => '400c',
+				'height' => '250',
+			],
 			[
 				'mode' => 'crop',
 				'width' => 400,
@@ -193,7 +201,10 @@ class ImgLabProviderTest extends UnitTestCase
 		];
 
 		yield 'Clip mode via explicit max dimensions fallback' => [
-			['maxWidth' => 500, 'maxHeight' => 350],
+			[
+				'maxWidth' => 500,
+				'maxHeight' => 350,
+			],
 			[
 				'mode' => 'clip',
 				'width' => 500,

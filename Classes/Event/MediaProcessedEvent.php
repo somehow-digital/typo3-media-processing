@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SomehowDigital\Typo3\MediaProcessing\Event;
 
 use SomehowDigital\Typo3\MediaProcessing\Builder\BuilderInterface;
