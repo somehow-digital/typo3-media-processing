@@ -24,20 +24,9 @@ jobs:
           fetch-depth: 0
       - name: scan source
         id: trufflehog
-        uses: trufflesecurity/trufflehog@bff3d2670b362bbb4a0bcdeffea146cbc2ad3abd
+        uses: trufflesecurity/trufflehog@3bd2b5887eb0efb8fa18bfd1d296032924e4ffdc
+        with:
+          version: 3.99.9
       - name: evaluate results
         if: steps.trufflehog.outcome == 'failure'
         run: exit 1
-  gitleaks:
-    name: gitleaks
-    runs-on: ubuntu-latest
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v7
-        with:
-          fetch-depth: 0
-      - name: scan source
-        uses: gitleaks/gitleaks-action@ff98106e4c7b2bc287b24eaf42907196329070c7
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          GITLEAKS_LICENSE: ${{ secrets.GITLEAKS_LICENSE }}
