@@ -159,8 +159,6 @@ class OptimoleProviderTest extends UnitTestCase
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskMock);
 
-		$this->assertInstanceOf(OptimoleBuilder::class, $builder);
-
 		// Context internal property validation via Closure binding scope
 		$this->assertSame('resolved-optimole-source', (fn(): ?string => $this->source)->call($builder));
 		$this->assertSame($expectedProperties['type'], (fn(): ?string => $this->type)->call($builder));

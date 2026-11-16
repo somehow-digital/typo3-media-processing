@@ -164,8 +164,6 @@ class ImgLabProviderTest extends UnitTestCase
 		/** @var ImgLabBuilder $builder */
 		$builder = $provider->configure($taskMock);
 
-		$this->assertInstanceOf(ImgLabBuilder::class, $builder);
-
 		// Reflection-less property verification via Closure binding scope
 		$this->assertSame('resolved-imglab-source-path', (fn(): ?string => $this->source)->call($builder));
 		$this->assertSame($expectedProperties['mode'], (fn(): ?string => $this->mode)->call($builder));

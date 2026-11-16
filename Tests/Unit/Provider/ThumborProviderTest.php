@@ -9,7 +9,6 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
-use SomehowDigital\Typo3\MediaProcessing\Builder\ThumborBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Provider\ThumborProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\File;
@@ -158,8 +157,6 @@ class ThumborProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskStub);
-
-		$this->assertInstanceOf(ThumborBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding scope
 		$this->assertSame('resolved-thumbor-source-path', (fn(): ?string => $this->source)->call($builder));

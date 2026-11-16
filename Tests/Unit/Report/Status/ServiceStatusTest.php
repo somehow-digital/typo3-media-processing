@@ -14,7 +14,6 @@ use SomehowDigital\Typo3\MediaProcessing\Report\Status\ServiceStatus;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Reports\Status;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ServiceStatusTest extends UnitTestCase
@@ -78,7 +77,6 @@ class ServiceStatusTest extends UnitTestCase
 		$this->assertArrayNotHasKey('storage', $statusArray);
 
 		$providerStatus = $statusArray['provider'];
-		$this->assertInstanceOf(Status::class, $providerStatus);
 		$this->assertSame('local', $providerStatus->getValue());
 	}
 
@@ -116,7 +114,6 @@ class ServiceStatusTest extends UnitTestCase
 
 		foreach (['provider', 'configuration', 'frontend', 'backend', 'storage'] as $key) {
 			$statusObj = $statusArray[$key];
-			$this->assertInstanceOf(Status::class, $statusObj);
 			$this->assertSame($expectedSeverities[$key], $statusObj->getSeverity(), "Severity mismatch for key: {$key}");
 			$this->assertSame($expectedValues[$key], $statusObj->getValue(), "Value mismatch for key: {$key}");
 		}

@@ -7,7 +7,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\Builder;
 use SomehowDigital\Typo3\MediaProcessing\Utility\OnlineMediaUtility;
 use TYPO3\CMS\Core\Resource\File;
 
-class CloudinaryFetchSource implements SourceInterface
+class CloudinaryFetchSource implements CloudinarySourceInterface
 {
 	public const IDENTIFIER = 'fetch';
 

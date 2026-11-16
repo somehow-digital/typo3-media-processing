@@ -14,7 +14,7 @@ Media processing extension for TYPO3 (PHP 8.2+, TYPO3 12.4 – 14.x).
 - Run `composer check` before finishing. It covers style, dependencies, refactoring and static analysis.
 - Auto-fix with `composer ecs-fix` and `composer rector-fix`.
 - Run the tests with `./vendor/bin/phpunit -c Tests/UnitTests.xml` and `./vendor/bin/phpunit -c Tests/FunctionalTests.xml --bootstrap Tests/FunctionalTestsBootstrap.php`.
-- Don't weaken a check to make it pass. Fix the cause. `phpstan-baseline.neon` only shrinks.
+- Don't weaken a check to make it pass. Fix the cause. Don't add a PHPStan baseline.
 
 ## Git
 

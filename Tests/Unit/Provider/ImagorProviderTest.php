@@ -8,7 +8,6 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\ImagorBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\ImagorProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -162,8 +161,6 @@ class ImagorProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskMock);
-
-		$this->assertInstanceOf(ImagorBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding scope
 		$this->assertSame('resolved-imagor-source-path', (fn(): ?string => $this->source)->call($builder));

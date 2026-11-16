@@ -8,7 +8,6 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\SirvBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\SirvProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -152,8 +151,6 @@ class SirvProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskStub);
-
-		$this->assertInstanceOf(SirvBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding scope
 		$this->assertSame('resolved-sirv-source-path', (fn(): ?string => $this->source)->call($builder));

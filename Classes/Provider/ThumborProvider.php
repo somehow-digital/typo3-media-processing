@@ -76,7 +76,7 @@ class ThumborProvider implements ProviderInterface
 			default => 'stretch',
 		})($configuration);
 
-		$type && $builder->setType($type) instanceof ThumborBuilder;
+		$builder->setType($type);
 
 		if (isset($configuration['crop'])) {
 			$builder->setCrop(

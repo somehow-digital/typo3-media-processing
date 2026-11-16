@@ -8,7 +8,6 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\BunnyBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\BunnyProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -149,8 +148,6 @@ class BunnyProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskMock);
-
-		$this->assertInstanceOf(BunnyBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding to match target internal property structures
 		$this->assertSame('resolved-bunny-source-path', (fn(): ?string => $this->source)->call($builder));

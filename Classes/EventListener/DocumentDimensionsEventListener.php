@@ -7,13 +7,14 @@ use SomehowDigital\Typo3\MediaProcessing\Provider\ProviderInterface;
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\Event\BeforeFileProcessingEvent;
+use TYPO3\CMS\Core\Resource\File;
 
 class DocumentDimensionsEventListener
 {
 	private ?array $configuration;
 
 	public function __construct(
-		private readonly ProviderInterface $provider,
+		private readonly ?ProviderInterface $provider,
 		private readonly Parser $parser,
 		?ExtensionConfiguration $configuration,
 	) {
@@ -22,6 +23,12 @@ class DocumentDimensionsEventListener
 
 	public function __invoke(BeforeFileProcessingEvent $event): void
 	{
+		$file = $event->getFile();
+
+		if (!$file instanceof File) {
+			return;
+		}
+
 		$context = ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST']);
 
 		if ($context->isBackend() && !$this->configuration['common']['backend']) {
@@ -31,20 +38,20 @@ class DocumentDimensionsEventListener
 			return;
 		}
 
-		if (!$event->getFile()->getStorage()->isOnline()) {
+		if (!$file->getStorage()->isOnline()) {
 			return;
 		}
-		if (!$event->getFile()->getStorage()->isPublic() && !$this->configuration['common']['private']) {
+		if (!$file->getStorage()->isPublic() && !$this->configuration['common']['private']) {
 			return;
 		}
 
-		if (!$event->getFile()->exists()) {
+		if (!$file->exists()) {
 			return;
 		}
-		if ($event->getFile()->getProperty('width')) {
+		if ($file->getProperty('width')) {
 			return;
 		}
-		if ($event->getFile()->getProperty('height')) {
+		if ($file->getProperty('height')) {
 			return;
 		}
 
@@ -55,11 +62,11 @@ class DocumentDimensionsEventListener
 			return;
 		}
 
-		$document = $this->parser->parseFile($event->getFile()->getForLocalProcessing());
+		$document = $this->parser->parseFile($file->getForLocalProcessing());
 		$details = current($document->getPages())->getDetails();
 
 		if ($details['MediaBox']) {
-			$event->getFile()->getMetaData()->add([
+			$file->getMetaData()->add([
 				'width' => (int) $details['MediaBox'][2],
 				'height' => (int) $details['MediaBox'][3],
 			]);
