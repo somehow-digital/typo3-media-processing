@@ -12,14 +12,16 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImgProxyBuilderTest extends UnitTestCase
 {
+	private const ENDPOINT = 'https://imgproxy.example.com';
+
 	#[Test]
 	public function buildPrependsEndpoint(): void
 	{
 		$url = Url::create()->source('banner.jpg')->options(new Width(1200));
 
 		$this->assertSame(
-			'https://imgproxy.example.com/_/w:1200/plain/banner.jpg',
-			(new ImgProxyBuilder('https://imgproxy.example.com', $url))->build(),
+			self::ENDPOINT . '/_/w:1200/plain/banner.jpg',
+			(new ImgProxyBuilder(self::ENDPOINT, $url))->build(),
 		);
 	}
 
@@ -37,10 +39,10 @@ class ImgProxyBuilderTest extends UnitTestCase
 	#[Test]
 	public function listenersCanExtendTheUrl(): void
 	{
-		$builder = new ImgProxyBuilder('https://imgproxy.example.com', Url::create()->source('banner.jpg'));
+		$builder = new ImgProxyBuilder(self::ENDPOINT, Url::create()->source('banner.jpg'));
 
 		$extended = new ImgProxyBuilder($builder->getEndpoint(), $builder->getUrl()->options(new Width(10)));
 
-		$this->assertSame('https://imgproxy.example.com/_/w:10/plain/banner.jpg', $extended->build());
+		$this->assertSame(self::ENDPOINT . '/_/w:10/plain/banner.jpg', $extended->build());
 	}
 }

@@ -87,9 +87,11 @@ class ImgProxyProvider implements ProviderInterface
 		$size = $this->getSignatureSize();
 		$secret = $this->getEncryptionKey();
 
-		$signer = $key && $salt
-			? new Signer($key, $salt, ...($size === null ? [] : [$size]))
-			: null;
+		$signer = null;
+
+		if ($key && $salt) {
+			$signer = $size === null ? new Signer($key, $salt) : new Signer($key, $salt, $size);
+		}
 
 		$type = (static fn(array $configuration): ResizingTypeEnum => match (true) {
 			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => ResizingTypeEnum::FIT,

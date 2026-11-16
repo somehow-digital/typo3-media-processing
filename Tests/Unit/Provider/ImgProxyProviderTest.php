@@ -18,6 +18,14 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImgProxyProviderTest extends UnitTestCase
 {
+	private const ENDPOINT = 'https://imgproxy.example.com';
+
+	private const SIGNATURE_KEY = '736563726574';
+
+	private const SIGNATURE_SALT = '73616c74';
+
+	private const ENCRYPTION_KEY = '000102030405060708090a0b0c0d0e0f';
+
 	protected SourceInterface&Stub $sourceStub;
 
 	protected array $defaultOptions;
@@ -27,11 +35,11 @@ class ImgProxyProviderTest extends UnitTestCase
 		parent::setUp();
 		$this->sourceStub = $this->createStub(SourceInterface::class);
 		$this->defaultOptions = [
-			'api_endpoint' => 'https://imgproxy.example.com',
-			'signature_key' => '736563726574',
-			'signature_salt' => '73616c74',
+			'api_endpoint' => self::ENDPOINT,
+			'signature_key' => self::SIGNATURE_KEY,
+			'signature_salt' => self::SIGNATURE_SALT,
 			'signature_size' => 32,
-			'encryption_key' => '000102030405060708090a0b0c0d0e0f',
+			'encryption_key' => self::ENCRYPTION_KEY,
 		];
 	}
 
@@ -46,11 +54,11 @@ class ImgProxyProviderTest extends UnitTestCase
 	{
 		$provider = new ImgProxyProvider($this->sourceStub, $this->defaultOptions);
 
-		$this->assertSame('https://imgproxy.example.com', $provider->getEndpoint());
-		$this->assertSame('736563726574', $provider->getSignatureKey());
-		$this->assertSame('73616c74', $provider->getSignatureSalt());
+		$this->assertSame(self::ENDPOINT, $provider->getEndpoint());
+		$this->assertSame(self::SIGNATURE_KEY, $provider->getSignatureKey());
+		$this->assertSame(self::SIGNATURE_SALT, $provider->getSignatureSalt());
 		$this->assertSame(32, $provider->getSignatureSize());
-		$this->assertSame('000102030405060708090a0b0c0d0e0f', $provider->getEncryptionKey());
+		$this->assertSame(self::ENCRYPTION_KEY, $provider->getEncryptionKey());
 	}
 
 	#[Test]
@@ -110,7 +118,7 @@ class ImgProxyProviderTest extends UnitTestCase
 	public function configureBuildsExpectedUrl(array $processingConfig, string $expectedOptions): void
 	{
 		$provider = new ImgProxyProvider($this->sourceStub, [
-			'api_endpoint' => 'https://imgproxy.example.com',
+			'api_endpoint' => self::ENDPOINT,
 		]);
 
 		$fileMock = $this->createMock(File::class);
@@ -151,14 +159,14 @@ class ImgProxyProviderTest extends UnitTestCase
 
 		$url = $provider->configure($taskMock)->build();
 
-		$this->assertStringStartsWith('https://imgproxy.example.com/_/' . $expectedOptions . '/cb:mocked-sha1-hash/plain/', $url);
+		$this->assertStringStartsWith(self::ENDPOINT . '/_/' . $expectedOptions . '/cb:mocked-sha1-hash/plain/', $url);
 	}
 
 	#[Test]
 	public function configureEncryptsSourceWhenEncryptionKeyIsSet(): void
 	{
 		$url = $this->configureUrl([
-			'encryption_key' => '000102030405060708090a0b0c0d0e0f',
+			'encryption_key' => self::ENCRYPTION_KEY,
 		]);
 
 		$this->assertStringContainsString('/enc/', $url);
@@ -169,8 +177,8 @@ class ImgProxyProviderTest extends UnitTestCase
 	public function configureTruncatesSignatureToConfiguredSize(): void
 	{
 		$url = $this->configureUrl([
-			'signature_key' => '736563726574',
-			'signature_salt' => '73616c74',
+			'signature_key' => self::SIGNATURE_KEY,
+			'signature_salt' => self::SIGNATURE_SALT,
 			'signature_size' => 8,
 		]);
 
@@ -181,7 +189,7 @@ class ImgProxyProviderTest extends UnitTestCase
 	private function configureUrl(array $options): string
 	{
 		$provider = new ImgProxyProvider($this->sourceStub, [
-			'api_endpoint' => 'https://imgproxy.example.com',
+			'api_endpoint' => self::ENDPOINT,
 		] + $options);
 
 		$this->sourceStub->method('getSource')->willReturn('resolved-source-path');
