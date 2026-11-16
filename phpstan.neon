@@ -7,7 +7,7 @@ parameters:
 	level: 5
 	# The supported PHP range, not just the running version.
 	phpVersion:
-		min: 80100
+		min: 80200
 		max: 80599
 	paths:
 		- Classes

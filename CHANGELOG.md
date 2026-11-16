@@ -2,6 +2,10 @@
 
 ## [Unreleased]
 
+### Changed
+
+* Require PHP 8.2 or higher.
+
 ## [1.0.0]
 
 ### Added
