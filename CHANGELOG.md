@@ -5,6 +5,8 @@
 ### Changed
 
 * Require PHP 8.2 or higher.
+* Use [`somehow-digital/imgproxy`](https://packagist.org/packages/somehow-digital/imgproxy) to build `imgproxy` URLs.
+* The `imgproxy` options `signature_key`, `signature_salt` and `encryption_key` must be hexadecimal strings (`encryption_key` of 16, 24 or 32 bytes).
 
 ## [1.0.0]
 
