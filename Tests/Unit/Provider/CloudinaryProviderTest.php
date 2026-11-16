@@ -8,8 +8,7 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinaryBuilder;
-use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinarySourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\CloudinaryProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
 use TYPO3\CMS\Core\Resource\File;
@@ -19,14 +18,14 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class CloudinaryProviderTest extends UnitTestCase
 {
-	protected SourceInterface&Stub $sourceStub;
+	protected CloudinarySourceInterface&Stub $sourceStub;
 
 	protected array $defaultOptions;
 
 	protected function setUp(): void
 	{
 		parent::setUp();
-		$this->sourceStub = $this->createStub(SourceInterface::class);
+		$this->sourceStub = $this->createStub(CloudinarySourceInterface::class);
 		$this->defaultOptions = [
 			'api_endpoint' => 'https://api.cloudinary.com/v1_1/demo/image/fetch',
 			'delivery_mode' => 'fetch',
@@ -154,8 +153,6 @@ class CloudinaryProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskMock);
-
-		$this->assertInstanceOf(CloudinaryBuilder::class, $builder);
 
 		// Reflection-less property check via Closure binding
 		$this->assertSame('resolved-cloudinary-source', (fn(): ?string => $this->source)->call($builder));

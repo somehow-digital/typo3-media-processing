@@ -18,7 +18,7 @@ class CloudinaryBuilder implements BuilderInterface
 
 	public function __construct(
 		private readonly string $endpoint,
-		private readonly SourceInterface $delivery,
+		private readonly CloudinarySourceInterface $delivery,
 		private readonly ?string $key,
 		private readonly ?string $algorithm,
 	) {}
@@ -28,7 +28,7 @@ class CloudinaryBuilder implements BuilderInterface
 		return $this->endpoint;
 	}
 
-	public function getDelivery(): ?SourceInterface
+	public function getDelivery(): CloudinarySourceInterface
 	{
 		return $this->delivery;
 	}
@@ -109,7 +109,7 @@ class CloudinaryBuilder implements BuilderInterface
 		return strtr($signature ? '%endpoint%/%type%/%delivery%/%signature%/%path%' : '%endpoint%/%type%/%delivery%/%path%', [
 			'%endpoint%' => trim($this->getEndpoint(), '/'),
 			'%type%' => 'image',
-			'%delivery%' => $this->getDelivery()?->getIdentifier(),
+			'%delivery%' => $this->getDelivery()->getIdentifier(),
 			'%signature%' => $signature,
 			'%path%' => trim($path, '/'),
 		]);

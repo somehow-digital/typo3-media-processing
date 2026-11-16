@@ -8,7 +8,6 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\GumletBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\GumletProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -155,8 +154,6 @@ class GumletProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskMock);
-
-		$this->assertInstanceOf(GumletBuilder::class, $builder);
 
 		// Reflection-less property verification via Closure binding scope
 		$this->assertSame('resolved-gumlet-source-path', (fn(): ?string => $this->source)->call($builder));

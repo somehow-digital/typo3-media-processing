@@ -7,7 +7,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\Tests\Unit\Builder;
 use PHPUnit\Framework\Attributes\Test;
 use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinaryBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinaryFetchSource;
-use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinarySourceInterface;
 use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class CloudinaryBuilderTest extends UnitTestCase
@@ -17,7 +17,7 @@ class CloudinaryBuilderTest extends UnitTestCase
 	#[Test]
 	public function gettersAndSettersPropertiesCanBeSetAndRetrieved(): void
 	{
-		$deliveryStub = $this->createStub(SourceInterface::class);
+		$deliveryStub = $this->createStub(CloudinarySourceInterface::class);
 		$builder = new CloudinaryBuilder(self::BASE_URL, $deliveryStub, 'secret-key', 'sha256');
 
 		$this->assertSame(self::BASE_URL, $builder->getEndpoint());

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
 use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinaryBuilder;
-use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
+use SomehowDigital\Typo3\MediaProcessing\Builder\CloudinarySourceInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use TYPO3\CMS\Core\Resource\Processing\TaskInterface;
 
@@ -17,7 +17,7 @@ class CloudinaryProvider implements ProviderInterface
 	}
 
 	public function __construct(
-		protected readonly SourceInterface $source,
+		protected readonly CloudinarySourceInterface $source,
 		protected array $options,
 	) {
 		$resolver = new OptionsResolver();
@@ -40,7 +40,7 @@ class CloudinaryProvider implements ProviderInterface
 		return $this->options['signature_algorithm'] ?: null;
 	}
 
-	public function getSource(): ?SourceInterface
+	public function getSource(): CloudinarySourceInterface
 	{
 		return $this->source;
 	}

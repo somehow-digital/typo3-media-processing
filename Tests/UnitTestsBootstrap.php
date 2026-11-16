@@ -79,7 +79,8 @@ use TYPO3\TestingFramework\Core\Testbase;
 
 	$cache = new PhpFrontend(
 		'core',
-		new NullBackend('production', [])
+		// TYPO3 12 and 13 require constructor arguments, 14 has no constructor.
+		GeneralUtility::makeInstance(NullBackend::class, 'production', [])
 	);
 	// Set all packages to active
 	$packageManager = Bootstrap::createPackageManager(UnitTestPackageManager::class, Bootstrap::createPackageCache($cache));

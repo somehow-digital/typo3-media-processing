@@ -36,6 +36,6 @@ use TYPO3\TestingFramework\Core\Testbase;
 
 	$testbase = new Testbase();
 	$testbase->defineOriginalRootPath();
-	$testbase->createDirectory(ORIGINAL_ROOT . 'typo3temp/var/tests');
-	$testbase->createDirectory(ORIGINAL_ROOT . 'typo3temp/var/transient');
+	$testbase->createDirectory($testbase->getWebRoot() . 'typo3temp/var/tests');
+	$testbase->createDirectory($testbase->getWebRoot() . 'typo3temp/var/transient');
 })();

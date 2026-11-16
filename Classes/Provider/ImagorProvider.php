@@ -76,7 +76,7 @@ class ImagorProvider implements ProviderInterface
 			default => 'stretch',
 		})($configuration);
 
-		$type && $builder->setType($type) instanceof ImagorBuilder;
+		$builder->setType($type);
 
 		if (isset($configuration['crop'])) {
 			$builder->setCrop(

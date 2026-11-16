@@ -8,7 +8,6 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\CloudflareBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\CloudflareProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -143,8 +142,6 @@ class CloudflareProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 		$builder = $provider->configure($taskMock);
-
-		$this->assertInstanceOf(CloudflareBuilder::class, $builder);
 
 		// Reflection-less closure extraction to verify internal properties
 		$this->assertSame('resolved-cloudflare-source-path', (fn(): ?string => $this->source)->call($builder));

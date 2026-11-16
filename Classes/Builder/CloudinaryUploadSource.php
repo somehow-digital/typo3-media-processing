@@ -7,7 +7,7 @@ namespace SomehowDigital\Typo3\MediaProcessing\Builder;
 use SomehowDigital\Typo3\MediaProcessing\Utility\OnlineMediaUtility;
 use TYPO3\CMS\Core\Resource\File;
 
-class CloudinaryUploadSource implements SourceInterface
+class CloudinaryUploadSource implements CloudinarySourceInterface
 {
 	public const IDENTIFIER = 'upload';
 
