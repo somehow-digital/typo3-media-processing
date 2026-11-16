@@ -30,6 +30,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ProviderFactory
 {
+	private const UNSUPPORTED_SOURCE = 'Unsupported source loader.';
+
 	private array $configuration;
 
 	public function __construct(ExtensionConfiguration $configuration)
@@ -66,7 +68,7 @@ class ProviderFactory
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
 			ImgProxyFileSource::IDENTIFIER => (static fn(): ImgProxyFileSource => new ImgProxyFileSource())(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new ImgProxyProvider(
@@ -82,7 +84,7 @@ class ProviderFactory
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
 			ImagorFileSource::IDENTIFIER => (static fn(): ImagorFileSource => new ImagorFileSource())(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new ImagorProvider(
@@ -98,7 +100,7 @@ class ProviderFactory
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
 			ThumborFileSource::IDENTIFIER => (static fn(): ThumborFileSource => new ThumborFileSource())(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new ThumborProvider(
@@ -170,7 +172,7 @@ class ProviderFactory
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
 			ImgixFolderSource::IDENTIFIER => (static fn(): ImgixFolderSource => new ImgixFolderSource())(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new ImgixProvider(
@@ -186,7 +188,7 @@ class ProviderFactory
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
 			CloudinaryUploadSource::IDENTIFIER => (static fn(): CloudinaryUploadSource => new CloudinaryUploadSource())(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new CloudinaryProvider(
@@ -214,7 +216,7 @@ class ProviderFactory
 			GumletProxySource::IDENTIFIER => (static fn(): GumletProxySource => new GumletProxySource(
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new GumletProvider(
@@ -230,7 +232,7 @@ class ProviderFactory
 			ImgLabProxySource::IDENTIFIER => (static fn(): ImgLabProxySource => new ImgLabProxySource(
 				$options['source_uri'] ?: GeneralUtility::getIndpEnv('TYPO3_REQUEST_HOST'),
 			))(),
-			default => throw new InvalidArgumentException('Unsupported source loader.'),
+			default => throw new InvalidArgumentException(self::UNSUPPORTED_SOURCE),
 		};
 
 		return new ImgLabProvider(
