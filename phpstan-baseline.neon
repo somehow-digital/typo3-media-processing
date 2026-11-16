@@ -109,12 +109,6 @@ parameters:
 			path: Tests/Unit/Provider/ImgLabProviderTest.php
 
 		-
-			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImgProxyBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImgProxyBuilder will always evaluate to true\.$#'
-			identifier: method.alreadyNarrowedType
-			count: 1
-			path: Tests/Unit/Provider/ImgProxyProviderTest.php
-
-		-
 			message: '#^Call to method PHPUnit\\Framework\\Assert\:\:assertInstanceOf\(\) with ''SomehowDigital\\\\Typo3\\\\MediaProcessing\\\\Builder\\\\ImgixBuilder'' and SomehowDigital\\Typo3\\MediaProcessing\\Builder\\ImgixBuilder will always evaluate to true\.$#'
 			identifier: method.alreadyNarrowedType
 			count: 1

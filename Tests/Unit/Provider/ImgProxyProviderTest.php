@@ -8,7 +8,6 @@ use Generator;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\Attributes\Test;
 use PHPUnit\Framework\MockObject\Stub;
-use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
 use SomehowDigital\Typo3\MediaProcessing\Provider\ImgProxyProvider;
 use TYPO3\CMS\Core\Imaging\ImageManipulation\Area;
@@ -19,6 +18,14 @@ use TYPO3\TestingFramework\Core\Unit\UnitTestCase;
 
 class ImgProxyProviderTest extends UnitTestCase
 {
+	private const ENDPOINT = 'https://imgproxy.example.com';
+
+	private const SIGNATURE_KEY = '736563726574';
+
+	private const SIGNATURE_SALT = '73616c74';
+
+	private const ENCRYPTION_KEY = '000102030405060708090a0b0c0d0e0f';
+
 	protected SourceInterface&Stub $sourceStub;
 
 	protected array $defaultOptions;
@@ -28,11 +35,11 @@ class ImgProxyProviderTest extends UnitTestCase
 		parent::setUp();
 		$this->sourceStub = $this->createStub(SourceInterface::class);
 		$this->defaultOptions = [
-			'api_endpoint' => 'https://imgproxy.example.com',
-			'signature_key' => 'secret_key',
-			'signature_salt' => 'secret_salt',
+			'api_endpoint' => self::ENDPOINT,
+			'signature_key' => self::SIGNATURE_KEY,
+			'signature_salt' => self::SIGNATURE_SALT,
 			'signature_size' => 32,
-			'encryption_key' => 'encrypt_key',
+			'encryption_key' => self::ENCRYPTION_KEY,
 		];
 	}
 
@@ -47,11 +54,11 @@ class ImgProxyProviderTest extends UnitTestCase
 	{
 		$provider = new ImgProxyProvider($this->sourceStub, $this->defaultOptions);
 
-		$this->assertSame('https://imgproxy.example.com', $provider->getEndpoint());
-		$this->assertSame('secret_key', $provider->getSignatureKey());
-		$this->assertSame('secret_salt', $provider->getSignatureSalt());
+		$this->assertSame(self::ENDPOINT, $provider->getEndpoint());
+		$this->assertSame(self::SIGNATURE_KEY, $provider->getSignatureKey());
+		$this->assertSame(self::SIGNATURE_SALT, $provider->getSignatureSalt());
 		$this->assertSame(32, $provider->getSignatureSize());
-		$this->assertSame('encrypt_key', $provider->getEncryptionKey());
+		$this->assertSame(self::ENCRYPTION_KEY, $provider->getEncryptionKey());
 	}
 
 	#[Test]
@@ -108,9 +115,11 @@ class ImgProxyProviderTest extends UnitTestCase
 
 	#[Test]
 	#[DataProvider('configurationDataProvider')]
-	public function configureBuildsExpectedImgProxyBuilder(array $processingConfig, string $expectedType, array $expectedDimensions): void
+	public function configureBuildsExpectedUrl(array $processingConfig, string $expectedOptions): void
 	{
-		$provider = new ImgProxyProvider($this->sourceStub, $this->defaultOptions);
+		$provider = new ImgProxyProvider($this->sourceStub, [
+			'api_endpoint' => self::ENDPOINT,
+		]);
 
 		$fileMock = $this->createMock(File::class);
 		$fileMock
@@ -148,16 +157,51 @@ class ImgProxyProviderTest extends UnitTestCase
 
 		// Required setup for internal execution of ImageDimension::fromProcessingTask($task)
 
-		/** @var ImgProxyBuilder $builder */
-		$builder = $provider->configure($taskMock);
+		$url = $provider->configure($taskMock)->build();
 
-		$this->assertInstanceOf(ImgProxyBuilder::class, $builder);
+		$this->assertStringStartsWith(self::ENDPOINT . '/_/' . $expectedOptions . '/cb:mocked-sha1-hash/plain/', $url);
+	}
 
-		// Reflection-less property check via Closure binding
-		$this->assertSame($expectedType, (fn(): ?string => $this->type)->call($builder), 'Type mapping failed');
-		$this->assertSame($expectedDimensions['width'] ?? null, (fn(): ?int => $this->width)->call($builder));
-		$this->assertSame($expectedDimensions['height'] ?? null, (fn(): ?int => $this->height)->call($builder));
-		$this->assertSame($expectedDimensions['crop'] ?? null, (fn(): ?array => $this->crop)->call($builder));
+	#[Test]
+	public function configureEncryptsSourceWhenEncryptionKeyIsSet(): void
+	{
+		$url = $this->configureUrl([
+			'encryption_key' => self::ENCRYPTION_KEY,
+		]);
+
+		$this->assertStringContainsString('/enc/', $url);
+		$this->assertStringNotContainsString('resolved-source-path', $url);
+	}
+
+	#[Test]
+	public function configureTruncatesSignatureToConfiguredSize(): void
+	{
+		$url = $this->configureUrl([
+			'signature_key' => self::SIGNATURE_KEY,
+			'signature_salt' => self::SIGNATURE_SALT,
+			'signature_size' => 8,
+		]);
+
+		// 8 bytes encode to 11 base64url characters.
+		$this->assertMatchesRegularExpression('#^https://imgproxy\.example\.com/[\w-]{11}/#', $url);
+	}
+
+	private function configureUrl(array $options): string
+	{
+		$provider = new ImgProxyProvider($this->sourceStub, [
+			'api_endpoint' => self::ENDPOINT,
+		] + $options);
+
+		$this->sourceStub->method('getSource')->willReturn('resolved-source-path');
+
+		$targetFileStub = $this->createStub(ProcessedFile::class);
+		$targetFileStub->method('getProcessingConfiguration')->willReturn([]);
+
+		$taskStub = $this->createStub(TaskInterface::class);
+		$taskStub->method('getSourceFile')->willReturn($this->createStub(File::class));
+		$taskStub->method('getTargetFile')->willReturn($targetFileStub);
+
+		return $provider->configure($taskStub)->build();
 	}
 
 	public static function configurationDataProvider(): Generator
@@ -167,55 +211,32 @@ class ImgProxyProviderTest extends UnitTestCase
 				'width' => '100',
 				'height' => '200',
 			],
-			'force',
-			[
-				'width' => 100,
-				'height' => 200,
-			],
+			'rt:force/w:100/h:200',
 		];
 		yield 'Fit type mapping via max dimensions' => [
 			[
 				'maxWidth' => 400,
 				'maxHeight' => 300,
 			],
-			'fit',
-			[
-				'width' => 400,
-				'height' => 300,
-			],
+			'rt:fit/w:400/h:300',
 		];
 		yield 'Fit type mapping via suffix' => [
 			[
 				'width' => '400m',
 			],
-			'fit',
-			[
-				'width' => 400,
-			],
+			'rt:fit/w:400',
 		];
 		yield 'Fill type mapping via suffix' => [
 			[
 				'height' => '500c',
 			],
-			'fill',
-			[
-				'height' => 500,
-			],
+			'rt:fill/h:500',
 		];
 		yield 'Crop dimension mapping via coordinates' => [
 			[
 				'crop' => new Area(10, 20, 100, 200),
 			],
-			'force',
-			[
-				'crop' => [
-					100,
-					200,
-					'nowe',
-					10,
-					20,
-				],
-			],
+			'rt:force/c:100:200:nowe:10:20',
 		];
 	}
 }

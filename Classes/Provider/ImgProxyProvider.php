@@ -4,6 +4,20 @@ declare(strict_types=1);
 
 namespace SomehowDigital\Typo3\MediaProcessing\Provider;
 
+use SomehowDigital\ImgProxy\Masker\EncryptionMasker;
+use SomehowDigital\ImgProxy\Option\CacheBuster;
+use SomehowDigital\ImgProxy\Option\Crop;
+use SomehowDigital\ImgProxy\Option\Dpr;
+use SomehowDigital\ImgProxy\Option\Gravity;
+use SomehowDigital\ImgProxy\Option\GravityEnum;
+use SomehowDigital\ImgProxy\Option\Height;
+use SomehowDigital\ImgProxy\Option\MinHeight;
+use SomehowDigital\ImgProxy\Option\MinWidth;
+use SomehowDigital\ImgProxy\Option\ResizingType;
+use SomehowDigital\ImgProxy\Option\ResizingTypeEnum;
+use SomehowDigital\ImgProxy\Option\Width;
+use SomehowDigital\ImgProxy\Signer\Signer;
+use SomehowDigital\ImgProxy\Url;
 use SomehowDigital\Typo3\MediaProcessing\Builder\BuilderInterface;
 use SomehowDigital\Typo3\MediaProcessing\Builder\ImgProxyBuilder;
 use SomehowDigital\Typo3\MediaProcessing\Builder\SourceInterface;
@@ -68,59 +82,64 @@ class ImgProxyProvider implements ProviderInterface
 		$file = $task->getSourceFile();
 		$configuration = $task->getTargetFile()->getProcessingConfiguration();
 
-		$builder = new ImgProxyBuilder(
-			$this->getEndpoint(),
-			$this->getSignatureKey(),
-			$this->getSignatureSalt(),
-			$this->getSignatureSize(),
-			$this->getEncryptionKey(),
-		);
+		$key = $this->getSignatureKey();
+		$salt = $this->getSignatureSalt();
+		$size = $this->getSignatureSize();
+		$secret = $this->getEncryptionKey();
 
-		$builder->setSource($this->source->getSource(($file)));
+		$signer = null;
 
-		$type = (static fn(array $configuration): string => match (true) {
-			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => 'fit',
-			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => 'fill',
-			default => 'force',
-		})($configuration);
-
-		$builder->setType($type);
-
-		if (isset($configuration['crop'])) {
-			$builder->setCrop(
-				(int) $configuration['crop']->getWidth(),
-				(int) $configuration['crop']->getHeight(),
-				[
-					ImgProxyBuilder::GRAVITY_TOP_LEFT,
-					(int) $configuration['crop']->getOffsetLeft(),
-					(int) $configuration['crop']->getOffsetTop(),
-				],
-			);
+		if ($key && $salt) {
+			$signer = $size === null ? new Signer($key, $salt) : new Signer($key, $salt, $size);
 		}
 
+		$type = (static fn(array $configuration): ResizingTypeEnum => match (true) {
+			str_ends_with((string) ($configuration['width'] ?? ''), 'm'), str_ends_with((string) ($configuration['height'] ?? ''), 'm'), isset($configuration['maxWidth']), isset($configuration['maxHeight']) => ResizingTypeEnum::FIT,
+			str_ends_with((string) ($configuration['width'] ?? ''), 'c'), str_ends_with((string) ($configuration['height'] ?? ''), 'c') => ResizingTypeEnum::FILL,
+			default => ResizingTypeEnum::FORCE,
+		})($configuration);
+
+		$options = [new ResizingType($type)];
+
 		if (isset($configuration['width']) || isset($configuration['maxWidth'])) {
-			$builder->setWidth((int) ($configuration['width'] ?? $configuration['maxWidth']));
+			$options[] = new Width((int) ($configuration['width'] ?? $configuration['maxWidth']));
 		}
 
 		if (isset($configuration['minWidth'])) {
-			$builder->setMinWidth((int) $configuration['minWidth']);
+			$options[] = new MinWidth((int) $configuration['minWidth']);
 		}
 
 		if (isset($configuration['height']) || isset($configuration['maxHeight'])) {
-			$builder->setHeight((int) ($configuration['height'] ?? $configuration['maxHeight']));
+			$options[] = new Height((int) ($configuration['height'] ?? $configuration['maxHeight']));
 		}
 
 		if (isset($configuration['minHeight'])) {
-			$builder->setMinHeight((int) $configuration['minHeight']);
+			$options[] = new MinHeight((int) $configuration['minHeight']);
+		}
+
+		if (isset($configuration['crop'])) {
+			$options[] = new Crop(
+				(int) $configuration['crop']->getWidth(),
+				(int) $configuration['crop']->getHeight(),
+				new Gravity(
+					GravityEnum::NORTH_WEST,
+					(int) $configuration['crop']->getOffsetLeft(),
+					(int) $configuration['crop']->getOffsetTop(),
+				),
+			);
 		}
 
 		if (isset($configuration['dpr']) && $configuration['dpr'] > 1) {
-			$builder->setDevicePixelRatio((float) $configuration['dpr']);
+			$options[] = new Dpr((float) $configuration['dpr']);
 		}
 
-		$builder->setHash($file->getSha1());
+		$options[] = new CacheBuster($file->getSha1());
 
-		return $builder;
+		$url = Url::create($secret ? new EncryptionMasker($secret) : null, $signer)
+			->source($this->source->getSource($file))
+			->options(...$options);
+
+		return new ImgProxyBuilder($this->getEndpoint(), $url);
 	}
 
 	private function configureOptions(OptionsResolver $resolver): void
