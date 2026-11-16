@@ -14,8 +14,8 @@ return RectorConfig::configure()
 	])
 	->withRootFiles()
 	// Targets the lowest PHP version in composer.json.
-	->withPhpVersion(PhpVersion::PHP_81)
-	->withPhpSets(php81: true)
+	->withPhpVersion(PhpVersion::PHP_82)
+	->withPhpSets(php82: true)
 	->withPreparedSets(
 		deadCode: true,
 		codeQuality: true,

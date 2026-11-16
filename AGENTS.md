@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Media processing extension for TYPO3 (PHP 8.1+, TYPO3 12.4 – 14.x).
+Media processing extension for TYPO3 (PHP 8.2+, TYPO3 12.4 – 14.x).
 
 ## Code
 

@@ -51,7 +51,7 @@ extension from the `TYPO3 Extension Repository`.
 ### Requirements
 
 * TYPO3 `12`-`14`
-* PHP `8.1`-`8.5`
+* PHP `8.2`-`8.5`
 * PHP [`openssl`](https://www.php.net/manual/en/book.openssl.php) extension
 
 ## Setup ⚙️
